@@ -300,7 +300,7 @@
 
     /* =========================================================
        PERSONAL STORY
-       FULL PHOTO — NO CROPPING
+       FULL PHOTOGRAPH — NO CROPPING
        ========================================================= */
 
     .story {
@@ -377,7 +377,7 @@
 
     /* =========================================================
        ROOTS / HOUSE
-       FULL HOUSE VISIBLE
+       EDITORIAL CROP — FULL HOUSE KEPT VISIBLE
        ========================================================= */
 
     .roots {
@@ -399,8 +399,8 @@
     .roots-photo img {
       width: 100%;
       aspect-ratio: 16 / 10;
-      object-fit: contain;
-      object-position: center;
+      object-fit: cover;
+      object-position: center center;
       filter: grayscale(100%);
     }
 
@@ -470,7 +470,6 @@
       text-transform: uppercase;
       transition:
         background .25s ease,
-        color .25s ease,
         transform .25s ease;
     }
 
@@ -481,8 +480,8 @@
     }
 
     /* =========================================================
-       LIGHT
-       ORIGINAL COLORS — NO GRAYSCALE
+       THE LIGHT
+       ORIGINAL PHOTOGRAPH COLORS
        ========================================================= */
 
     .light {
@@ -902,7 +901,7 @@
         gap: 38px;
       }
 
-      /* Grandfather remains portrait-oriented */
+      /* Grandfather */
       .memory-photo img {
         aspect-ratio: 4 / 5;
         object-fit: cover;
@@ -914,6 +913,7 @@
         object-fit: contain;
       }
 
+      /* Dublin */
       .wide-photo img {
         aspect-ratio: 4 / 3;
       }
@@ -928,11 +928,13 @@
         text-align: left;
       }
 
-      /* Keep the entire house visible */
+      /* House:
+         landscape editorial crop,
+         keeping the house as the subject */
       .roots-photo img {
         aspect-ratio: 16 / 10;
-        object-fit: contain;
-        object-position: center;
+        object-fit: cover;
+        object-position: center center;
       }
 
       .peace h2 {
@@ -969,6 +971,7 @@
         gap: 35px;
       }
 
+      /* Keep the lamps in their original colors */
       .light-image img {
         aspect-ratio: 4 / 3;
         object-fit: cover;
@@ -1077,6 +1080,7 @@
        ======================================================== -->
 
   <header>
+
     <nav class="nav" aria-label="Main navigation">
 
       <div class="nav-links">
@@ -1086,18 +1090,20 @@
       </div>
 
     </nav>
+
   </header>
 
 
-  <!-- =======================================================
-       MAIN
-       ======================================================== -->
-
   <main>
 
-    <!-- HERO -->
+    <!-- =====================================================
+         HERO
+         ====================================================== -->
 
-    <section class="hero" aria-label="Veteran Awareness Dublin 2026">
+    <section
+      class="hero"
+      aria-label="Veteran Awareness Dublin 2026"
+    >
 
       <img
         class="hero-image"
@@ -1125,7 +1131,9 @@
     </section>
 
 
-    <!-- MEMORY -->
+    <!-- =====================================================
+         MEMORY
+         ====================================================== -->
 
     <section class="memory" id="memory">
 
@@ -1169,7 +1177,9 @@
     </section>
 
 
-    <!-- PEACE -->
+    <!-- =====================================================
+         PEACE
+         ====================================================== -->
 
     <section class="peace">
 
@@ -1194,7 +1204,9 @@
     </section>
 
 
-    <!-- PERSONAL STORY -->
+    <!-- =====================================================
+         PERSONAL STORY
+         ====================================================== -->
 
     <section class="story">
 
@@ -1240,7 +1252,9 @@
     </section>
 
 
-    <!-- DUBLIN -->
+    <!-- =====================================================
+         DUBLIN
+         ====================================================== -->
 
     <section class="dublin">
 
@@ -1274,7 +1288,9 @@
     </section>
 
 
-    <!-- ROOTS / HOUSE -->
+    <!-- =====================================================
+         ROOTS / HOUSE
+         ====================================================== -->
 
     <section class="roots">
 
@@ -1317,7 +1333,9 @@
     </section>
 
 
-    <!-- BOOK -->
+    <!-- =====================================================
+         BOOK
+         ====================================================== -->
 
     <section class="book" id="book">
 
@@ -1370,7 +1388,9 @@
     </section>
 
 
-    <!-- THE LIGHT -->
+    <!-- =====================================================
+         THE LIGHT
+         ====================================================== -->
 
     <section class="light" id="light">
 
@@ -1463,7 +1483,9 @@
     </section>
 
 
-    <!-- CICAN KNOT -->
+    <!-- =====================================================
+         CICAN KNOT
+         ====================================================== -->
 
     <section class="knot">
 
@@ -1507,7 +1529,9 @@
     </section>
 
 
-    <!-- CONTRIBUTION -->
+    <!-- =====================================================
+         CONTRIBUTION
+         ====================================================== -->
 
     <section class="contribution">
 
@@ -1539,7 +1563,9 @@
     </section>
 
 
-    <!-- COMING SOON -->
+    <!-- =====================================================
+         COMING SOON
+         ====================================================== -->
 
     <section class="coming-soon">
 
@@ -1569,7 +1595,9 @@
     </section>
 
 
-    <!-- FINAL MEMORIAL -->
+    <!-- =====================================================
+         FINAL MEMORIAL
+         ====================================================== -->
 
     <section class="final">
 
