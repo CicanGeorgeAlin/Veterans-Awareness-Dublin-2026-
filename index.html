@@ -4,7 +4,10 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
 <meta name="theme-color" content="#000000">
 
@@ -13,16 +16,22 @@
   content="Veteran Awareness Dublin 2026 — Coloring for World Peace. In memory of Nicolae Urluescu. A project by Cican George Alin."
 >
 
-<link rel="icon" type="image/png" href="cican-logo.png">
+<link
+  rel="icon"
+  type="image/png"
+  href="cican-logo.png"
+>
 
-<title>Veteran Awareness Dublin 2026</title>
+<title>
+Veteran Awareness Dublin 2026
+</title>
 
 
 <style>
 
 /* =========================================================
    VETERAN AWARENESS DUBLIN 2026
-   SIMPLE EDITION
+   SIMPLE / CINEMATIC / MEMORIAL
 ========================================================= */
 
 * {
@@ -58,11 +67,84 @@ a {
 
 
 /* =========================================================
+   CICAN FLOATING LOGO
+========================================================= */
+
+/*
+   The CICAN logo gently floats.
+   No rotation.
+   No bouncing.
+   No aggressive animation.
+*/
+
+@keyframes cicanFloat {
+
+  0% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translateY(-12px)
+      scale(1.025);
+  }
+
+  100% {
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+@keyframes cicanGlow {
+
+  0% {
+    filter:
+      drop-shadow(
+        0 0 18px
+        rgba(255,255,255,.30)
+      );
+  }
+
+  50% {
+    filter:
+      drop-shadow(
+        0 0 34px
+        rgba(255,255,255,.62)
+      );
+  }
+
+  100% {
+    filter:
+      drop-shadow(
+        0 0 18px
+        rgba(255,255,255,.30)
+      );
+  }
+
+}
+
+.floating-logo {
+  animation:
+    cicanFloat 4.5s ease-in-out infinite,
+    cicanGlow 4.5s ease-in-out infinite;
+
+  will-change:
+    transform,
+    filter;
+}
+
+
+/* =========================================================
    HEADER
 ========================================================= */
 
 header {
   position: fixed;
+
   top: 0;
   left: 0;
   right: 0;
@@ -77,11 +159,15 @@ header {
 
   padding: 0 18px;
 
-  background: rgba(0,0,0,.72);
+  background:
+    rgba(0,0,0,.72);
 
-  backdrop-filter: blur(10px);
+  backdrop-filter:
+    blur(12px);
 
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.1);
 }
 
 .header-logo {
@@ -90,15 +176,18 @@ header {
 
   border-radius: 50%;
 
-  filter:
-    drop-shadow(
-      0 0 12px
-      rgba(255,255,255,.4)
-    );
+  /*
+     Small floating movement in the header too,
+     but slower and more restrained.
+  */
+  animation:
+    cicanFloat 6s ease-in-out infinite,
+    cicanGlow 6s ease-in-out infinite;
 }
 
 header nav {
   display: flex;
+
   gap: 20px;
 
   font-size: 8px;
@@ -111,6 +200,9 @@ header nav {
 
 header nav a {
   opacity: .65;
+
+  transition:
+    opacity .25s ease;
 }
 
 header nav a:hover {
@@ -138,6 +230,7 @@ header nav a:hover {
 
 .hero-image {
   position: absolute;
+
   inset: 0;
 
   width: 100%;
@@ -145,40 +238,41 @@ header nav a:hover {
 
   object-fit: cover;
 
-  opacity: .5;
+  opacity: .48;
 }
 
 .hero-dark {
   position: absolute;
+
   inset: 0;
 
   background:
     linear-gradient(
-      rgba(0,0,0,.35),
-      rgba(0,0,0,.82)
+      rgba(0,0,0,.30),
+      rgba(0,0,0,.88)
     );
 }
 
 .hero-content {
   position: relative;
+
   z-index: 2;
 
-  width: min(850px, calc(100% - 30px));
+  width:
+    min(
+      850px,
+      calc(100% - 30px)
+    );
 }
 
-.logo-large {
+.hero-logo {
   width: 115px;
   height: 115px;
 
-  margin: 0 auto 32px;
+  margin:
+    0 auto 34px;
 
   border-radius: 50%;
-
-  filter:
-    drop-shadow(
-      0 0 30px
-      rgba(255,255,255,.5)
-    );
 }
 
 .small-title {
@@ -196,7 +290,11 @@ header nav a:hover {
 
 .hero h1 {
   font-size:
-    clamp(48px, 10vw, 100px);
+    clamp(
+      48px,
+      10vw,
+      100px
+    );
 
   line-height: .85;
 
@@ -210,10 +308,14 @@ header nav a:hover {
 .hero h1 span {
   display: block;
 
-  margin-top: 25px;
+  margin-top: 26px;
 
   font-size:
-    clamp(14px, 2.5vw, 22px);
+    clamp(
+      14px,
+      2.5vw,
+      22px
+    );
 
   line-height: 1.2;
 
@@ -225,7 +327,8 @@ header nav a:hover {
 .hero p {
   max-width: 650px;
 
-  margin: 30px auto 0;
+  margin:
+    30px auto 0;
 
   font-family:
     Georgia,
@@ -241,7 +344,7 @@ header nav a:hover {
 
 
 /* =========================================================
-   SIMPLE SECTIONS
+   GENERAL
 ========================================================= */
 
 section {
@@ -263,7 +366,11 @@ section {
 
 h2 {
   font-size:
-    clamp(40px, 7vw, 72px);
+    clamp(
+      40px,
+      7vw,
+      72px
+    );
 
   line-height: .9;
 
@@ -293,7 +400,7 @@ h2 {
 
 
 /* =========================================================
-   GRANDFATHER
+   MEMORY
 ========================================================= */
 
 .memory {
@@ -311,18 +418,25 @@ h2 {
   align-items: center;
 }
 
-.memory-photo {
-  width: 100%;
-}
-
 .memory-photo img {
-  width: 100%;
+  filter:
+    grayscale(100%);
 
-  filter: grayscale(100%);
+  transition:
+    filter .5s ease,
+    transform .7s ease;
 }
 
-.memory h2 {
-  margin-bottom: 10px;
+.memory-photo {
+  overflow: hidden;
+}
+
+.memory-photo:hover img {
+  filter:
+    grayscale(0%);
+
+  transform:
+    scale(1.025);
 }
 
 
@@ -351,7 +465,8 @@ h2 {
 .peace p {
   max-width: 650px;
 
-  margin: 28px auto 0;
+  margin:
+    28px auto 0;
 
   font-family:
     Georgia,
@@ -389,14 +504,18 @@ h2 {
   align-items: center;
 }
 
-.person-photo img {
-  width: 100%;
-
-  object-fit: cover;
+.person-photo {
+  overflow: hidden;
 }
 
-.person h2 {
-  margin-bottom: 10px;
+.person-photo img {
+  transition:
+    transform .7s ease;
+}
+
+.person-photo:hover img {
+  transform:
+    scale(1.025);
 }
 
 
@@ -411,7 +530,7 @@ h2 {
 }
 
 .dublin-photo {
-  width: 100%;
+  overflow: hidden;
 }
 
 .dublin-photo img {
@@ -423,7 +542,8 @@ h2 {
 }
 
 .dublin-text {
-  padding: 85px 20px;
+  padding:
+    85px 20px;
 
   text-align: center;
 }
@@ -437,7 +557,8 @@ h2 {
 .dublin-text p {
   max-width: 650px;
 
-  margin: 25px auto 0;
+  margin:
+    25px auto 0;
 
   font-family:
     Georgia,
@@ -479,6 +600,14 @@ h2 {
   box-shadow:
     0 25px 55px
     rgba(0,0,0,.3);
+
+  transition:
+    transform .5s ease;
+}
+
+.book-cover:hover {
+  transform:
+    translateY(-6px);
 }
 
 .book h2 {
@@ -505,9 +634,11 @@ h2 {
 
   margin-top: 30px;
 
-  padding: 14px 24px;
+  padding:
+    14px 24px;
 
-  border: 1px solid #000;
+  border:
+    1px solid #000;
 
   font-size: 9px;
   font-weight: 700;
@@ -515,16 +646,21 @@ h2 {
   letter-spacing: 2px;
 
   text-transform: uppercase;
+
+  transition:
+    background .25s ease,
+    color .25s ease;
 }
 
 .button:hover {
   background: #000;
+
   color: #fff;
 }
 
 
 /* =========================================================
-   LIGHT
+   THE LIGHT
 ========================================================= */
 
 .light {
@@ -573,6 +709,14 @@ h2 {
   aspect-ratio: 1 / 1;
 
   object-fit: cover;
+
+  transition:
+    transform .5s ease;
+}
+
+.light-gallery img:hover {
+  transform:
+    scale(1.025);
 }
 
 .light-caption {
@@ -612,14 +756,18 @@ h2 {
   max-width: 500px;
 
   margin: auto;
+
+  overflow: hidden;
 }
 
-.knot h2 {
-  margin-bottom: 10px;
+.knot-image img {
+  transition:
+    transform .6s ease;
 }
 
-.knot .text {
-  color: #bbb;
+.knot-image:hover img {
+  transform:
+    scale(1.025);
 }
 
 
@@ -637,7 +785,11 @@ h2 {
 
 .euro {
   font-size:
-    clamp(100px, 18vw, 190px);
+    clamp(
+      100px,
+      18vw,
+      190px
+    );
 
   line-height: .75;
 
@@ -649,10 +801,15 @@ h2 {
 .contribution h2 {
   max-width: 850px;
 
-  margin: 45px auto 0;
+  margin:
+    45px auto 0;
 
   font-size:
-    clamp(30px, 5vw, 55px);
+    clamp(
+      30px,
+      5vw,
+      55px
+    );
 
   letter-spacing: -3px;
 }
@@ -660,7 +817,8 @@ h2 {
 .contribution p {
   max-width: 650px;
 
-  margin: 25px auto 0;
+  margin:
+    25px auto 0;
 
   font-family:
     Georgia,
@@ -692,7 +850,8 @@ h2 {
 .future p {
   max-width: 600px;
 
-  margin: 25px auto 0;
+  margin:
+    25px auto 0;
 
   font-family:
     Georgia,
@@ -711,9 +870,11 @@ h2 {
 
   margin-bottom: 25px;
 
-  padding: 8px 14px;
+  padding:
+    8px 14px;
 
-  border: 1px solid #555;
+  border:
+    1px solid #555;
 
   font-size: 8px;
   font-weight: 700;
@@ -742,7 +903,11 @@ h2 {
 }
 
 .final-inner {
-  width: min(850px, calc(100% - 30px));
+  width:
+    min(
+      850px,
+      calc(100% - 30px)
+    );
 
   margin: auto;
 }
@@ -751,20 +916,19 @@ h2 {
   width: 80px;
   height: 80px;
 
-  margin: 0 auto 35px;
+  margin:
+    0 auto 35px;
 
   border-radius: 50%;
-
-  filter:
-    drop-shadow(
-      0 0 25px
-      rgba(255,255,255,.4)
-    );
 }
 
 .final h2 {
   font-size:
-    clamp(35px, 6vw, 68px);
+    clamp(
+      35px,
+      6vw,
+      68px
+    );
 }
 
 .final p {
@@ -786,7 +950,8 @@ h2 {
 ========================================================= */
 
 footer {
-  padding: 45px 20px;
+  padding:
+    45px 20px;
 
   background: #000;
 
@@ -805,13 +970,28 @@ footer {
 
 
 /* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .floating-logo,
+  .header-logo {
+    animation: none;
+  }
+
+}
+
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 750px) {
 
   header {
-    padding: 0 14px;
+    padding:
+      0 14px;
   }
 
   header nav {
@@ -826,14 +1006,15 @@ footer {
   }
 
   section {
-    padding: 75px 0;
+    padding:
+      75px 0;
   }
 
   .hero {
     min-height: 100svh;
   }
 
-  .logo-large {
+  .hero-logo {
     width: 90px;
     height: 90px;
   }
@@ -866,8 +1047,8 @@ footer {
 
     max-width: 430px;
 
-    margin-left: auto;
-    margin-right: auto;
+    margin:
+      55px auto 0;
   }
 
   .button {
@@ -947,7 +1128,7 @@ footer {
 
 
     <img
-      class="logo-large"
+      class="hero-logo floating-logo"
       src="cican-logo.png"
       alt="CICAN"
     >
@@ -1032,8 +1213,8 @@ footer {
 
 
       <p class="text">
-        In his memory, and in honor of veterans
-        everywhere.
+        In his memory,
+        and in honor of veterans everywhere.
       </p>
 
     </div>
@@ -1105,6 +1286,7 @@ footer {
 
     <div>
 
+
       <div class="label">
         The Person Behind The Project
       </div>
@@ -1128,6 +1310,7 @@ footer {
         Honor those who served.
         Create something peaceful for the future.
       </p>
+
 
     </div>
 
@@ -1350,6 +1533,7 @@ footer {
 
     <div>
 
+
       <div class="label">
         A Personal Symbol
       </div>
@@ -1362,8 +1546,8 @@ footer {
 
 
       <p class="text">
-        A handmade knot created as a
-        personal commemorative symbol.
+        A handmade knot created as
+        a personal commemorative symbol.
       </p>
 
 
@@ -1371,6 +1555,7 @@ footer {
         CICAN knot — Not Given.
         Not Bought. Earned.
       </p>
+
 
     </div>
 
@@ -1416,7 +1601,7 @@ footer {
 
 
 <!-- =========================================================
-     SECOND BOOK
+     COMING SOON
 ========================================================= -->
 
 <section class="future">
@@ -1458,7 +1643,7 @@ footer {
 
 
     <img
-      class="final-logo"
+      class="final-logo floating-logo"
       src="cican-logo.png"
       alt="CICAN"
     >
@@ -1495,6 +1680,10 @@ footer {
 </main>
 
 
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 
 <footer>
 
