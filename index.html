@@ -311,12 +311,20 @@
       padding: 0 0 150px;
     }
 
+    .dublin-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 80px;
+      align-items: center;
+    }
+
     .dublin-photo {
       overflow: hidden;
       background: #000;
     }
 
     .dublin-photo img {
+      display: block;
       width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
@@ -324,27 +332,8 @@
       filter: none;
     }
 
-    .dublin-caption {
-      display: grid;
-      grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr);
-      gap: 50px;
-      margin-top: 24px;
-    }
-
-    .dublin-caption-title {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      line-height: 1.2;
-      text-transform: uppercase;
-      opacity: .58;
-    }
-
-    .dublin-caption-text {
-      max-width: 650px;
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--muted);
+    .dublin-copy h2 {
+      font-size: clamp(42px, 7vw, 82px);
     }
 
     /* =========================
@@ -682,6 +671,7 @@
 
       .memory-grid,
       .story-grid,
+      .dublin-grid,
       .roots-grid,
       .book-grid,
       .knot-grid {
@@ -690,6 +680,7 @@
 
       .memory-grid,
       .story-grid,
+      .dublin-grid,
       .roots-grid,
       .book-grid,
       .knot-grid {
@@ -698,11 +689,6 @@
 
       .light-grid {
         grid-template-columns: 1fr;
-      }
-
-      .dublin-caption {
-        grid-template-columns: 1fr;
-        gap: 15px;
       }
 
       .light-card img {
@@ -1022,25 +1008,34 @@
 
       <div class="container">
 
-        <div class="dublin-photo">
+        <div class="dublin-grid">
 
-          <img
-            src="honor.png"
-            alt="Dublin memorial with poppies and a teddy bear"
-            loading="lazy"
-          >
+          <div class="dublin-photo">
 
-        </div>
+            <img
+              src="honor.png?v=20260919"
+              alt="Dublin memorial with poppies and a teddy bear"
+              loading="lazy"
+            >
 
-        <div class="dublin-caption">
-
-          <div class="dublin-caption-title">
-            Dublin · Remembrance
           </div>
 
-          <div class="dublin-caption-text">
-            A place of remembrance in Dublin — connecting the project to
-            the city where this memorial work continues.
+          <div class="dublin-copy">
+
+            <p class="eyebrow">
+              Dublin · Remembrance
+            </p>
+
+            <h2>
+              A place where
+              remembrance remains.
+            </h2>
+
+            <p class="section-text">
+              A place of remembrance in Dublin — connecting the project to
+              the city where this memorial work continues.
+            </p>
+
           </div>
 
         </div>
@@ -1117,12 +1112,12 @@
           <div>
 
             <p class="eyebrow">
-              The first book
+              The first coloring book
             </p>
 
             <h2>
-              Veterans Awareness
-              Dublin 2026
+              Veteran Awareness
+              Dublin 2026.
             </h2>
 
             <p class="section-text">
@@ -1150,7 +1145,7 @@
 
 
     <!-- =========================
-         THE LIGHT
+         LIGHT
     ========================= -->
 
     <section class="light" id="light">
@@ -1169,11 +1164,11 @@
           </h2>
 
           <p class="section-text">
-            The Veteran Solar Lamp remains lit in commemoration and remembrance.
+            The Veteran Solar Lamp remains lit in commemoration and
+            remembrance.
           </p>
 
         </div>
-
 
         <div class="light-grid">
 
@@ -1181,7 +1176,7 @@
 
             <img
               src="veteran-light-blue.jpg"
-              alt="Veteran Solar Lamp shining blue"
+              alt="Veteran Solar Lamp glowing blue"
               loading="lazy"
             >
 
@@ -1197,7 +1192,7 @@
 
             <img
               src="veteran-light-yellow.jpg"
-              alt="Veteran Solar Lamp shining yellow"
+              alt="Veteran Solar Lamp glowing yellow"
               loading="lazy"
             >
 
@@ -1213,7 +1208,7 @@
 
             <img
               src="veteran-light-red.jpg"
-              alt="Veteran Solar Lamp shining red"
+              alt="Veteran Solar Lamp glowing red"
               loading="lazy"
             >
 
@@ -1245,7 +1240,7 @@
 
             <img
               src="cican-knot.jpg.png"
-              alt="CICAN knot handmade commemorative symbol"
+              alt="CICAN knot commemorative symbol"
               loading="lazy"
             >
 
@@ -1254,12 +1249,12 @@
           <div>
 
             <p class="eyebrow">
-              CICAN Knot
+              CICAN knot
             </p>
 
             <h2>
-              Something
-              we can carry.
+              Something that can
+              be carried forward.
             </h2>
 
             <p class="section-text">
@@ -1292,15 +1287,15 @@
           </div>
 
           <h2>
-            In respect.<br>
-            In honor.<br>
+            In respect.
+            In honor.
             For veterans.
           </h2>
 
           <p>
-            Approximately €1 of profit from each coloring book is intended to
-            go toward the Irish Veterans Association in Dublin, in respect and
-            honor.
+            Approximately €1 of profit from each coloring book is intended
+            to go toward the Irish Veterans Association in Dublin,
+            in respect and honor.
           </p>
 
           <p class="contribution-note">
