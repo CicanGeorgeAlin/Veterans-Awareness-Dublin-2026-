@@ -3,918 +3,1086 @@
 
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<meta name="theme-color" content="#000000">
+  <meta
+    name="theme-color"
+    content="#000000"
+  >
 
-<meta
-  name="description"
-  content="Veteran Awareness Dublin 2026 — Coloring for World Peace. In memory of Nicolae Urluescu. A project by Cican George Alin."
->
+  <meta
+    name="description"
+    content="Veteran Awareness Dublin 2026 — Coloring for World Peace. In memory of Nicolae Urluescu. A project by Cican George Alin."
+  >
 
-<title>Veteran Awareness Dublin 2026</title>
+  <title>Veteran Awareness Dublin 2026</title>
 
 
-<style>
+  <style>
 
-/* =========================================================
-   VETERAN AWARENESS DUBLIN 2026
-   SIMPLE / CINEMATIC / MEMORIAL
-========================================================= */
+    /* =====================================================
+       VETERAN AWARENESS DUBLIN 2026
+       FINAL CINEMATIC MEMORIAL VERSION
+       NO LOGO
+    ===================================================== */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-html {
-  scroll-behavior: smooth;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-body {
-  background: #000;
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5;
-}
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
 
-img {
-  display: block;
-  width: 100%;
-}
+    img {
+      display: block;
+      width: 100%;
+    }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-.container {
-  width: min(1000px, calc(100% - 32px));
-  margin: 0 auto;
-}
+    .container {
+      width: min(1000px, calc(100% - 32px));
+      margin: 0 auto;
+    }
 
+    section {
+      scroll-margin-top: 55px;
+    }
 
-/* =========================================================
-   HEADER
-========================================================= */
 
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
-  z-index: 1000;
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
 
-  height: 52px;
+      z-index: 1000;
 
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+      height: 52px;
 
-  padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
 
-  background: rgba(0,0,0,.78);
+      padding: 0 18px;
 
-  backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, .78);
 
-  border-bottom: 1px solid rgba(255,255,255,.10);
-}
+      backdrop-filter: blur(10px);
 
-nav {
-  display: flex;
-  gap: 20px;
+      border-bottom:
+        1px solid
+        rgba(255, 255, 255, .10);
+    }
 
-  font-size: 8px;
-  font-weight: 700;
+    nav {
+      display: flex;
+      gap: 20px;
 
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 2px;
 
-nav a {
-  color: #fff;
-  opacity: .65;
+      text-transform: uppercase;
+    }
 
-  transition: opacity .2s ease;
-}
+    nav a {
+      color: #fff;
+      opacity: .65;
 
-nav a:hover {
-  opacity: 1;
-}
+      transition:
+        opacity .2s ease;
+    }
 
+    nav a:hover {
+      opacity: 1;
+    }
 
-/* =========================================================
-   HERO
-========================================================= */
 
-.hero {
-  min-height: 100vh;
+    /* =====================================================
+       HERO
+    ===================================================== */
 
-  position: relative;
+    .hero {
+      min-height: 100vh;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      position: relative;
 
-  text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  overflow: hidden;
-}
+      text-align: center;
 
-.hero-image {
-  position: absolute;
+      overflow: hidden;
+    }
 
-  inset: 0;
+    .hero-image {
+      position: absolute;
 
-  width: 100%;
-  height: 100%;
+      inset: 0;
 
-  object-fit: cover;
+      width: 100%;
+      height: 100%;
 
-  opacity: .50;
-}
+      object-fit: cover;
 
-.hero-overlay {
-  position: absolute;
+      opacity: .50;
+    }
 
-  inset: 0;
+    .hero-overlay {
+      position: absolute;
 
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.25),
-      rgba(0,0,0,.90)
-    );
-}
+      inset: 0;
 
-.hero-content {
-  position: relative;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, .25),
+          rgba(0, 0, 0, .90)
+        );
+    }
 
-  z-index: 2;
+    .hero-content {
+      position: relative;
 
-  width: min(850px, calc(100% - 30px));
+      z-index: 2;
 
-  margin-top: 20px;
-}
+      width:
+        min(
+          850px,
+          calc(100% - 30px)
+        );
 
-.kicker {
-  margin-bottom: 22px;
+      margin-top: 20px;
+    }
 
-  font-size: 9px;
-  font-weight: 700;
+    .kicker {
+      margin-bottom: 22px;
 
-  letter-spacing: 4px;
+      color: #ccc;
 
-  color: #ccc;
+      font-size: 9px;
+      font-weight: 700;
 
-  text-transform: uppercase;
-}
+      letter-spacing: 4px;
 
-.hero h1 {
-  font-size: clamp(48px, 10vw, 100px);
+      text-transform: uppercase;
+    }
 
-  line-height: .86;
+    .hero h1 {
+      font-size:
+        clamp(
+          48px,
+          10vw,
+          100px
+        );
 
-  letter-spacing: -5px;
+      line-height: .86;
 
-  font-weight: 800;
+      letter-spacing: -5px;
 
-  text-transform: uppercase;
-}
+      font-weight: 800;
 
-.hero h1 span {
-  display: block;
+      text-transform: uppercase;
+    }
 
-  margin-top: 28px;
+    .hero h1 span {
+      display: block;
 
-  font-size: clamp(14px, 2.5vw, 22px);
+      margin-top: 28px;
 
-  line-height: 1.2;
+      font-size:
+        clamp(
+          14px,
+          2.5vw,
+          22px
+        );
 
-  letter-spacing: 4px;
+      line-height: 1.2;
 
-  font-weight: 700;
-}
+      letter-spacing: 4px;
 
-.hero p {
-  max-width: 650px;
+      font-weight: 700;
+    }
 
-  margin: 30px auto 0;
+    .hero p {
+      max-width: 650px;
 
-  color: #ddd;
+      margin:
+        30px auto 0;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+      color: #ddd;
 
-  font-size: 18px;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  line-height: 1.6;
-}
+      font-size: 18px;
 
+      line-height: 1.6;
+    }
 
-/* =========================================================
-   GENERAL
-========================================================= */
 
-section {
-  padding: 100px 0;
-}
+    /* =====================================================
+       GENERAL TYPOGRAPHY
+    ===================================================== */
 
-.label {
-  margin-bottom: 18px;
+    .label {
+      margin-bottom: 18px;
 
-  color: #777;
+      color: #777;
 
-  font-size: 9px;
-  font-weight: 700;
+      font-size: 9px;
+      font-weight: 700;
 
-  letter-spacing: 3px;
+      letter-spacing: 3px;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
-h2 {
-  font-size: clamp(40px, 7vw, 72px);
+    h2 {
+      font-size:
+        clamp(
+          40px,
+          7vw,
+          72px
+        );
 
-  line-height: .90;
+      line-height: .90;
 
-  letter-spacing: -4px;
+      letter-spacing: -4px;
 
-  font-weight: 800;
+      font-weight: 800;
 
-  text-transform: uppercase;
-}
+      text-transform: uppercase;
+    }
 
-.text {
-  max-width: 600px;
+    .text {
+      max-width: 600px;
 
-  margin-top: 25px;
+      margin-top: 25px;
 
-  color: #ccc;
+      color: #ccc;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  font-size: 18px;
+      font-size: 18px;
 
-  line-height: 1.65;
-}
+      line-height: 1.65;
+    }
 
 
-/* =========================================================
-   MEMORY
-========================================================= */
+    /* =====================================================
+       MEMORY
+    ===================================================== */
 
-.memory {
-  background: #000;
-}
+    .memory {
+      padding: 100px 0;
 
-.memory-grid {
-  display: grid;
+      background: #000;
+    }
 
-  grid-template-columns: 1fr 1fr;
+    .memory-grid {
+      display: grid;
 
-  gap: 65px;
+      grid-template-columns:
+        1fr 1fr;
 
-  align-items: center;
-}
+      gap: 65px;
 
-.memory-photo {
-  overflow: hidden;
-}
+      align-items: center;
+    }
 
-.memory-photo img {
-  filter: grayscale(100%);
+    .memory-photo {
+      overflow: hidden;
+    }
 
-  transition:
-    filter .5s ease,
-    transform .7s ease;
-}
+    .memory-photo img {
+      filter:
+        grayscale(100%);
 
-.memory-photo:hover img {
-  filter: grayscale(0%);
+      transition:
+        filter .5s ease,
+        transform .7s ease;
+    }
 
-  transform: scale(1.02);
-}
+    .memory-photo:hover img {
+      filter:
+        grayscale(0%);
 
+      transform:
+        scale(1.02);
+    }
 
-/* =========================================================
-   PEACE MESSAGE
-========================================================= */
 
-.peace {
-  background: #fff;
+    /* =====================================================
+       PEACE
+    ===================================================== */
 
-  color: #000;
+    .peace {
+      padding: 100px 0;
 
-  text-align: center;
-}
+      background: #fff;
 
-.peace .label {
-  color: #777;
-}
+      color: #000;
 
-.dove {
-  margin-bottom: 20px;
+      text-align: center;
+    }
 
-  font-size: 38px;
-}
+    .peace .label {
+      color: #777;
+    }
 
-.peace h2 {
-  max-width: 900px;
+    .dove {
+      margin-bottom: 20px;
 
-  margin: 0 auto;
-}
+      font-size: 38px;
+    }
 
-.peace p {
-  max-width: 650px;
+    .peace h2 {
+      max-width: 900px;
 
-  margin: 28px auto 0;
+      margin: 0 auto;
+    }
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    .peace p {
+      max-width: 650px;
 
-  font-size: 20px;
+      margin:
+        28px auto 0;
 
-  line-height: 1.5;
-}
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
+      font-size: 20px;
 
-/* =========================================================
-   PERSONAL STORY
-========================================================= */
+      line-height: 1.5;
+    }
 
-.person {
-  background: #000;
-}
 
-.person-grid {
-  display: grid;
+    /* =====================================================
+       PERSONAL STORY
+    ===================================================== */
 
-  grid-template-columns: 1.15fr .85fr;
+    .person {
+      padding: 100px 0;
 
-  gap: 65px;
+      background: #000;
+    }
 
-  align-items: center;
-}
+    .person-grid {
+      display: grid;
 
-.person-photo {
-  overflow: hidden;
-}
+      grid-template-columns:
+        1.15fr .85fr;
 
-.person-photo img {
-  transition: transform .7s ease;
-}
+      gap: 65px;
 
-.person-photo:hover img {
-  transform: scale(1.02);
-}
+      align-items: center;
+    }
 
+    .person-photo {
+      overflow: hidden;
+    }
 
-/* =========================================================
-   DUBLIN MEMORIAL
-========================================================= */
+    .person-photo img {
+      transition:
+        transform .7s ease;
+    }
 
-.dublin {
-  padding: 0;
+    .person-photo:hover img {
+      transform:
+        scale(1.02);
+    }
 
-  background: #000;
-}
 
-.dublin-photo {
-  width: 100%;
-  overflow: hidden;
-}
+    /* =====================================================
+       DUBLIN MEMORIAL
+    ===================================================== */
 
-.dublin-photo img {
-  width: 100%;
-  max-height: 720px;
+    .dublin {
+      padding: 0;
 
-  object-fit: cover;
-}
+      background: #000;
+    }
 
-.dublin-text {
-  padding: 85px 20px;
+    .dublin-photo {
+      width: 100%;
 
-  text-align: center;
-}
+      overflow: hidden;
+    }
 
-.dublin-text h2 {
-  max-width: 850px;
+    .dublin-photo img {
+      width: 100%;
 
-  margin: 0 auto;
-}
+      max-height: 720px;
 
-.dublin-text p {
-  max-width: 650px;
+      object-fit: cover;
+    }
 
-  margin: 25px auto 0;
+    .dublin-text {
+      padding:
+        85px 20px;
 
-  color: #aaa;
+      text-align: center;
+    }
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    .dublin-text h2 {
+      max-width: 850px;
 
-  font-size: 18px;
+      margin: 0 auto;
+    }
 
-  line-height: 1.6;
-}
+    .dublin-text p {
+      max-width: 650px;
 
+      margin:
+        25px auto 0;
 
-/* =========================================================
-   ADDITIONAL PHOTO
-========================================================= */
+      color: #aaa;
 
-.additional {
-  background: #111;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  text-align: center;
-}
+      font-size: 18px;
 
-.additional-photo {
-  max-width: 900px;
+      line-height: 1.6;
+    }
 
-  max-height: 700px;
 
-  margin: 0 auto;
+    /* =====================================================
+       ADDITIONAL PHOTOGRAPH
+    ===================================================== */
 
-  object-fit: cover;
+    .additional {
+      padding: 100px 0;
 
-  filter: grayscale(100%);
+      background: #111;
 
-  transition:
-    filter .5s ease,
-    transform .7s ease;
-}
+      text-align: center;
+    }
 
-.additional-photo:hover {
-  filter: grayscale(0%);
+    .additional-photo {
+      max-width: 900px;
 
-  transform: scale(1.01);
-}
+      max-height: 700px;
 
-.additional-text {
-  padding-top: 65px;
-}
+      margin: 0 auto;
 
-.additional-text h2 {
-  max-width: 800px;
+      object-fit: cover;
 
-  margin: 0 auto;
-}
+      filter:
+        grayscale(100%);
 
-.additional-text p {
-  max-width: 600px;
+      transition:
+        filter .5s ease,
+        transform .7s ease;
+    }
 
-  margin: 25px auto 0;
+    .additional-photo:hover {
+      filter:
+        grayscale(0%);
 
-  color: #aaa;
+      transform:
+        scale(1.01);
+    }
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    .additional-text {
+      padding-top: 65px;
+    }
 
-  font-size: 18px;
+    .additional-text h2 {
+      max-width: 800px;
 
-  line-height: 1.6;
-}
+      margin: 0 auto;
+    }
 
+    .additional-text p {
+      max-width: 600px;
 
-/* =========================================================
-   BOOK
-========================================================= */
+      margin:
+        25px auto 0;
 
-.book {
-  background: #fff;
+      color: #aaa;
 
-  color: #000;
-}
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-.book-grid {
-  display: grid;
+      font-size: 18px;
 
-  grid-template-columns: 400px 1fr;
+      line-height: 1.6;
+    }
 
-  gap: 80px;
 
-  align-items: center;
-}
+    /* =====================================================
+       FIRST BOOK
+    ===================================================== */
 
-.book-cover {
-  width: 100%;
+    .book {
+      padding: 100px 0;
 
-  box-shadow:
-    0 25px 55px rgba(0,0,0,.30);
+      background: #fff;
 
-  transition: transform .5s ease;
-}
+      color: #000;
+    }
 
-.book-cover:hover {
-  transform: translateY(-6px);
-}
+    .book-grid {
+      display: grid;
 
-.book h2 {
-  margin-bottom: 10px;
-}
+      grid-template-columns:
+        400px 1fr;
 
-.book p {
-  max-width: 550px;
+      gap: 80px;
 
-  margin-top: 25px;
+      align-items: center;
+    }
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    .book-cover {
+      width: 100%;
 
-  font-size: 18px;
+      box-shadow:
+        0 25px 55px
+        rgba(0, 0, 0, .30);
 
-  line-height: 1.6;
-}
+      transition:
+        transform .5s ease;
+    }
 
-.button {
-  display: inline-block;
+    .book-cover:hover {
+      transform:
+        translateY(-6px);
+    }
 
-  margin-top: 30px;
+    .book h2 {
+      margin-bottom: 10px;
+    }
 
-  padding: 14px 24px;
+    .book p {
+      max-width: 550px;
 
-  border: 1px solid #000;
+      margin-top: 25px;
 
-  color: #000;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  font-size: 9px;
-  font-weight: 700;
+      font-size: 18px;
 
-  letter-spacing: 2px;
+      line-height: 1.6;
+    }
 
-  text-transform: uppercase;
+    .button {
+      display: inline-block;
 
-  transition:
-    background .25s ease,
-    color .25s ease;
-}
+      margin-top: 30px;
 
-.button:hover {
-  background: #000;
+      padding:
+        14px 24px;
 
-  color: #fff;
-}
+      border:
+        1px solid #000;
 
+      color: #000;
 
-/* =========================================================
-   LIGHT
-========================================================= */
+      font-size: 9px;
+      font-weight: 700;
 
-.light {
-  background: #000;
+      letter-spacing: 2px;
 
-  text-align: center;
-}
+      text-transform: uppercase;
 
-.light-intro {
-  max-width: 650px;
+      transition:
+        background .25s ease,
+        color .25s ease;
+    }
 
-  margin: 0 auto;
-}
+    .button:hover {
+      background: #000;
 
-.light h2 {
-  margin-bottom: 15px;
-}
+      color: #fff;
+    }
 
-.light p {
-  color: #aaa;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    /* =====================================================
+       THE LIGHT
+    ===================================================== */
 
-  font-size: 18px;
+    .light {
+      padding: 100px 0;
 
-  line-height: 1.6;
-}
+      background: #000;
 
-.light-gallery {
-  display: grid;
+      text-align: center;
+    }
 
-  grid-template-columns:
-    repeat(3, 1fr);
+    .light-intro {
+      max-width: 650px;
 
-  gap: 12px;
+      margin: 0 auto;
+    }
 
-  margin-top: 55px;
-}
+    .light h2 {
+      margin-bottom: 15px;
+    }
 
-.light-gallery img {
-  width: 100%;
+    .light p {
+      color: #aaa;
 
-  aspect-ratio: 1 / 1;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  object-fit: cover;
+      font-size: 18px;
 
-  transition: transform .5s ease;
-}
+      line-height: 1.6;
+    }
 
-.light-gallery img:hover {
-  transform: scale(1.02);
-}
+    .light-gallery {
+      display: grid;
 
-.light-caption {
-  margin-top: 25px;
+      grid-template-columns:
+        repeat(3, 1fr);
 
-  color: #777;
+      gap: 12px;
 
-  font-size: 9px;
-  font-weight: 700;
+      margin-top: 55px;
+    }
 
-  letter-spacing: 3px;
+    .light-gallery img {
+      width: 100%;
 
-  text-transform: uppercase;
-}
+      aspect-ratio: 1 / 1;
 
+      object-fit: cover;
 
-/* =========================================================
-   CICAN KNOT
-========================================================= */
+      transition:
+        transform .5s ease;
+    }
 
-.knot {
-  background: #111;
-}
+    .light-gallery img:hover {
+      transform:
+        scale(1.02);
+    }
 
-.knot-grid {
-  display: grid;
+    .light-caption {
+      margin-top: 25px;
 
-  grid-template-columns: 1fr 1fr;
+      color: #777;
 
-  gap: 70px;
+      font-size: 9px;
+      font-weight: 700;
 
-  align-items: center;
-}
+      letter-spacing: 3px;
 
-.knot-image {
-  max-width: 500px;
+      text-transform: uppercase;
+    }
 
-  margin: 0 auto;
 
-  overflow: hidden;
-}
+    /* =====================================================
+       CICAN KNOT
+    ===================================================== */
 
-.knot-image img {
-  transition: transform .6s ease;
-}
+    .knot {
+      padding: 100px 0;
 
-.knot-image:hover img {
-  transform: scale(1.025);
-}
+      background: #111;
+    }
 
+    .knot-grid {
+      display: grid;
 
-/* =========================================================
-   €1 CONTRIBUTION
-========================================================= */
+      grid-template-columns:
+        1fr 1fr;
 
-.contribution {
-  background: #fff;
+      gap: 70px;
 
-  color: #000;
+      align-items: center;
+    }
 
-  text-align: center;
-}
+    .knot-image {
+      max-width: 500px;
 
-.euro {
-  font-size: clamp(100px, 18vw, 190px);
+      margin: 0 auto;
 
-  line-height: .75;
+      overflow: hidden;
+    }
 
-  font-weight: 900;
+    .knot-image img {
+      transition:
+        transform .6s ease;
+    }
 
-  letter-spacing: -10px;
-}
+    .knot-image:hover img {
+      transform:
+        scale(1.025);
+    }
 
-.contribution h2 {
-  max-width: 850px;
 
-  margin: 45px auto 0;
+    /* =====================================================
+       €1 CONTRIBUTION
+    ===================================================== */
 
-  font-size: clamp(30px, 5vw, 55px);
+    .contribution {
+      padding: 100px 0;
 
-  letter-spacing: -3px;
-}
+      background: #fff;
 
-.contribution p {
-  max-width: 650px;
+      color: #000;
 
-  margin: 25px auto 0;
+      text-align: center;
+    }
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    .euro {
+      font-size:
+        clamp(
+          100px,
+          18vw,
+          190px
+        );
 
-  font-size: 18px;
+      line-height: .75;
 
-  line-height: 1.6;
-}
+      font-weight: 900;
 
+      letter-spacing: -10px;
+    }
 
-/* =========================================================
-   COMING SOON
-========================================================= */
+    .contribution h2 {
+      max-width: 850px;
 
-.future {
-  background: #000;
+      margin:
+        45px auto 0;
 
-  text-align: center;
-}
+      font-size:
+        clamp(
+          30px,
+          5vw,
+          55px
+        );
 
-.coming {
-  display: inline-block;
+      letter-spacing: -3px;
+    }
 
-  margin-bottom: 25px;
+    .contribution p {
+      max-width: 650px;
 
-  padding: 8px 14px;
+      margin:
+        25px auto 0;
 
-  border: 1px solid #555;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-  color: #999;
+      font-size: 18px;
 
-  font-size: 8px;
-  font-weight: 700;
+      line-height: 1.6;
+    }
 
-  letter-spacing: 3px;
 
-  text-transform: uppercase;
-}
+    /* =====================================================
+       NEXT COLORING BOOK
+    ===================================================== */
 
-.future h2 {
-  max-width: 850px;
+    .future {
+      padding: 100px 0;
 
-  margin: 0 auto;
-}
+      background: #000;
 
-.future p {
-  max-width: 600px;
+      text-align: center;
+    }
 
-  margin: 25px auto 0;
+    .coming {
+      display: inline-block;
 
-  color: #aaa;
+      margin-bottom: 25px;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+      padding:
+        8px 14px;
 
-  font-size: 18px;
+      border:
+        1px solid #555;
 
-  line-height: 1.6;
-}
+      color: #999;
 
+      font-size: 8px;
+      font-weight: 700;
 
-/* =========================================================
-   FINAL
-========================================================= */
+      letter-spacing: 3px;
 
-.final {
-  min-height: 70vh;
+      text-transform: uppercase;
+    }
 
-  display: flex;
+    .future h2 {
+      max-width: 850px;
 
-  align-items: center;
+      margin: 0 auto;
+    }
 
-  background: #000;
+    .future p {
+      max-width: 650px;
 
-  text-align: center;
-}
+      margin:
+        25px auto 0;
 
-.final-inner {
-  width: min(850px, calc(100% - 30px));
+      color: #aaa;
 
-  margin: 0 auto;
-}
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-.final h2 {
-  font-size: clamp(35px, 6vw, 68px);
-}
+      font-size: 18px;
 
-.final p {
-  margin-top: 45px;
+      line-height: 1.6;
+    }
 
-  color: #666;
+    .future strong {
+      color: #fff;
+    }
 
-  font-size: 9px;
-  font-weight: 700;
 
-  letter-spacing: 3px;
+    /* =====================================================
+       FINAL MEMORIAL
+    ===================================================== */
 
-  text-transform: uppercase;
-}
+    .final {
+      min-height: 70vh;
 
+      display: flex;
 
-/* =========================================================
-   FOOTER
-========================================================= */
+      align-items: center;
 
-footer {
-  padding: 45px 20px;
+      background: #000;
 
-  background: #000;
+      text-align: center;
+    }
 
-  border-top:
-    1px solid
-    rgba(255,255,255,.10);
+    .final-inner {
+      width:
+        min(
+          850px,
+          calc(100% - 30px)
+        );
 
-  color: #666;
+      margin: 0 auto;
+    }
 
-  text-align: center;
+    .final h2 {
+      font-size:
+        clamp(
+          35px,
+          6vw,
+          68px
+        );
+    }
 
-  font-size: 10px;
+    .final p {
+      margin-top: 45px;
 
-  line-height: 1.8;
-}
+      color: #666;
 
+      font-size: 9px;
+      font-weight: 700;
 
-/* =========================================================
-   MOBILE
-========================================================= */
+      letter-spacing: 3px;
 
-@media (max-width: 750px) {
+      text-transform: uppercase;
 
-  header {
-    height: 48px;
+      text-align: right;
+    }
 
-    padding: 0 14px;
-  }
 
-  nav {
-    gap: 13px;
+    /* =====================================================
+       FOOTER
+    ===================================================== */
 
-    font-size: 7px;
-  }
+    footer {
+      padding:
+        42px 20px;
 
-  .container {
-    width: calc(100% - 28px);
-  }
+      background: #000;
 
-  section {
-    padding: 75px 0;
-  }
+      border-top:
+        1px solid
+        rgba(255, 255, 255, .10);
 
-  .hero {
-    min-height: 100svh;
-  }
+      color: #666;
 
-  .hero h1 {
-    letter-spacing: -3px;
-  }
+      font-size: 10px;
 
-  .memory-grid,
-  .person-grid,
-  .book-grid,
-  .knot-grid {
-    grid-template-columns: 1fr;
+      line-height: 1.8;
 
-    gap: 45px;
-  }
+      text-align: right;
+    }
 
-  .book-cover {
-    max-width: 330px;
+    .footer-inner {
+      width:
+        min(
+          1000px,
+          calc(100% - 32px)
+        );
 
-    margin: 0 auto;
-  }
+      margin: 0 auto;
 
-  .light-gallery {
-    grid-template-columns: 1fr;
+      display: flex;
 
-    max-width: 430px;
+      flex-direction: column;
 
-    margin: 55px auto 0;
-  }
+      align-items: flex-end;
 
-  .button {
-    width: 100%;
+      text-align: right;
 
-    text-align: center;
-  }
+      gap: 4px;
+    }
 
-}
+    .footer-title {
+      color: #888;
 
-</style>
+      font-weight: 700;
+
+      letter-spacing: 1px;
+    }
+
+    .footer-name {
+      color: #555;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 750px) {
+
+      header {
+        height: 48px;
+
+        padding:
+          0 14px;
+      }
+
+      nav {
+        gap: 13px;
+
+        font-size: 7px;
+      }
+
+      .container {
+        width:
+          calc(100% - 28px);
+      }
+
+      .memory,
+      .peace,
+      .person,
+      .additional,
+      .book,
+      .light,
+      .knot,
+      .contribution,
+      .future {
+        padding:
+          75px 0;
+      }
+
+      .hero {
+        min-height: 100svh;
+      }
+
+      .hero h1 {
+        letter-spacing: -3px;
+      }
+
+      .memory-grid,
+      .person-grid,
+      .book-grid,
+      .knot-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+      .book-cover {
+        max-width: 330px;
+
+        margin: 0 auto;
+      }
+
+      .light-gallery {
+        grid-template-columns: 1fr;
+
+        max-width: 430px;
+
+        margin:
+          55px auto 0;
+      }
+
+      .button {
+        width: 100%;
+
+        text-align: center;
+      }
+
+      .final {
+        min-height: 65vh;
+      }
+
+      .final p {
+        text-align: right;
+
+        line-height: 1.8;
+      }
+
+      footer {
+        text-align: right;
+      }
+
+      .footer-inner {
+        align-items: flex-end;
+
+        text-align: right;
+      }
+
+    }
+
+  </style>
 
 </head>
 
@@ -922,562 +1090,577 @@ footer {
 <body>
 
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+  <!-- =====================================================
+       HEADER
+  ===================================================== -->
 
-<header>
+  <header>
 
-  <nav>
+    <nav>
 
-    <a href="#memory">
-      Memory
-    </a>
-
-    <a href="#book">
-      Book
-    </a>
-
-    <a href="#light">
-      Light
-    </a>
-
-  </nav>
-
-</header>
-
-
-<main>
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<section class="hero">
-
-  <img
-    class="hero-image"
-    src="tent-sunset.jpg"
-    alt="Cican George Alin outdoors at sunset"
-  >
-
-  <div class="hero-overlay"></div>
-
-  <div class="hero-content">
-
-    <div class="kicker">
-      Dublin · Ireland · 2026
-    </div>
-
-    <h1>
-
-      Veteran<br>
-      Awareness
-
-      <span>
-        Coloring for World Peace 🕊️
-      </span>
-
-    </h1>
-
-    <p>
-      A personal remembrance project by
-      <strong>Cican George Alin</strong>
-      in memory of his grandfather,
-      <strong>Nicolae Urluescu</strong>.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     GRANDFATHER
-========================================================= -->
-
-<section
-  class="memory"
-  id="memory"
->
-
-  <div class="container memory-grid">
-
-    <div class="memory-photo">
-
-      <img
-        src="nicolae-urluescu.jpg"
-        alt="Nicolae Urluescu, World War II veteran"
-        loading="lazy"
-      >
-
-    </div>
-
-    <div>
-
-      <div class="label">
-        In Memory
-      </div>
-
-      <h2>
-        Nicolae<br>
-        Urluescu
-      </h2>
-
-      <p class="text">
-        My grandfather.
-        A Romanian World War II veteran.
-      </p>
-
-      <p class="text">
-        His memory is where this project begins.
-      </p>
-
-      <p class="text">
-        In his memory,
-        and in honor of veterans everywhere.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     PEACE
-========================================================= -->
-
-<section class="peace">
-
-  <div class="container">
-
-    <div class="dove">
-      🕊️
-    </div>
-
-    <div class="label">
-      The Message
-    </div>
-
-    <h2>
-      Instead of going to war
-      and taking weapons,
-      we take crayons
-      and we color.
-    </h2>
-
-    <p>
-      Coloring for World Peace.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     PERSONAL STORY
-========================================================= -->
-
-<section class="person">
-
-  <div class="container person-grid">
-
-    <div class="person-photo">
-
-      <img
-        src="Cican-George-Alin.jpg"
-        alt="Cican George Alin"
-        loading="lazy"
-      >
-
-    </div>
-
-    <div>
-
-      <div class="label">
-        The Person Behind The Project
-      </div>
-
-      <h2>
-        Cican<br>
-        George Alin
-      </h2>
-
-      <p class="text">
-        A personal project created in Dublin,
-        Ireland, inspired by family memory,
-        remembrance and peace.
-      </p>
-
-      <p class="text">
-        Remember the past.
-        Honor those who served.
-        Create something peaceful for the future.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     DUBLIN MEMORIAL
-========================================================= -->
-
-<section class="dublin">
-
-  <div class="dublin-photo">
-
-    <img
-      src="dublin-memorial-poppies.jpg"
-      alt="Dublin memorial poppies"
-      loading="lazy"
-    >
-
-  </div>
-
-  <div class="dublin-text">
-
-    <div class="label">
-      Dublin · Ireland
-    </div>
-
-    <h2>
-      We Remember.<br>
-      We Honor.<br>
-      We Carry Their Memory Forward.
-    </h2>
-
-    <p>
-      Remembrance is something we carry forward.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     ADDITIONAL PHOTOGRAPH
-========================================================= -->
-
-<section class="additional">
-
-  <div class="container">
-
-    <img
-      class="additional-photo"
-      src="41DN7C.jpg"
-      alt="Family roots and remembrance"
-      loading="lazy"
-    >
-
-    <div class="additional-text">
-
-      <div class="label">
-        Roots
-      </div>
-
-      <h2>
-        Where Memory Begins.
-      </h2>
-
-      <p>
-        Family, place and memory remain connected
-        across generations.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     BOOK
-========================================================= -->
-
-<section
-  class="book"
-  id="book"
->
-
-  <div class="container book-grid">
-
-    <div>
-
-      <img
-        class="book-cover"
-        src="book-cover.jpg"
-        alt="Veterans Awareness Dublin 2026 coloring book"
-        loading="lazy"
-      >
-
-    </div>
-
-    <div>
-
-      <div class="label">
-        The Book
-      </div>
-
-      <h2>
-        Veterans<br>
-        Awareness<br>
-        Dublin 2026
-      </h2>
-
-      <p>
-        The first coloring book of the
-        Veteran Awareness Dublin 2026 project.
-      </p>
-
-      <p>
-        Coloring for World Peace 🕊️
-      </p>
-
-      <a
-        class="button"
-        href="https://www.lulu.com/shop/george-alin-cican/veterans-awareness-dublin-2026/paperback/product-m2egk5m.html"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View The Book
+      <a href="#memory">
+        Memory
       </a>
 
-    </div>
+      <a href="#book">
+        Book
+      </a>
 
-  </div>
+      <a href="#light">
+        Light
+      </a>
 
-</section>
+    </nav>
+
+  </header>
 
 
-<!-- =========================================================
-     THE LIGHT
-========================================================= -->
+  <main>
 
-<section
-  class="light"
-  id="light"
->
 
-  <div class="container">
+    <!-- ===================================================
+         HERO
+    =================================================== -->
 
-    <div class="light-intro">
+    <section class="hero">
 
-      <div class="dove">
-        🕊️
+      <img
+        class="hero-image"
+        src="tent-sunset.jpg"
+        alt="Cican George Alin outdoors at sunset"
+      >
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+
+        <div class="kicker">
+          Dublin · Ireland · 2026
+        </div>
+
+        <h1>
+
+          Veteran<br>
+          Awareness
+
+          <span>
+            Coloring for World Peace 🕊️
+          </span>
+
+        </h1>
+
+        <p>
+          A personal remembrance project by
+          <strong>Cican George Alin</strong>
+          in memory of his grandfather,
+          <strong>Nicolae Urluescu</strong>.
+        </p>
+
       </div>
 
-      <div class="label">
-        The Light Remains On
+    </section>
+
+
+    <!-- ===================================================
+         GRANDFATHER
+    =================================================== -->
+
+    <section
+      class="memory"
+      id="memory"
+    >
+
+      <div class="container memory-grid">
+
+        <div class="memory-photo">
+
+          <img
+            src="nicolae-urluescu.jpg"
+            alt="Nicolae Urluescu, Romanian World War II veteran"
+            loading="lazy"
+          >
+
+        </div>
+
+        <div>
+
+          <div class="label">
+            In Memory
+          </div>
+
+          <h2>
+            Nicolae<br>
+            Urluescu
+          </h2>
+
+          <p class="text">
+            My grandfather.
+            A Romanian World War II veteran.
+          </p>
+
+          <p class="text">
+            His memory is where this project begins.
+          </p>
+
+          <p class="text">
+            In his memory,
+            and in honor of veterans everywhere.
+          </p>
+
+        </div>
+
       </div>
 
-      <h2>
-        Always Lit
-      </h2>
-
-      <p>
-        A light kept burning in remembrance
-        of the souls of army veterans.
-      </p>
-
-    </div>
+    </section>
 
 
-    <div class="light-gallery">
+    <!-- ===================================================
+         PEACE MESSAGE
+    =================================================== -->
 
-      <img
-        src="veteran-light-blue.jpg"
-        alt="Veteran remembrance light — blue"
-        loading="lazy"
-      >
+    <section class="peace">
 
-      <img
-        src="veteran-light-yellow.jpg"
-        alt="Veteran remembrance light — yellow"
-        loading="lazy"
-      >
+      <div class="container">
 
-      <img
-        src="veteran-light-red.jpg"
-        alt="Veteran remembrance light — red"
-        loading="lazy"
-      >
+        <div class="dove">
+          🕊️
+        </div>
 
-    </div>
+        <div class="label">
+          The Message
+        </div>
 
+        <h2>
+          Instead of going to war
+          and taking weapons,
+          we take crayons
+          and we color.
+        </h2>
 
-    <div class="light-caption">
-      The light remains on
-    </div>
+        <p>
+          Coloring for World Peace.
+        </p>
 
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     CICAN KNOT
-========================================================= -->
-
-<section class="knot">
-
-  <div class="container knot-grid">
-
-    <div class="knot-image">
-
-      <img
-        src="cican-knot.jpg.png"
-        alt="CICAN knot"
-        loading="lazy"
-      >
-
-    </div>
-
-    <div>
-
-      <div class="label">
-        A Personal Symbol
       </div>
 
-      <h2>
-        CICAN<br>
-        Knot
-      </h2>
+    </section>
 
-      <p class="text">
-        A handmade knot created as
-        a personal commemorative symbol.
-      </p>
 
-      <p class="text">
-        CICAN knot — Not Given.
-        Not Bought. Earned.
-      </p>
+    <!-- ===================================================
+         PERSONAL STORY
+    =================================================== -->
+
+    <section class="person">
+
+      <div class="container person-grid">
+
+        <div class="person-photo">
+
+          <img
+            src="Cican-George-Alin.jpg"
+            alt="Cican George Alin"
+            loading="lazy"
+          >
+
+        </div>
+
+        <div>
+
+          <div class="label">
+            The Person Behind The Project
+          </div>
+
+          <h2>
+            Cican<br>
+            George Alin
+          </h2>
+
+          <p class="text">
+            A personal project created in Dublin,
+            Ireland, inspired by family memory,
+            remembrance and peace.
+          </p>
+
+          <p class="text">
+            Remember the past.
+            Honor those who served.
+            Create something peaceful for the future.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         DUBLIN MEMORIAL
+    =================================================== -->
+
+    <section class="dublin">
+
+      <div class="dublin-photo">
+
+        <img
+          src="dublin-memorial-poppies.jpg"
+          alt="Dublin memorial poppies"
+          loading="lazy"
+        >
+
+      </div>
+
+      <div class="dublin-text">
+
+        <div class="label">
+          Dublin · Ireland
+        </div>
+
+        <h2>
+          We Remember.<br>
+          We Honor.<br>
+          We Carry Their Memory Forward.
+        </h2>
+
+        <p>
+          Remembrance is something we carry forward.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         ADDITIONAL PHOTOGRAPH
+    =================================================== -->
+
+    <section class="additional">
+
+      <div class="container">
+
+        <img
+          class="additional-photo"
+          src="41DN7C.jpg"
+          alt="Family roots and remembrance"
+          loading="lazy"
+        >
+
+        <div class="additional-text">
+
+          <div class="label">
+            Roots
+          </div>
+
+          <h2>
+            Where Memory Begins.
+          </h2>
+
+          <p>
+            Family, place and memory remain connected
+            across generations.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         FIRST COLORING BOOK
+    =================================================== -->
+
+    <section
+      class="book"
+      id="book"
+    >
+
+      <div class="container book-grid">
+
+        <div>
+
+          <img
+            class="book-cover"
+            src="book-cover.jpg"
+            alt="Veterans Awareness Dublin 2026 coloring book"
+            loading="lazy"
+          >
+
+        </div>
+
+        <div>
+
+          <div class="label">
+            The Book
+          </div>
+
+          <h2>
+            Veterans<br>
+            Awareness<br>
+            Dublin 2026
+          </h2>
+
+          <p>
+            The first coloring book of the
+            Veteran Awareness Dublin 2026 project.
+          </p>
+
+          <p>
+            Coloring for World Peace 🕊️
+          </p>
+
+          <a
+            class="button"
+            href="https://www.lulu.com/shop/george-alin-cican/veterans-awareness-dublin-2026/paperback/product-m2egk5m.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View The Book
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         THE LIGHT
+    =================================================== -->
+
+    <section
+      class="light"
+      id="light"
+    >
+
+      <div class="container">
+
+        <div class="light-intro">
+
+          <div class="dove">
+            🕊️
+          </div>
+
+          <div class="label">
+            The Light Remains On
+          </div>
+
+          <h2>
+            Always Lit
+          </h2>
+
+          <p>
+            A light kept burning in remembrance
+            of the souls of army veterans.
+          </p>
+
+        </div>
+
+
+        <div class="light-gallery">
+
+          <img
+            src="veteran-light-blue.jpg"
+            alt="Veteran remembrance light — blue"
+            loading="lazy"
+          >
+
+          <img
+            src="veteran-light-yellow.jpg"
+            alt="Veteran remembrance light — yellow"
+            loading="lazy"
+          >
+
+          <img
+            src="veteran-light-red.jpg"
+            alt="Veteran remembrance light — red"
+            loading="lazy"
+          >
+
+        </div>
+
+
+        <div class="light-caption">
+          The light remains on
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         CICAN KNOT
+    =================================================== -->
+
+    <section class="knot">
+
+      <div class="container knot-grid">
+
+        <div class="knot-image">
+
+          <img
+            src="cican-knot.jpg.png"
+            alt="CICAN knot"
+            loading="lazy"
+          >
+
+        </div>
+
+        <div>
+
+          <div class="label">
+            A Personal Symbol
+          </div>
+
+          <h2>
+            CICAN<br>
+            Knot
+          </h2>
+
+          <p class="text">
+            A handmade knot created as
+            a personal commemorative symbol.
+          </p>
+
+          <p class="text">
+            CICAN knot — Not Given.
+            Not Bought. Earned.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         €1 CONTRIBUTION
+    =================================================== -->
+
+    <section class="contribution">
+
+      <div class="container">
+
+        <div class="euro">
+          €1
+        </div>
+
+        <h2>
+          From every coloring book,
+          approximately €1 of profit
+          is intended to go to the
+          Irish Veterans Association.
+        </h2>
+
+        <p>
+          A small contribution made in respect
+          and honor of veterans.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         NEXT COLORING BOOK
+    =================================================== -->
+
+    <section class="future">
+
+      <div class="container">
+
+        <div class="coming">
+          Coming Soon
+        </div>
+
+        <h2>
+          War Memorial<br>
+          Gardens, Dublin
+        </h2>
+
+        <p>
+          The next Veteran Awareness Dublin 2026
+          coloring book will be available soon,
+          featuring the War Memorial Gardens, Dublin,
+          with real photographs transformed into
+          coloring artwork.
+        </p>
+
+        <p>
+          <strong>
+            Coloring for World Peace 🕊️
+          </strong>
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         FINAL MEMORIAL
+    =================================================== -->
+
+    <section class="final">
+
+      <div class="final-inner">
+
+        <h2>
+
+          In memory of
+          Nicolae Urluescu.
+
+          <br><br>
+
+          In honor of every veteran.
+
+          <br><br>
+
+          For a future
+          without war.
+
+        </h2>
+
+        <p>
+          Veteran Awareness Dublin 2026
+          · Coloring for World Peace
+        </p>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div class="footer-title">
+        Veteran Awareness Dublin 2026
+      </div>
+
+      <div class="footer-name">
+        Cican George Alin · Dublin, Ireland
+      </div>
 
     </div>
 
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     €1 CONTRIBUTION
-========================================================= -->
-
-<section class="contribution">
-
-  <div class="container">
-
-    <div class="euro">
-      €1
-    </div>
-
-    <h2>
-      From every coloring book,
-      approximately €1 of profit
-      is intended to go to the
-      Irish Veterans Association.
-    </h2>
-
-    <p>
-      A small contribution made in respect
-      and honor of veterans.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     COMING SOON
-========================================================= -->
-
-<section class="future">
-
-  <div class="container">
-
-    <div class="coming">
-      Coming Soon
-    </div>
-
-    <h2>
-      Dublin War<br>
-      Memorial Gardens
-    </h2>
-
-    <p>
-      A future coloring book created from
-      real photographs transformed into
-      coloring artwork.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     FINAL
-========================================================= -->
-
-<section class="final">
-
-  <div class="final-inner">
-
-    <h2>
-
-      In memory of
-      Nicolae Urluescu.
-
-      <br><br>
-
-      In honor of every veteran.
-
-      <br><br>
-
-      For a future
-      without war.
-
-    </h2>
-
-    <p>
-      Veteran Awareness Dublin 2026
-      · Coloring for World Peace
-    </p>
-
-  </div>
-
-</section>
-
-
-</main>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-  Veteran Awareness Dublin 2026
-
-  <br>
-
-  Cican George Alin · Dublin, Ireland
-
-</footer>
+  </footer>
 
 
 </body>
+
 </html>
