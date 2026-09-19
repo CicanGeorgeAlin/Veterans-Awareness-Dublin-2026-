@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -16,9 +17,7 @@
   content="Veteran Awareness Dublin 2026 — Coloring for World Peace. In memory of Nicolae Urluescu. A project by Cican George Alin."
 >
 
-<title>
-Veteran Awareness Dublin 2026
-</title>
+<title>Veteran Awareness Dublin 2026</title>
 
 
 <style>
@@ -42,6 +41,7 @@ body {
   background: #000;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
 img {
@@ -56,7 +56,7 @@ a {
 
 .container {
   width: min(1000px, calc(100% - 32px));
-  margin: auto;
+  margin: 0 auto;
 }
 
 
@@ -66,51 +66,46 @@ a {
 
 header {
   position: fixed;
-
   top: 0;
   left: 0;
   right: 0;
 
   z-index: 1000;
 
-  height: 54px;
+  height: 52px;
 
   display: flex;
   align-items: center;
   justify-content: flex-end;
 
-  padding: 0 20px;
+  padding: 0 18px;
 
-  background: rgba(0,0,0,.72);
+  background: rgba(0,0,0,.78);
 
   backdrop-filter: blur(10px);
 
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.1);
+  border-bottom: 1px solid rgba(255,255,255,.10);
 }
 
-header nav {
+nav {
   display: flex;
-
-  gap: 22px;
+  gap: 20px;
 
   font-size: 8px;
   font-weight: 700;
 
   letter-spacing: 2px;
-
   text-transform: uppercase;
 }
 
-header nav a {
+nav a {
+  color: #fff;
   opacity: .65;
 
-  transition:
-    opacity .25s ease;
+  transition: opacity .2s ease;
 }
 
-header nav a:hover {
+nav a:hover {
   opacity: 1;
 }
 
@@ -143,18 +138,19 @@ header nav a:hover {
 
   object-fit: cover;
 
-  opacity: .48;
+  opacity: .50;
 }
 
-.hero-dark {
+.hero-overlay {
   position: absolute;
 
   inset: 0;
 
   background:
     linear-gradient(
-      rgba(0,0,0,.28),
-      rgba(0,0,0,.88)
+      to bottom,
+      rgba(0,0,0,.25),
+      rgba(0,0,0,.90)
     );
 }
 
@@ -163,14 +159,12 @@ header nav a:hover {
 
   z-index: 2;
 
-  width:
-    min(
-      850px,
-      calc(100% - 30px)
-    );
+  width: min(850px, calc(100% - 30px));
+
+  margin-top: 20px;
 }
 
-.small-title {
+.kicker {
   margin-bottom: 22px;
 
   font-size: 9px;
@@ -184,12 +178,7 @@ header nav a:hover {
 }
 
 .hero h1 {
-  font-size:
-    clamp(
-      48px,
-      10vw,
-      100px
-    );
+  font-size: clamp(48px, 10vw, 100px);
 
   line-height: .86;
 
@@ -203,14 +192,9 @@ header nav a:hover {
 .hero h1 span {
   display: block;
 
-  margin-top: 27px;
+  margin-top: 28px;
 
-  font-size:
-    clamp(
-      14px,
-      2.5vw,
-      22px
-    );
+  font-size: clamp(14px, 2.5vw, 22px);
 
   line-height: 1.2;
 
@@ -222,8 +206,9 @@ header nav a:hover {
 .hero p {
   max-width: 650px;
 
-  margin:
-    30px auto 0;
+  margin: 30px auto 0;
+
+  color: #ddd;
 
   font-family:
     Georgia,
@@ -232,9 +217,7 @@ header nav a:hover {
 
   font-size: 18px;
 
-  line-height: 1.5;
-
-  color: #ddd;
+  line-height: 1.6;
 }
 
 
@@ -249,25 +232,20 @@ section {
 .label {
   margin-bottom: 18px;
 
+  color: #777;
+
   font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: #777;
-
   text-transform: uppercase;
 }
 
 h2 {
-  font-size:
-    clamp(
-      40px,
-      7vw,
-      72px
-    );
+  font-size: clamp(40px, 7vw, 72px);
 
-  line-height: .9;
+  line-height: .90;
 
   letter-spacing: -4px;
 
@@ -281,6 +259,8 @@ h2 {
 
   margin-top: 25px;
 
+  color: #ccc;
+
   font-family:
     Georgia,
     "Times New Roman",
@@ -289,8 +269,6 @@ h2 {
   font-size: 18px;
 
   line-height: 1.65;
-
-  color: #ccc;
 }
 
 
@@ -305,8 +283,7 @@ h2 {
 .memory-grid {
   display: grid;
 
-  grid-template-columns:
-    1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
   gap: 65px;
 
@@ -318,8 +295,7 @@ h2 {
 }
 
 .memory-photo img {
-  filter:
-    grayscale(100%);
+  filter: grayscale(100%);
 
   transition:
     filter .5s ease,
@@ -327,16 +303,14 @@ h2 {
 }
 
 .memory-photo:hover img {
-  filter:
-    grayscale(0%);
+  filter: grayscale(0%);
 
-  transform:
-    scale(1.025);
+  transform: scale(1.02);
 }
 
 
 /* =========================================================
-   PEACE
+   PEACE MESSAGE
 ========================================================= */
 
 .peace {
@@ -351,17 +325,22 @@ h2 {
   color: #777;
 }
 
+.dove {
+  margin-bottom: 20px;
+
+  font-size: 38px;
+}
+
 .peace h2 {
   max-width: 900px;
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .peace p {
   max-width: 650px;
 
-  margin:
-    28px auto 0;
+  margin: 28px auto 0;
 
   font-family:
     Georgia,
@@ -371,12 +350,6 @@ h2 {
   font-size: 20px;
 
   line-height: 1.5;
-}
-
-.dove {
-  font-size: 38px;
-
-  margin-bottom: 20px;
 }
 
 
@@ -391,8 +364,7 @@ h2 {
 .person-grid {
   display: grid;
 
-  grid-template-columns:
-    1.15fr .85fr;
+  grid-template-columns: 1.15fr .85fr;
 
   gap: 65px;
 
@@ -404,54 +376,11 @@ h2 {
 }
 
 .person-photo img {
-  transition:
-    transform .7s ease;
+  transition: transform .7s ease;
 }
 
 .person-photo:hover img {
-  transform:
-    scale(1.025);
-}
-
-
-/* =========================================================
-   ROMANIAN ROOTS
-========================================================= */
-
-.roots {
-  background: #111;
-}
-
-.roots-grid {
-  display: grid;
-
-  grid-template-columns:
-    .85fr 1.15fr;
-
-  gap: 65px;
-
-  align-items: center;
-}
-
-.roots-photo {
-  overflow: hidden;
-}
-
-.roots-photo img {
-  filter:
-    grayscale(100%);
-
-  transition:
-    filter .5s ease,
-    transform .7s ease;
-}
-
-.roots-photo:hover img {
-  filter:
-    grayscale(0%);
-
-  transform:
-    scale(1.025);
+  transform: scale(1.02);
 }
 
 
@@ -466,20 +395,19 @@ h2 {
 }
 
 .dublin-photo {
+  width: 100%;
   overflow: hidden;
 }
 
 .dublin-photo img {
   width: 100%;
-
   max-height: 720px;
 
   object-fit: cover;
 }
 
 .dublin-text {
-  padding:
-    85px 20px;
+  padding: 85px 20px;
 
   text-align: center;
 }
@@ -487,14 +415,15 @@ h2 {
 .dublin-text h2 {
   max-width: 850px;
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .dublin-text p {
   max-width: 650px;
 
-  margin:
-    25px auto 0;
+  margin: 25px auto 0;
+
+  color: #aaa;
 
   font-family:
     Georgia,
@@ -504,45 +433,57 @@ h2 {
   font-size: 18px;
 
   line-height: 1.6;
-
-  color: #aaa;
 }
 
 
 /* =========================================================
-   41DN7C PHOTO
+   ADDITIONAL PHOTO
 ========================================================= */
 
 .additional {
   background: #111;
 
-  padding-top: 0;
+  text-align: center;
 }
 
 .additional-photo {
+  max-width: 900px;
+
   max-height: 700px;
 
+  margin: 0 auto;
+
   object-fit: cover;
+
+  filter: grayscale(100%);
+
+  transition:
+    filter .5s ease,
+    transform .7s ease;
+}
+
+.additional-photo:hover {
+  filter: grayscale(0%);
+
+  transform: scale(1.01);
 }
 
 .additional-text {
-  padding:
-    75px 20px;
-
-  text-align: center;
+  padding-top: 65px;
 }
 
 .additional-text h2 {
   max-width: 800px;
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .additional-text p {
   max-width: 600px;
 
-  margin:
-    25px auto 0;
+  margin: 25px auto 0;
+
+  color: #aaa;
 
   font-family:
     Georgia,
@@ -550,8 +491,6 @@ h2 {
     serif;
 
   font-size: 18px;
-
-  color: #aaa;
 
   line-height: 1.6;
 }
@@ -570,8 +509,7 @@ h2 {
 .book-grid {
   display: grid;
 
-  grid-template-columns:
-    400px 1fr;
+  grid-template-columns: 400px 1fr;
 
   gap: 80px;
 
@@ -582,16 +520,13 @@ h2 {
   width: 100%;
 
   box-shadow:
-    0 25px 55px
-    rgba(0,0,0,.3);
+    0 25px 55px rgba(0,0,0,.30);
 
-  transition:
-    transform .5s ease;
+  transition: transform .5s ease;
 }
 
 .book-cover:hover {
-  transform:
-    translateY(-6px);
+  transform: translateY(-6px);
 }
 
 .book h2 {
@@ -618,11 +553,11 @@ h2 {
 
   margin-top: 30px;
 
-  padding:
-    14px 24px;
+  padding: 14px 24px;
 
-  border:
-    1px solid #000;
+  border: 1px solid #000;
+
+  color: #000;
 
   font-size: 9px;
   font-weight: 700;
@@ -644,7 +579,7 @@ h2 {
 
 
 /* =========================================================
-   THE LIGHT
+   LIGHT
 ========================================================= */
 
 .light {
@@ -656,7 +591,7 @@ h2 {
 .light-intro {
   max-width: 650px;
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .light h2 {
@@ -664,6 +599,8 @@ h2 {
 }
 
 .light p {
+  color: #aaa;
+
   font-family:
     Georgia,
     "Times New Roman",
@@ -672,8 +609,6 @@ h2 {
   font-size: 18px;
 
   line-height: 1.6;
-
-  color: #aaa;
 }
 
 .light-gallery {
@@ -694,24 +629,22 @@ h2 {
 
   object-fit: cover;
 
-  transition:
-    transform .5s ease;
+  transition: transform .5s ease;
 }
 
 .light-gallery img:hover {
-  transform:
-    scale(1.025);
+  transform: scale(1.02);
 }
 
 .light-caption {
   margin-top: 25px;
 
+  color: #777;
+
   font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 3px;
-
-  color: #777;
 
   text-transform: uppercase;
 }
@@ -728,8 +661,7 @@ h2 {
 .knot-grid {
   display: grid;
 
-  grid-template-columns:
-    1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
   gap: 70px;
 
@@ -739,19 +671,17 @@ h2 {
 .knot-image {
   max-width: 500px;
 
-  margin: auto;
+  margin: 0 auto;
 
   overflow: hidden;
 }
 
 .knot-image img {
-  transition:
-    transform .6s ease;
+  transition: transform .6s ease;
 }
 
 .knot-image:hover img {
-  transform:
-    scale(1.025);
+  transform: scale(1.025);
 }
 
 
@@ -768,12 +698,7 @@ h2 {
 }
 
 .euro {
-  font-size:
-    clamp(
-      100px,
-      18vw,
-      190px
-    );
+  font-size: clamp(100px, 18vw, 190px);
 
   line-height: .75;
 
@@ -785,15 +710,9 @@ h2 {
 .contribution h2 {
   max-width: 850px;
 
-  margin:
-    45px auto 0;
+  margin: 45px auto 0;
 
-  font-size:
-    clamp(
-      30px,
-      5vw,
-      55px
-    );
+  font-size: clamp(30px, 5vw, 55px);
 
   letter-spacing: -3px;
 }
@@ -801,8 +720,7 @@ h2 {
 .contribution p {
   max-width: 650px;
 
-  margin:
-    25px auto 0;
+  margin: 25px auto 0;
 
   font-family:
     Georgia,
@@ -825,17 +743,37 @@ h2 {
   text-align: center;
 }
 
+.coming {
+  display: inline-block;
+
+  margin-bottom: 25px;
+
+  padding: 8px 14px;
+
+  border: 1px solid #555;
+
+  color: #999;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
 .future h2 {
   max-width: 850px;
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .future p {
   max-width: 600px;
 
-  margin:
-    25px auto 0;
+  margin: 25px auto 0;
+
+  color: #aaa;
 
   font-family:
     Georgia,
@@ -845,29 +783,6 @@ h2 {
   font-size: 18px;
 
   line-height: 1.6;
-
-  color: #aaa;
-}
-
-.coming {
-  display: inline-block;
-
-  margin-bottom: 25px;
-
-  padding:
-    8px 14px;
-
-  border:
-    1px solid #555;
-
-  font-size: 8px;
-  font-weight: 700;
-
-  letter-spacing: 3px;
-
-  color: #999;
-
-  text-transform: uppercase;
 }
 
 
@@ -879,41 +794,33 @@ h2 {
   min-height: 70vh;
 
   display: flex;
+
   align-items: center;
 
-  text-align: center;
-
   background: #000;
+
+  text-align: center;
 }
 
 .final-inner {
-  width:
-    min(
-      850px,
-      calc(100% - 30px)
-    );
+  width: min(850px, calc(100% - 30px));
 
-  margin: auto;
+  margin: 0 auto;
 }
 
 .final h2 {
-  font-size:
-    clamp(
-      35px,
-      6vw,
-      68px
-    );
+  font-size: clamp(35px, 6vw, 68px);
 }
 
 .final p {
   margin-top: 45px;
 
+  color: #666;
+
   font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 3px;
-
-  color: #666;
 
   text-transform: uppercase;
 }
@@ -924,18 +831,17 @@ h2 {
 ========================================================= */
 
 footer {
-  padding:
-    45px 20px;
+  padding: 45px 20px;
 
   background: #000;
 
   border-top:
     1px solid
-    rgba(255,255,255,.1);
-
-  text-align: center;
+    rgba(255,255,255,.10);
 
   color: #666;
+
+  text-align: center;
 
   font-size: 10px;
 
@@ -950,26 +856,23 @@ footer {
 @media (max-width: 750px) {
 
   header {
-    height: 50px;
+    height: 48px;
 
-    padding:
-      0 14px;
+    padding: 0 14px;
   }
 
-  header nav {
-    gap: 12px;
+  nav {
+    gap: 13px;
 
     font-size: 7px;
   }
 
   .container {
-    width:
-      calc(100% - 28px);
+    width: calc(100% - 28px);
   }
 
   section {
-    padding:
-      75px 0;
+    padding: 75px 0;
   }
 
   .hero {
@@ -982,7 +885,6 @@ footer {
 
   .memory-grid,
   .person-grid,
-  .roots-grid,
   .book-grid,
   .knot-grid {
     grid-template-columns: 1fr;
@@ -993,7 +895,7 @@ footer {
   .book-cover {
     max-width: 330px;
 
-    margin: auto;
+    margin: 0 auto;
   }
 
   .light-gallery {
@@ -1001,8 +903,7 @@ footer {
 
     max-width: 430px;
 
-    margin:
-      55px auto 0;
+    margin: 55px auto 0;
   }
 
   .button {
@@ -1046,7 +947,6 @@ footer {
 </header>
 
 
-
 <main>
 
 
@@ -1062,11 +962,11 @@ footer {
     alt="Cican George Alin outdoors at sunset"
   >
 
-  <div class="hero-dark"></div>
+  <div class="hero-overlay"></div>
 
   <div class="hero-content">
 
-    <div class="small-title">
+    <div class="kicker">
       Dublin · Ireland · 2026
     </div>
 
@@ -1091,7 +991,6 @@ footer {
   </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -1147,7 +1046,6 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
      PEACE
 ========================================================= -->
@@ -1180,9 +1078,8 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
-     CICAN
+     PERSONAL STORY
 ========================================================= -->
 
 <section class="person">
@@ -1229,49 +1126,6 @@ footer {
 </section>
 
 
-
-<!-- =========================================================
-     ROMANIAN NAVY / ROOTS
-========================================================= -->
-
-<section class="roots">
-
-  <div class="container roots-grid">
-
-    <div class="roots-photo">
-
-      <img
-        src="Romania-Navy.jpg.png"
-        alt="Romanian Navy"
-        loading="lazy"
-      >
-
-    </div>
-
-    <div>
-
-      <div class="label">
-        Romanian Roots
-      </div>
-
-      <h2>
-        From<br>
-        Romania
-      </h2>
-
-      <p class="text">
-        A connection between family memory,
-        Romanian roots and remembrance in Dublin.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
 <!-- =========================================================
      DUBLIN MEMORIAL
 ========================================================= -->
@@ -1309,7 +1163,6 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
      ADDITIONAL PHOTOGRAPH
 ========================================================= -->
@@ -1321,23 +1174,23 @@ footer {
     <img
       class="additional-photo"
       src="41DN7C.jpg"
-      alt="Veteran remembrance photograph"
+      alt="Family roots and remembrance"
       loading="lazy"
     >
 
     <div class="additional-text">
 
       <div class="label">
-        Remembrance
+        Roots
       </div>
 
       <h2>
-        Their Memory
-        Remains.
+        Where Memory Begins.
       </h2>
 
       <p>
-        Every photograph tells part of the story.
+        Family, place and memory remain connected
+        across generations.
       </p>
 
     </div>
@@ -1345,7 +1198,6 @@ footer {
   </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -1405,7 +1257,6 @@ footer {
   </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -1473,7 +1324,6 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
      CICAN KNOT
 ========================================================= -->
@@ -1520,9 +1370,8 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
-     CONTRIBUTION
+     €1 CONTRIBUTION
 ========================================================= -->
 
 <section class="contribution">
@@ -1550,7 +1399,6 @@ footer {
 </section>
 
 
-
 <!-- =========================================================
      COMING SOON
 ========================================================= -->
@@ -1564,7 +1412,7 @@ footer {
     </div>
 
     <h2>
-      Dublin War
+      Dublin War<br>
       Memorial Gardens
     </h2>
 
@@ -1577,7 +1425,6 @@ footer {
   </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -1615,7 +1462,6 @@ footer {
 
 
 </main>
-
 
 
 <!-- =========================================================
