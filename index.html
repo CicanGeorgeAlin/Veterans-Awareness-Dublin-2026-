@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Veteran Awareness Dublin 2026 — Coloring for World Peace</title>
@@ -15,9 +14,10 @@
   <meta name="theme-color" content="#000000">
 
   <style>
+
     /* =========================================================
        VETERAN AWARENESS DUBLIN 2026
-       FINAL WEBSITE VERSION
+       FINAL INDEX
        ========================================================= */
 
     * {
@@ -300,6 +300,7 @@
 
     /* =========================================================
        PERSONAL STORY
+       FULL PHOTO — NO CROPPING
        ========================================================= */
 
     .story {
@@ -315,11 +316,14 @@
 
     .story-photo {
       overflow: hidden;
+      background: #000;
     }
 
     .story-photo img {
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
+      width: 100%;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
       filter: grayscale(100%);
     }
 
@@ -372,7 +376,8 @@
     }
 
     /* =========================================================
-       ROOTS / ADDITIONAL PHOTO
+       ROOTS / HOUSE
+       FULL HOUSE VISIBLE
        ========================================================= */
 
     .roots {
@@ -388,11 +393,14 @@
 
     .roots-photo {
       overflow: hidden;
+      background: #000;
     }
 
     .roots-photo img {
+      width: 100%;
       aspect-ratio: 16 / 10;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       filter: grayscale(100%);
     }
 
@@ -474,6 +482,7 @@
 
     /* =========================================================
        LIGHT
+       ORIGINAL COLORS — NO GRAYSCALE
        ========================================================= */
 
     .light {
@@ -504,7 +513,7 @@
     .light-image img {
       aspect-ratio: 4 / 5;
       object-fit: cover;
-      filter: grayscale(100%);
+      filter: none;
     }
 
     .light-caption {
@@ -893,9 +902,16 @@
         gap: 38px;
       }
 
-      .memory-photo img,
-      .story-photo img {
+      /* Grandfather remains portrait-oriented */
+      .memory-photo img {
         aspect-ratio: 4 / 5;
+        object-fit: cover;
+      }
+
+      /* Your complete photograph */
+      .story-photo img {
+        aspect-ratio: auto;
+        object-fit: contain;
       }
 
       .wide-photo img {
@@ -912,8 +928,11 @@
         text-align: left;
       }
 
+      /* Keep the entire house visible */
       .roots-photo img {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 16 / 10;
+        object-fit: contain;
+        object-position: center;
       }
 
       .peace h2 {
@@ -952,6 +971,8 @@
 
       .light-image img {
         aspect-ratio: 4 / 3;
+        object-fit: cover;
+        filter: none;
       }
 
       .light-caption {
@@ -1045,6 +1066,7 @@
         letter-spacing: 1.2px;
       }
     }
+
   </style>
 </head>
 
@@ -1056,22 +1078,27 @@
 
   <header>
     <nav class="nav" aria-label="Main navigation">
+
       <div class="nav-links">
         <a href="#memory">Memory</a>
         <a href="#book">Book</a>
         <a href="#light">Light</a>
       </div>
+
     </nav>
   </header>
 
 
   <!-- =======================================================
-       HERO
+       MAIN
        ======================================================== -->
 
   <main>
 
+    <!-- HERO -->
+
     <section class="hero" aria-label="Veteran Awareness Dublin 2026">
+
       <img
         class="hero-image"
         src="tent-sunset.jpg"
@@ -1079,39 +1106,48 @@
       >
 
       <div class="hero-content">
+
         <h1>
           Veteran<br>
           Awareness
 
-          <span>Coloring for World Peace 🕊️</span>
+          <span>
+            Coloring for World Peace 🕊️
+          </span>
         </h1>
 
         <div class="hero-scroll">
           A memorial project
         </div>
+
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         MEMORY
-         ====================================================== -->
+    <!-- MEMORY -->
 
     <section class="memory" id="memory">
+
       <div class="container">
 
         <div class="memory-grid">
 
           <div class="memory-photo">
+
             <img
               src="nicolae-urluescu.jpg"
               alt="Photograph of Nicolae Urluescu"
               loading="lazy"
             >
+
           </div>
 
           <div class="memory-copy">
-            <span class="eyebrow">In memory</span>
+
+            <span class="eyebrow">
+              In memory
+            </span>
 
             <h2>
               Nicolae<br>
@@ -1123,22 +1159,25 @@
               His memory became the reason to create something for peace,
               remembrance and respect.
             </p>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         PEACE
-         ====================================================== -->
+    <!-- PEACE -->
 
     <section class="peace">
+
       <div class="peace-inner">
 
-        <span class="eyebrow">The message</span>
+        <span class="eyebrow">
+          The message
+        </span>
 
         <h2>
           Instead of going to war and taking weapons,
@@ -1151,28 +1190,33 @@
         </p>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         PERSONAL STORY
-         ====================================================== -->
+    <!-- PERSONAL STORY -->
 
     <section class="story">
+
       <div class="container">
 
         <div class="story-grid">
 
           <div class="story-photo">
+
             <img
               src="Cican-George-Alin.jpg"
               alt="Cican George Alin"
               loading="lazy"
             >
+
           </div>
 
           <div class="story-copy">
-            <span class="eyebrow">The project</span>
+
+            <span class="eyebrow">
+              The project
+            </span>
 
             <h2>
               Memory becomes
@@ -1186,61 +1230,73 @@
               the project keeps memories visible while giving people a
               peaceful way to participate.
             </p>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         DUBLIN MEMORIAL
-         ====================================================== -->
+    <!-- DUBLIN -->
 
     <section class="dublin">
+
       <div class="container">
 
         <div class="wide-photo">
+
           <img
             src="dublin-memorial-poppies.jpg"
             alt="Dublin memorial poppies"
             loading="lazy"
           >
+
         </div>
 
         <div class="wide-caption">
-          <strong>Dublin · Remembrance</strong>
+
+          <strong>
+            Dublin · Remembrance
+          </strong>
 
           <span>
             Remembering veterans and the people whose lives are connected
             to the history of service and sacrifice.
           </span>
+
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         ROOTS
-         ====================================================== -->
+    <!-- ROOTS / HOUSE -->
 
     <section class="roots">
+
       <div class="container">
 
         <div class="roots-grid">
 
           <div class="roots-photo">
+
             <img
               src="41DN7C.jpg"
-              alt="Photograph connected to the roots of the project"
+              alt="Photograph of the house connected to the roots of the project"
               loading="lazy"
             >
+
           </div>
 
           <div class="roots-copy">
-            <span class="eyebrow">Roots</span>
+
+            <span class="eyebrow">
+              Roots
+            </span>
 
             <h2>
               Where memory
@@ -1251,33 +1307,39 @@
               Every memorial starts somewhere: with a person, a photograph,
               a place, or a story that should not be forgotten.
             </p>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         COLORING BOOK
-         ====================================================== -->
+    <!-- BOOK -->
 
     <section class="book" id="book">
+
       <div class="container">
 
         <div class="book-grid">
 
           <div class="book-cover">
+
             <img
               src="book-cover.jpg"
               alt="Veterans Awareness Dublin 2026 coloring book cover"
               loading="lazy"
             >
+
           </div>
 
           <div class="book-copy">
-            <span class="eyebrow">The coloring book</span>
+
+            <span class="eyebrow">
+              The coloring book
+            </span>
 
             <h2>
               Coloring for
@@ -1298,23 +1360,27 @@
             >
               View the book
             </a>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         THE LIGHT
-         ====================================================== -->
+    <!-- THE LIGHT -->
 
     <section class="light" id="light">
+
       <div class="container">
 
         <div class="light-intro">
-          <span class="eyebrow">The light remains on</span>
+
+          <span class="eyebrow">
+            The light remains on
+          </span>
 
           <h2>
             A light for the souls
@@ -1325,80 +1391,101 @@
             The Veteran Solar Lamp remains lit in commemoration and
             remembrance.
           </p>
+
         </div>
+
 
         <div class="light-images">
 
           <div>
+
             <div class="light-image">
+
               <img
                 src="veteran-light-blue.jpg"
                 alt="Veteran memorial solar lamp glowing blue"
                 loading="lazy"
               >
+
             </div>
 
             <div class="light-caption">
               <span>Remember</span>
               <span>01</span>
             </div>
+
           </div>
 
+
           <div>
+
             <div class="light-image">
+
               <img
                 src="veteran-light-yellow.jpg"
                 alt="Veteran memorial solar lamp glowing yellow"
                 loading="lazy"
               >
+
             </div>
 
             <div class="light-caption">
               <span>Honor</span>
               <span>02</span>
             </div>
+
           </div>
 
+
           <div>
+
             <div class="light-image">
+
               <img
                 src="veteran-light-red.jpg"
                 alt="Veteran memorial solar lamp glowing red"
                 loading="lazy"
               >
+
             </div>
 
             <div class="light-caption">
               <span>Never forget</span>
               <span>03</span>
             </div>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         CICAN KNOT
-         ====================================================== -->
+    <!-- CICAN KNOT -->
 
     <section class="knot">
+
       <div class="container">
 
         <div class="knot-grid">
 
           <div class="knot-photo">
+
             <img
               src="cican-knot.jpg.png"
               alt="CICAN knot commemorative handmade knot"
               loading="lazy"
             >
+
           </div>
 
           <div class="knot-copy">
-            <span class="eyebrow">CICAN knot</span>
+
+            <span class="eyebrow">
+              CICAN knot
+            </span>
 
             <h2>
               A symbol
@@ -1410,22 +1497,25 @@
               string and incorporating a cross knot. It represents memory,
               connection and something that can be physically carried forward.
             </p>
+
           </div>
 
         </div>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         CONTRIBUTION
-         ====================================================== -->
+    <!-- CONTRIBUTION -->
 
     <section class="contribution">
+
       <div class="contribution-inner">
 
-        <div class="euro">€1</div>
+        <div class="euro">
+          €1
+        </div>
 
         <h2>
           In respect.
@@ -1445,14 +1535,14 @@
         </p>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         COMING SOON
-         ====================================================== -->
+    <!-- COMING SOON -->
 
     <section class="coming-soon">
+
       <div class="coming-inner">
 
         <div class="coming-label">
@@ -1475,14 +1565,14 @@
         </p>
 
       </div>
+
     </section>
 
 
-    <!-- =====================================================
-         FINAL MEMORIAL
-         ====================================================== -->
+    <!-- FINAL MEMORIAL -->
 
     <section class="final">
+
       <div class="final-inner">
 
         <h2>
@@ -1496,6 +1586,7 @@
         </p>
 
       </div>
+
     </section>
 
   </main>
@@ -1506,6 +1597,7 @@
        ======================================================== -->
 
   <footer>
+
     <div class="footer-inner">
 
       <div class="footer-title">
@@ -1517,6 +1609,7 @@
       </div>
 
     </div>
+
   </footer>
 
 </body>
