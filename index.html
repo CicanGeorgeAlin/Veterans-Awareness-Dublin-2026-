@@ -4,36 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Veteran Awareness Dublin 2026 — Coloring for World Peace</title>
+  <title>Veteran Awareness Dublin 2026 · Coloring for World Peace</title>
 
   <meta
     name="description"
-    content="Veteran Awareness Dublin 2026 — Coloring for World Peace. A memorial project in memory of Nicolae Urluescu and in honor of every veteran."
+    content="Veteran Awareness Dublin 2026 — a memorial project honoring veterans through remembrance, creativity and the message: Coloring for World Peace."
   >
 
-  <meta name="theme-color" content="#000000">
-
   <style>
-
-    /* =========================================================
-       VETERAN AWARENESS DUBLIN 2026
-       FINAL INDEX
-       ========================================================= */
+    :root {
+      --black: #000;
+      --white: #fff;
+      --soft-white: rgba(255,255,255,.78);
+      --muted: rgba(255,255,255,.58);
+      --dark: #111;
+    }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     html {
       scroll-behavior: smooth;
-      background: #000;
+      background: var(--black);
     }
 
     body {
-      background: #000;
-      color: #fff;
+      margin: 0;
+      background: var(--black);
+      color: var(--white);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -41,46 +40,42 @@
         Helvetica,
         Arial,
         sans-serif;
-      line-height: 1.5;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     img {
       display: block;
-      width: 100%;
-      height: auto;
+      max-width: 100%;
     }
 
     a {
       color: inherit;
     }
 
-    /* =========================================================
-       GLOBAL
-       ========================================================= */
-
     .container {
       width: min(1180px, calc(100% - 40px));
       margin: 0 auto;
     }
 
-    section {
-      position: relative;
-    }
-
     .eyebrow {
-      display: block;
-      margin-bottom: 24px;
+      margin: 0 0 22px;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 3px;
-      line-height: 1.4;
+      line-height: 1.2;
       text-transform: uppercase;
       opacity: .58;
     }
 
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
     h2 {
-      max-width: 900px;
+      margin-bottom: 0;
       font-size: clamp(42px, 7vw, 92px);
       font-weight: 500;
       letter-spacing: -1.5px;
@@ -91,32 +86,31 @@
       max-width: 650px;
       margin-top: 30px;
       font-size: clamp(17px, 2vw, 21px);
-      font-weight: 400;
       line-height: 1.65;
-      color: rgba(255,255,255,.78);
+      color: var(--soft-white);
     }
 
-    /* =========================================================
+    /* =========================
        HEADER
-       ========================================================= */
+    ========================= */
 
     header {
       position: fixed;
-      z-index: 1000;
       top: 0;
       left: 0;
-      width: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,.88),
-        rgba(0,0,0,0)
-      );
+      right: 0;
+      z-index: 1000;
+      height: 78px;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,.65),
+          rgba(0,0,0,0)
+        );
     }
 
     .nav {
-      width: min(1180px, calc(100% - 40px));
       height: 78px;
-      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -129,25 +123,25 @@
     }
 
     .nav-links a {
-      color: rgba(255,255,255,.82);
       text-decoration: none;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
+      opacity: .78;
       transition: opacity .25s ease;
     }
 
-    .nav-links a:hover,
-    .nav-links a:focus-visible {
-      opacity: .55;
+    .nav-links a:hover {
+      opacity: 1;
     }
 
-    /* =========================================================
+    /* =========================
        HERO
-       ========================================================= */
+    ========================= */
 
     .hero {
+      position: relative;
       min-height: 100svh;
       display: flex;
       align-items: flex-end;
@@ -161,147 +155,129 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
       filter: grayscale(100%);
     }
 
-    .hero::after {
-      content: "";
+    .hero-overlay {
       position: absolute;
       inset: 0;
       background:
         linear-gradient(
           to bottom,
-          rgba(0,0,0,.12) 0%,
-          rgba(0,0,0,.08) 35%,
-          rgba(0,0,0,.72) 78%,
-          #000 100%
+          rgba(0,0,0,.08) 0%,
+          rgba(0,0,0,.12) 30%,
+          rgba(0,0,0,.48) 62%,
+          rgba(0,0,0,.96) 100%
         );
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
-      width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 0 0 92px;
+      width: 100%;
+      padding: 0 0 72px;
     }
 
-    .hero h1 {
-      max-width: 1000px;
+    .hero-title {
+      max-width: 1100px;
+      margin: 0;
       font-size: clamp(58px, 11vw, 150px);
       font-weight: 500;
       letter-spacing: -1.5px;
       line-height: .90;
-      text-transform: uppercase;
     }
 
-    .hero h1 span {
-      display: block;
-      margin-top: 26px;
-      font-size: clamp(14px, 2vw, 21px);
+    .hero-subtitle {
+      margin: 28px 0 0;
+      font-size: clamp(15px, 2vw, 21px);
       font-weight: 500;
       letter-spacing: 2px;
       line-height: 1.3;
       text-transform: uppercase;
     }
 
-    .hero-scroll {
-      display: inline-flex;
+    .hero-meta {
+      display: flex;
       align-items: center;
-      gap: 12px;
-      margin-top: 42px;
-      color: rgba(255,255,255,.68);
-      font-size: 10px;
-      letter-spacing: 3px;
+      gap: 14px;
+      margin-top: 30px;
+      font-size: 11px;
+      letter-spacing: 2px;
       text-transform: uppercase;
+      opacity: .65;
     }
 
-    .hero-scroll::after {
-      content: "";
-      display: block;
-      width: 42px;
+    .hero-line {
+      width: 48px;
       height: 1px;
-      background: rgba(255,255,255,.5);
+      background: rgba(255,255,255,.55);
     }
 
-    /* =========================================================
+    /* =========================
        MEMORY
-       ========================================================= */
+    ========================= */
 
     .memory {
       padding: 150px 0 160px;
-      background: #000;
     }
 
     .memory-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
       gap: 80px;
-      align-items: end;
+      align-items: center;
     }
 
     .memory-photo {
       overflow: hidden;
-      background: #111;
+      background: #000;
     }
 
     .memory-photo img {
+      width: 100%;
       aspect-ratio: 4 / 5;
       object-fit: cover;
       filter: grayscale(100%);
     }
 
-    .memory-copy {
-      padding-bottom: 8px;
-    }
-
-    .memory-copy h2 {
-      font-size: clamp(38px, 5vw, 68px);
-    }
-
-    /* =========================================================
-       PEACE STATEMENT
-       ========================================================= */
+    /* =========================
+       PEACE
+    ========================= */
 
     .peace {
       padding: 150px 0;
-      background: #fff;
-      color: #000;
-    }
-
-    .peace-inner {
-      width: min(1000px, calc(100% - 40px));
-      margin: 0 auto;
+      background: var(--white);
+      color: var(--black);
       text-align: center;
     }
 
+    .peace-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
     .peace .eyebrow {
-      color: #000;
-      opacity: .48;
+      color: var(--black);
+      opacity: .55;
     }
 
     .peace h2 {
-      max-width: 1000px;
-      margin: 0 auto;
-      font-size: clamp(38px, 6vw, 78px);
+      font-size: clamp(42px, 7vw, 88px);
       letter-spacing: -1.5px;
-      line-height: 1.02;
-      font-weight: 500;
+      line-height: .98;
     }
 
     .peace p {
-      max-width: 650px;
+      max-width: 720px;
       margin: 34px auto 0;
-      font-size: 16px;
-      line-height: 1.7;
-      color: rgba(0,0,0,.62);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.65;
+      color: rgba(0,0,0,.68);
     }
 
-    /* =========================================================
+    /* =========================
        PERSONAL STORY
-       FULL PHOTOGRAPH — NO CROPPING
-       ========================================================= */
+    ========================= */
 
     .story {
       padding: 150px 0 170px;
@@ -309,7 +285,7 @@
 
     .story-grid {
       display: grid;
-      grid-template-columns: minmax(280px, .75fr) minmax(0, 1.25fr);
+      grid-template-columns: minmax(260px, .75fr) minmax(0, 1.25fr);
       gap: 90px;
       align-items: center;
     }
@@ -327,57 +303,50 @@
       filter: grayscale(100%);
     }
 
-    .story-copy h2 {
-      font-size: clamp(42px, 6vw, 82px);
-    }
-
-    /* =========================================================
-       DUBLIN
-       ========================================================= */
+    /* =========================
+       DUBLIN MEMORIAL
+    ========================= */
 
     .dublin {
       padding: 0 0 150px;
     }
 
-    .wide-photo {
+    .dublin-photo {
       overflow: hidden;
-      background: #111;
+      background: #000;
     }
 
-    .wide-photo img {
+    .dublin-photo img {
+      width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
       filter: grayscale(100%);
     }
 
-    .wide-caption {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 40px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,.16);
-      margin-top: 18px;
+    .dublin-caption {
+      display: grid;
+      grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr);
+      gap: 50px;
+      margin-top: 24px;
     }
 
-    .wide-caption strong {
+    .dublin-caption-title {
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
 
-    .wide-caption span {
-      max-width: 420px;
-      color: rgba(255,255,255,.55);
-      font-size: 13px;
+    .dublin-caption-text {
+      max-width: 650px;
+      font-size: 15px;
       line-height: 1.6;
-      text-align: right;
+      color: var(--muted);
     }
 
-    /* =========================================================
+    /* =========================
        ROOTS / HOUSE
-       ========================================================= */
+    ========================= */
 
     .roots {
       padding: 0 0 150px;
@@ -403,63 +372,44 @@
       filter: grayscale(100%);
     }
 
-    .roots-copy h2 {
-      font-size: clamp(40px, 5vw, 68px);
-    }
-
-    /* =========================================================
+    /* =========================
        BOOK
-       ========================================================= */
+    ========================= */
 
     .book {
       padding: 150px 0;
-      background: #fff;
-      color: #000;
+      background: var(--white);
+      color: var(--black);
     }
 
     .book-grid {
       display: grid;
-      grid-template-columns: minmax(240px, .65fr) minmax(0, 1.35fr);
+      grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr);
       gap: 90px;
       align-items: center;
     }
 
     .book-cover {
-      max-width: 390px;
-      margin: 0 auto;
-      box-shadow: 0 25px 80px rgba(0,0,0,.22);
+      overflow: hidden;
+      background: #eee;
     }
 
     .book-cover img {
       width: 100%;
       height: auto;
+      object-fit: contain;
     }
 
-    .book-copy .eyebrow {
-      color: #000;
-      opacity: .48;
+    .book .section-text {
+      color: rgba(0,0,0,.68);
     }
 
-    .book-copy h2 {
-      font-size: clamp(42px, 6vw, 78px);
-      line-height: .98;
-    }
-
-    .book-copy p {
-      max-width: 650px;
-      margin-top: 28px;
-      font-size: 17px;
-      line-height: 1.7;
-      color: rgba(0,0,0,.67);
-    }
-
-    .book-link {
+    .book-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 52px;
       margin-top: 34px;
-      padding: 0 27px;
+      padding: 16px 24px;
       background: #000;
       color: #fff;
       text-decoration: none;
@@ -469,70 +419,64 @@
       text-transform: uppercase;
       transition:
         background .25s ease,
-        transform .25s ease;
+        color .25s ease;
     }
 
-    .book-link:hover,
-    .book-link:focus-visible {
+    .book-button:hover {
       background: #222;
-      transform: translateY(-2px);
     }
 
-    /* =========================================================
-       THE LIGHT
-       ORIGINAL PHOTOGRAPH COLORS
-       ========================================================= */
+    /* =========================
+       LIGHT
+    ========================= */
 
     .light {
-      padding: 150px 0 160px;
+      padding: 150px 0;
       background: #000;
     }
 
     .light-intro {
-      max-width: 850px;
+      max-width: 800px;
       margin-bottom: 70px;
     }
 
-    .light-intro h2 {
-      font-size: clamp(45px, 7vw, 94px);
-    }
-
-    .light-images {
+    .light-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
     }
 
-    .light-image {
-      overflow: hidden;
-      background: #111;
+    .light-card {
+      margin: 0;
     }
 
-    .light-image img {
+    .light-card img {
+      width: 100%;
       aspect-ratio: 4 / 5;
       object-fit: cover;
       filter: none;
     }
 
-    .light-caption {
+    .light-card figcaption {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
+      gap: 20px;
       margin-top: 15px;
-      color: rgba(255,255,255,.48);
       font-size: 10px;
+      font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
+      opacity: .58;
     }
 
-    /* =========================================================
+    /* =========================
        CICAN KNOT
-       ========================================================= */
+    ========================= */
 
     .knot {
       padding: 150px 0;
-      background: #fff;
-      color: #000;
+      background: var(--white);
+      color: var(--black);
     }
 
     .knot-grid {
@@ -544,188 +488,153 @@
 
     .knot-photo {
       overflow: hidden;
-      max-width: 620px;
+      background: #eee;
     }
 
     .knot-photo img {
+      width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
     }
 
-    .knot-copy .eyebrow {
-      color: #000;
-      opacity: .48;
+    .knot .section-text {
+      color: rgba(0,0,0,.68);
     }
 
-    .knot-copy h2 {
-      font-size: clamp(45px, 6vw, 80px);
-    }
-
-    .knot-copy p {
-      max-width: 550px;
-      margin-top: 30px;
-      font-size: 17px;
-      line-height: 1.7;
-      color: rgba(0,0,0,.66);
-    }
-
-    /* =========================================================
+    /* =========================
        CONTRIBUTION
-       ========================================================= */
+    ========================= */
 
     .contribution {
-      padding: 160px 0;
-      text-align: center;
+      padding: 170px 0;
       background: #000;
+      text-align: center;
     }
 
     .contribution-inner {
-      width: min(900px, calc(100% - 40px));
+      max-width: 900px;
       margin: 0 auto;
     }
 
     .euro {
-      margin-bottom: 20px;
-      font-size: clamp(90px, 18vw, 220px);
+      margin: 0 0 25px;
+      font-size: clamp(100px, 18vw, 230px);
       font-weight: 500;
       letter-spacing: -3px;
       line-height: .85;
     }
 
     .contribution h2 {
-      max-width: 900px;
-      margin: 0 auto;
-      font-size: clamp(38px, 6vw, 74px);
+      font-size: clamp(42px, 7vw, 86px);
       letter-spacing: -1px;
       line-height: 1.05;
     }
 
     .contribution p {
-      max-width: 650px;
-      margin: 30px auto 0;
-      color: rgba(255,255,255,.62);
-      font-size: 16px;
-      line-height: 1.7;
+      max-width: 700px;
+      margin: 34px auto 0;
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--soft-white);
     }
 
     .contribution-note {
+      max-width: 650px !important;
       margin-top: 24px !important;
-      font-size: 12px !important;
-      letter-spacing: .4px;
-      color: rgba(255,255,255,.42) !important;
+      font-size: 13px !important;
+      color: var(--muted) !important;
     }
 
-    /* =========================================================
+    /* =========================
        COMING SOON
-       ========================================================= */
+    ========================= */
 
-    .coming-soon {
+    .coming {
       padding: 150px 0;
-      background: #111;
+      background: var(--dark);
       text-align: center;
     }
 
     .coming-inner {
-      width: min(900px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    .coming-label {
-      display: inline-block;
-      margin-bottom: 30px;
-      padding: 9px 15px;
-      border: 1px solid rgba(255,255,255,.35);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    .coming-soon h2 {
       max-width: 900px;
       margin: 0 auto;
+    }
+
+    .coming .eyebrow {
+      opacity: .65;
+    }
+
+    .coming h2 {
       font-size: clamp(42px, 7vw, 88px);
     }
 
-    .coming-soon p {
-      max-width: 680px;
-      margin: 32px auto 0;
-      color: rgba(255,255,255,.63);
+    .coming p {
+      max-width: 700px;
+      margin: 34px auto 0;
       font-size: 17px;
-      line-height: 1.7;
+      line-height: 1.65;
+      color: var(--soft-white);
     }
 
     .coming-motto {
-      margin-top: 42px !important;
-      color: rgba(255,255,255,.85) !important;
-      font-size: 12px !important;
+      margin-top: 38px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
+      opacity: .65;
     }
 
-    /* =========================================================
+    /* =========================
        FINAL MEMORIAL
-       ========================================================= */
+    ========================= */
 
     .final {
-      padding: 190px 0 180px;
-      background: #fff;
-      color: #000;
+      padding: 170px 0;
+      background: var(--white);
+      color: var(--black);
       text-align: center;
     }
 
     .final-inner {
-      width: min(1000px, calc(100% - 40px));
+      max-width: 1050px;
       margin: 0 auto;
-      text-align: center;
     }
 
     .final h2 {
-      max-width: 1000px;
-      margin: 0 auto;
-      font-size: clamp(42px, 7vw, 88px);
+      font-size: clamp(46px, 7.5vw, 100px);
       letter-spacing: -1px;
       line-height: 1.02;
-      text-align: center;
-      font-weight: 500;
     }
 
     .final p {
-      margin-top: 45px;
-      color: rgba(0,0,0,.48);
+      margin: 42px 0 0;
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 2px;
-      line-height: 1.6;
+      line-height: 1.5;
       text-transform: uppercase;
-      text-align: center;
+      opacity: .55;
     }
 
-    /* =========================================================
+    /* =========================
        FOOTER
-       ========================================================= */
+    ========================= */
 
     footer {
-      padding: 55px 0;
+      padding: 70px 0;
       background: #000;
       color: #fff;
       text-align: center;
     }
 
     .footer-inner {
-      width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       gap: 10px;
-      text-align: center;
-    }
-
-    .footer-title,
-    .footer-name {
-      text-align: center;
     }
 
     .footer-title {
@@ -736,15 +645,14 @@
     }
 
     .footer-name {
-      color: rgba(255,255,255,.42);
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 1.5px;
-      text-transform: uppercase;
+      opacity: .55;
     }
 
-    /* =========================================================
+    /* =========================
        ACCESSIBILITY
-       ========================================================= */
+    ========================= */
 
     :focus-visible {
       outline: 2px solid #fff;
@@ -763,65 +671,53 @@
       }
     }
 
-    /* =========================================================
+    /* =========================
        TABLET
-       ========================================================= */
+    ========================= */
 
     @media (max-width: 850px) {
-
       .memory-grid,
       .story-grid,
       .roots-grid,
       .book-grid,
       .knot-grid {
         grid-template-columns: 1fr;
+      }
+
+      .memory-grid,
+      .story-grid,
+      .roots-grid,
+      .book-grid,
+      .knot-grid {
         gap: 55px;
       }
 
-      .memory-copy,
-      .story-copy,
-      .roots-copy,
-      .book-copy,
-      .knot-copy {
-        padding-bottom: 0;
+      .light-grid {
+        grid-template-columns: 1fr;
       }
 
-      .memory-photo {
-        max-width: 700px;
+      .dublin-caption {
+        grid-template-columns: 1fr;
+        gap: 15px;
       }
 
-      .story-photo {
-        max-width: 620px;
-      }
-
-      .book-cover {
-        max-width: 340px;
-      }
-
-      .knot-photo {
-        max-width: 700px;
-      }
-
-      .light-images {
-        gap: 10px;
+      .light-card img {
+        aspect-ratio: 4 / 3;
       }
     }
 
-    /* =========================================================
+    /* =========================
        MOBILE
-       ========================================================= */
+    ========================= */
 
     @media (max-width: 600px) {
-
-      .container,
-      .nav,
-      .hero-content,
-      .footer-inner {
-        width: min(100% - 28px, 1180px);
+      .container {
+        width: calc(100% - 28px);
       }
 
+      header,
       .nav {
-        height: 66px;
+        height: 68px;
       }
 
       .nav-links {
@@ -834,303 +730,155 @@
       }
 
       .hero-content {
-        padding-bottom: 62px;
+        padding-bottom: 50px;
       }
 
-      .hero h1 {
-        font-size: clamp(49px, 15vw, 78px);
-        letter-spacing: -1.5px;
-        line-height: .91;
+      .hero-title {
+        font-size: clamp(52px, 16vw, 90px);
       }
 
-      .hero h1 span {
+      .hero-subtitle {
         margin-top: 22px;
-        font-size: 11px;
-        letter-spacing: 1.8px;
+        font-size: 13px;
+        letter-spacing: 1.5px;
       }
 
-      .hero-scroll {
-        margin-top: 32px;
-        font-size: 9px;
+      .hero-meta {
+        margin-top: 24px;
       }
 
       .memory,
       .story,
       .light,
-      .contribution,
-      .coming-soon {
+      .book,
+      .knot,
+      .coming {
         padding-top: 100px;
         padding-bottom: 105px;
       }
 
       .peace,
-      .book,
-      .knot {
-        padding-top: 100px;
+      .contribution,
+      .final {
+        padding-top: 105px;
         padding-bottom: 105px;
       }
 
-      .dublin,
-      .roots {
-        padding-bottom: 105px;
-      }
-
-      .eyebrow {
-        margin-bottom: 18px;
-        font-size: 9px;
-        letter-spacing: 2.5px;
-      }
-
-      h2 {
-        font-size: clamp(38px, 12vw, 58px);
-        letter-spacing: -1.5px;
-      }
-
-      .section-text {
-        margin-top: 23px;
-        font-size: 16px;
-        line-height: 1.6;
-      }
-
-      .memory-grid,
-      .story-grid,
-      .roots-grid,
-      .book-grid,
-      .knot-grid {
-        gap: 38px;
-      }
-
-      /* Grandfather */
       .memory-photo img {
         aspect-ratio: 4 / 5;
-        object-fit: cover;
       }
 
-      /* Your complete photograph */
       .story-photo img {
+        height: auto;
         aspect-ratio: auto;
         object-fit: contain;
       }
 
-      /* Dublin */
-      .wide-photo img {
-        aspect-ratio: 4 / 3;
+      .dublin {
+        padding-bottom: 105px;
       }
 
-      .wide-caption {
-        display: block;
+      .dublin-photo img {
+        aspect-ratio: 16 / 10;
       }
 
-      .wide-caption span {
-        display: block;
-        margin-top: 12px;
-        text-align: left;
+      .roots {
+        padding-bottom: 105px;
       }
 
-      /* House */
       .roots-photo img {
         aspect-ratio: 16 / 10;
         object-fit: cover;
         object-position: center center;
       }
 
-      .peace h2 {
-        font-size: clamp(36px, 10.5vw, 54px);
+      .light-grid {
+        gap: 38px;
       }
 
-      .peace p {
-        margin-top: 25px;
-        font-size: 15px;
-      }
-
-      .book-cover {
-        max-width: 270px;
-      }
-
-      .book-copy h2 {
-        font-size: clamp(40px, 11vw, 58px);
-      }
-
-      .book-copy p {
-        font-size: 16px;
-      }
-
-      .book-link {
-        width: 100%;
-      }
-
-      .light-intro {
-        margin-bottom: 42px;
-      }
-
-      .light-images {
-        grid-template-columns: 1fr;
-        gap: 35px;
-      }
-
-      /* Solar lamps remain in original color */
-      .light-image img {
+      .light-card img {
         aspect-ratio: 4 / 3;
-        object-fit: cover;
         filter: none;
       }
 
-      .light-caption {
-        margin-top: 10px;
-      }
-
-      .knot-copy h2 {
-        font-size: clamp(42px, 12vw, 60px);
-      }
-
-      .knot-copy p {
-        font-size: 16px;
+      .light-card figcaption {
+        margin-top: 12px;
       }
 
       .euro {
-        margin-bottom: 15px;
-        font-size: clamp(90px, 27vw, 150px);
-        letter-spacing: -3px;
-      }
-
-      .contribution h2 {
-        font-size: clamp(36px, 10.5vw, 55px);
-        letter-spacing: -1px;
-        line-height: 1.06;
-      }
-
-      .contribution p {
-        font-size: 15px;
-      }
-
-      .coming-label {
-        margin-bottom: 22px;
-        font-size: 9px;
-        letter-spacing: 2.5px;
-      }
-
-      .coming-soon h2 {
-        font-size: clamp(38px, 11vw, 58px);
-      }
-
-      .coming-soon p {
-        font-size: 15px;
-      }
-
-      .final {
-        padding: 125px 0 120px;
-      }
-
-      .final-inner {
-        width: calc(100% - 28px);
-        text-align: center;
+        font-size: 38vw;
       }
 
       .final h2 {
-        font-size: clamp(39px, 11.5vw, 60px);
-        letter-spacing: -1px;
-        line-height: 1.03;
-        text-align: center;
-      }
-
-      .final p {
-        margin-top: 32px;
-        font-size: 9px;
-        letter-spacing: 1.5px;
-        line-height: 1.8;
-        text-align: center;
+        font-size: clamp(42px, 13vw, 76px);
       }
 
       footer {
-        padding: 42px 0;
-        text-align: center;
-      }
-
-      .footer-inner {
-        align-items: center;
-        text-align: center;
-      }
-
-      .footer-title,
-      .footer-name {
-        text-align: center;
-      }
-
-      .footer-title {
-        font-size: 9px;
-        letter-spacing: 1.6px;
-      }
-
-      .footer-name {
-        font-size: 8px;
-        letter-spacing: 1.2px;
+        padding: 55px 0;
       }
     }
-
   </style>
 </head>
 
 <body>
 
-  <!-- =======================================================
+  <!-- =========================
        HEADER
-       ======================================================== -->
+  ========================= -->
 
   <header>
-
-    <nav class="nav" aria-label="Main navigation">
-
+    <nav class="nav container" aria-label="Main navigation">
       <div class="nav-links">
         <a href="#memory">Memory</a>
         <a href="#book">Book</a>
         <a href="#light">Light</a>
       </div>
-
     </nav>
-
   </header>
 
 
+  <!-- =========================
+       HERO
+  ========================= -->
+
   <main>
 
-    <!-- =====================================================
-         HERO
-         ====================================================== -->
-
-    <section
-      class="hero"
-      aria-label="Veteran Awareness Dublin 2026"
-    >
+    <section class="hero">
 
       <img
         class="hero-image"
         src="tent-sunset.jpg"
-        alt="Sunset landscape connected to the Veteran Awareness Dublin 2026 project"
+        alt="Sunset over a tent"
       >
 
+      <div class="hero-overlay"></div>
+
       <div class="hero-content">
+        <div class="container">
 
-        <h1>
-          Veteran<br>
-          Awareness
+          <h1 class="hero-title">
+            Veteran<br>
+            Awareness
+          </h1>
 
-          <span>
+          <p class="hero-subtitle">
             Coloring for World Peace 🕊️
-          </span>
-        </h1>
+          </p>
 
-        <div class="hero-scroll">
-          A memorial project
+          <div class="hero-meta">
+            <span class="hero-line"></span>
+            <span>A memorial project</span>
+          </div>
+
         </div>
-
       </div>
 
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          MEMORY
-         ====================================================== -->
+    ========================= -->
 
     <section class="memory" id="memory">
 
@@ -1139,20 +887,18 @@
         <div class="memory-grid">
 
           <div class="memory-photo">
-
             <img
               src="nicolae-urluescu.jpg"
-              alt="Photograph of Nicolae Urluescu"
+              alt="Photograph connected to the memory of Nicolae Urluescu"
               loading="lazy"
             >
-
           </div>
 
-          <div class="memory-copy">
+          <div>
 
-            <span class="eyebrow">
+            <p class="eyebrow">
               In memory
-            </span>
+            </p>
 
             <h2>
               Nicolae<br>
@@ -1174,36 +920,40 @@
     </section>
 
 
-    <!-- =====================================================
-         PEACE
-         ====================================================== -->
+    <!-- =========================
+         PEACE MESSAGE
+    ========================= -->
 
     <section class="peace">
 
-      <div class="peace-inner">
+      <div class="container">
 
-        <span class="eyebrow">
-          The message
-        </span>
+        <div class="peace-inner">
 
-        <h2>
-          Instead of going to war and taking weapons,
-          we take crayons and we color.
-        </h2>
+          <p class="eyebrow">
+            The idea
+          </p>
 
-        <p>
-          A simple idea: remember those who served while creating something
-          that points toward peace rather than conflict.
-        </p>
+          <h2>
+            Instead of going to war and taking weapons,
+            we take crayons and we color.
+          </h2>
+
+          <p>
+            A simple idea: remember those who served while creating something
+            that points toward peace rather than conflict.
+          </p>
+
+        </div>
 
       </div>
 
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          PERSONAL STORY
-         ====================================================== -->
+    ========================= -->
 
     <section class="story">
 
@@ -1221,23 +971,22 @@
 
           </div>
 
-          <div class="story-copy">
+          <div>
 
-            <span class="eyebrow">
-              The project
-            </span>
+            <p class="eyebrow">
+              Personal story
+            </p>
 
             <h2>
-              Memory becomes
-              something we can
-              carry forward.
+              Memory becomes something
+              we can carry forward.
             </h2>
 
             <p class="section-text">
               Veteran Awareness Dublin 2026 connects remembrance with
-              creativity. Through coloring, photographs and personal symbols,
-              the project keeps memories visible while giving people a
-              peaceful way to participate.
+              creativity. It is a personal project built around the belief
+              that stories of service should be remembered, shared and carried
+              forward in peaceful ways.
             </p>
 
           </div>
@@ -1249,34 +998,34 @@
     </section>
 
 
-    <!-- =====================================================
-         DUBLIN
-         ====================================================== -->
+    <!-- =========================
+         DUBLIN MEMORIAL
+    ========================= -->
 
     <section class="dublin">
 
       <div class="container">
 
-        <div class="wide-photo">
+        <div class="dublin-photo">
 
           <img
             src="dublin-memorial-poppies.jpg"
-            alt="Dublin memorial poppies"
+            alt="Dublin memorial with poppies"
             loading="lazy"
           >
 
         </div>
 
-        <div class="wide-caption">
+        <div class="dublin-caption">
 
-          <strong>
+          <div class="dublin-caption-title">
             Dublin · Remembrance
-          </strong>
+          </div>
 
-          <span>
-            Remembering veterans and the people whose lives are connected
-            to the history of service and sacrifice.
-          </span>
+          <div class="dublin-caption-text">
+            A place of remembrance in Dublin — connecting the project to
+            the city where this memorial work continues.
+          </div>
 
         </div>
 
@@ -1285,9 +1034,9 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          ROOTS / HOUSE
-         ====================================================== -->
+    ========================= -->
 
     <section class="roots">
 
@@ -1298,22 +1047,21 @@
           <div class="roots-photo">
 
             <img
-              src="cican41dn7c.png"
+              src="cican41dn7c.png?v=20260919"
               alt="Photograph of the house connected to the roots of the project"
               loading="lazy"
             >
 
           </div>
 
-          <div class="roots-copy">
+          <div>
 
-            <span class="eyebrow">
+            <p class="eyebrow">
               Roots
-            </span>
+            </p>
 
             <h2>
-              Where memory
-              begins.
+              Where memory begins.
             </h2>
 
             <p class="section-text">
@@ -1330,9 +1078,9 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          BOOK
-         ====================================================== -->
+    ========================= -->
 
     <section class="book" id="book">
 
@@ -1350,25 +1098,25 @@
 
           </div>
 
-          <div class="book-copy">
+          <div>
 
-            <span class="eyebrow">
-              The coloring book
-            </span>
+            <p class="eyebrow">
+              The first book
+            </p>
 
             <h2>
-              Coloring for
-              World Peace.
+              Veterans Awareness
+              Dublin 2026
             </h2>
 
-            <p>
+            <p class="section-text">
               <strong>Veterans Awareness Dublin 2026</strong> is a coloring
               book created as part of this memorial project — using creativity
               as a peaceful way to remember and honor veterans.
             </p>
 
             <a
-              class="book-link"
+              class="book-button"
               href="https://www.lulu.com/shop/george-alin-cican/veterans-awareness-dublin-2026/paperback/product-m2egk5m.html"
               target="_blank"
               rel="noopener noreferrer"
@@ -1385,9 +1133,9 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          THE LIGHT
-         ====================================================== -->
+    ========================= -->
 
     <section class="light" id="light">
 
@@ -1395,9 +1143,9 @@
 
         <div class="light-intro">
 
-          <span class="eyebrow">
-            The light remains on
-          </span>
+          <p class="eyebrow">
+            The Light
+          </p>
 
           <h2>
             A light for the souls
@@ -1405,73 +1153,60 @@
           </h2>
 
           <p class="section-text">
-            The Veteran Solar Lamp remains lit in commemoration and
-            remembrance.
+            The Veteran Solar Lamp remains lit in commemoration and remembrance.
           </p>
 
         </div>
 
 
-        <div class="light-images">
+        <div class="light-grid">
 
-          <div>
+          <figure class="light-card">
 
-            <div class="light-image">
+            <img
+              src="veteran-light-blue.jpg"
+              alt="Veteran Solar Lamp shining blue"
+              loading="lazy"
+            >
 
-              <img
-                src="veteran-light-blue.jpg"
-                alt="Veteran memorial solar lamp glowing blue"
-                loading="lazy"
-              >
-
-            </div>
-
-            <div class="light-caption">
+            <figcaption>
               <span>Remember</span>
               <span>01</span>
-            </div>
+            </figcaption>
 
-          </div>
+          </figure>
 
 
-          <div>
+          <figure class="light-card">
 
-            <div class="light-image">
+            <img
+              src="veteran-light-yellow.jpg"
+              alt="Veteran Solar Lamp shining yellow"
+              loading="lazy"
+            >
 
-              <img
-                src="veteran-light-yellow.jpg"
-                alt="Veteran memorial solar lamp glowing yellow"
-                loading="lazy"
-              >
-
-            </div>
-
-            <div class="light-caption">
+            <figcaption>
               <span>Honor</span>
               <span>02</span>
-            </div>
+            </figcaption>
 
-          </div>
+          </figure>
 
 
-          <div>
+          <figure class="light-card">
 
-            <div class="light-image">
+            <img
+              src="veteran-light-red.jpg"
+              alt="Veteran Solar Lamp shining red"
+              loading="lazy"
+            >
 
-              <img
-                src="veteran-light-red.jpg"
-                alt="Veteran memorial solar lamp glowing red"
-                loading="lazy"
-              >
-
-            </div>
-
-            <div class="light-caption">
+            <figcaption>
               <span>Never forget</span>
               <span>03</span>
-            </div>
+            </figcaption>
 
-          </div>
+          </figure>
 
         </div>
 
@@ -1480,9 +1215,9 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          CICAN KNOT
-         ====================================================== -->
+    ========================= -->
 
     <section class="knot">
 
@@ -1494,24 +1229,24 @@
 
             <img
               src="cican-knot.jpg.png"
-              alt="CICAN knot commemorative handmade knot"
+              alt="CICAN knot handmade commemorative symbol"
               loading="lazy"
             >
 
           </div>
 
-          <div class="knot-copy">
+          <div>
 
-            <span class="eyebrow">
-              CICAN knot
-            </span>
+            <p class="eyebrow">
+              CICAN Knot
+            </p>
 
             <h2>
-              A symbol
-              made by hand.
+              Something
+              we can carry.
             </h2>
 
-            <p>
+            <p class="section-text">
               The CICAN knot is a handmade commemorative symbol created from
               string and incorporating a cross knot. It represents memory,
               connection and something that can be physically carried forward.
@@ -1526,89 +1261,101 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          CONTRIBUTION
-         ====================================================== -->
+    ========================= -->
 
     <section class="contribution">
 
-      <div class="contribution-inner">
+      <div class="container">
 
-        <div class="euro">
-          €1
+        <div class="contribution-inner">
+
+          <div class="euro">
+            €1
+          </div>
+
+          <h2>
+            In respect.<br>
+            In honor.<br>
+            For veterans.
+          </h2>
+
+          <p>
+            Approximately €1 of profit from each coloring book is intended to
+            go toward the Irish Veterans Association in Dublin, in respect and
+            honor.
+          </p>
+
+          <p class="contribution-note">
+            The contribution arrangement and recipient details will be
+            documented transparently as the project develops.
+          </p>
+
         </div>
-
-        <h2>
-          In respect.
-          In honor.
-          For veterans.
-        </h2>
-
-        <p>
-          Approximately €1 of profit from each coloring book is intended to
-          go toward the Irish Veterans Association in Dublin, in respect and
-          honor.
-        </p>
-
-        <p class="contribution-note">
-          The contribution arrangement and recipient details will be
-          documented transparently as the project develops.
-        </p>
 
       </div>
 
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          COMING SOON
-         ====================================================== -->
+    ========================= -->
 
-    <section class="coming-soon">
+    <section class="coming">
 
-      <div class="coming-inner">
+      <div class="container">
 
-        <div class="coming-label">
-          Coming Soon
+        <div class="coming-inner">
+
+          <p class="eyebrow">
+            Coming Soon
+          </p>
+
+          <h2>
+            War Memorial Gardens,
+            Dublin
+          </h2>
+
+          <p>
+            The next Veteran Awareness Dublin 2026 coloring book will be
+            available soon, featuring the War Memorial Gardens, Dublin,
+            with real photographs transformed into coloring artwork.
+          </p>
+
+          <div class="coming-motto">
+            Coloring for World Peace 🕊️
+          </div>
+
         </div>
-
-        <h2>
-          War Memorial Gardens,
-          Dublin
-        </h2>
-
-        <p>
-          The next Veteran Awareness Dublin 2026 coloring book will be
-          available soon, featuring the War Memorial Gardens, Dublin,
-          with real photographs transformed into coloring artwork.
-        </p>
-
-        <p class="coming-motto">
-          Coloring for World Peace 🕊️
-        </p>
 
       </div>
 
     </section>
 
 
-    <!-- =====================================================
+    <!-- =========================
          FINAL MEMORIAL
-         ====================================================== -->
+    ========================= -->
 
     <section class="final">
 
-      <div class="final-inner">
+      <div class="container">
 
-        <h2>
-          In memory of Nicolae Urluescu.<br>
-          In honor of every veteran.<br>
-          For a future without war.
-        </h2>
+        <div class="final-inner">
 
-        <p>
-          Veteran Awareness Dublin 2026 · Coloring for World Peace
-        </p>
+          <h2>
+            In memory of Nicolae Urluescu.<br>
+            In honor of every veteran.<br>
+            For a future without war.
+          </h2>
+
+          <p>
+            Veteran Awareness Dublin 2026 · Coloring for World Peace
+          </p>
+
+        </div>
 
       </div>
 
@@ -1617,20 +1364,24 @@
   </main>
 
 
-  <!-- =======================================================
+  <!-- =========================
        FOOTER
-       ======================================================== -->
+  ========================= -->
 
   <footer>
 
-    <div class="footer-inner">
+    <div class="container">
 
-      <div class="footer-title">
-        Veteran Awareness Dublin 2026
-      </div>
+      <div class="footer-inner">
 
-      <div class="footer-name">
-        Cican George Alin · Dublin, Ireland
+        <div class="footer-title">
+          Veteran Awareness Dublin 2026
+        </div>
+
+        <div class="footer-name">
+          Cican George Alin · Dublin, Ireland
+        </div>
+
       </div>
 
     </div>
