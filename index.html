@@ -4,10 +4,7 @@
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta name="theme-color" content="#000000">
 
@@ -16,37 +13,16 @@
   content="Veteran Awareness Dublin 2026 — Coloring for World Peace. In memory of Nicolae Urluescu. A project by Cican George Alin."
 >
 
-<meta
-  property="og:title"
-  content="Veteran Awareness Dublin 2026"
->
+<link rel="icon" type="image/png" href="cican-logo.png">
 
-<meta
-  property="og:description"
-  content="Coloring for World Peace 🕊️"
->
-
-<meta
-  property="og:image"
-  content="cican-logo.png"
->
-
-<link
-  rel="icon"
-  type="image/png"
-  href="cican-logo.png"
->
-
-<title>
-Veteran Awareness Dublin 2026 — Coloring for World Peace
-</title>
+<title>Veteran Awareness Dublin 2026</title>
 
 
 <style>
 
 /* =========================================================
    VETERAN AWARENESS DUBLIN 2026
-   SIMPLE MEMORIAL EDITION
+   SIMPLE EDITION
 ========================================================= */
 
 * {
@@ -62,10 +38,7 @@ html {
 body {
   background: #000;
   color: #fff;
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 img {
@@ -79,7 +52,7 @@ a {
 }
 
 .container {
-  width: min(1100px, calc(100% - 40px));
+  width: min(1000px, calc(100% - 32px));
   margin: auto;
 }
 
@@ -96,59 +69,51 @@ header {
 
   z-index: 1000;
 
-  height: 64px;
+  height: 60px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 24px;
+  padding: 0 18px;
 
-  background: rgba(0,0,0,.78);
+  background: rgba(0,0,0,.72);
 
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(10px);
 
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.1);
+  border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.header-logo {
+  width: 34px;
+  height: 34px;
 
-  font-size: 10px;
+  border-radius: 50%;
+
+  filter:
+    drop-shadow(
+      0 0 12px
+      rgba(255,255,255,.4)
+    );
+}
+
+header nav {
+  display: flex;
+  gap: 20px;
+
+  font-size: 8px;
   font-weight: 700;
 
   letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.logo img {
-  width: 30px;
-  height: 30px;
-
-  border-radius: 50%;
-}
-
-nav {
-  display: flex;
-  gap: 24px;
-
-  font-size: 9px;
-  font-weight: 700;
-
-  letter-spacing: 1.5px;
 
   text-transform: uppercase;
 }
 
-nav a {
+header nav a {
   opacity: .65;
 }
 
-nav a:hover {
+header nav a:hover {
   opacity: 1;
 }
 
@@ -171,7 +136,7 @@ nav a:hover {
   overflow: hidden;
 }
 
-.hero-photo {
+.hero-image {
   position: absolute;
   inset: 0;
 
@@ -180,19 +145,17 @@ nav a:hover {
 
   object-fit: cover;
 
-  opacity: .48;
+  opacity: .5;
 }
 
-.hero-overlay {
+.hero-dark {
   position: absolute;
   inset: 0;
 
   background:
     linear-gradient(
-      to bottom,
-      rgba(0,0,0,.45),
-      rgba(0,0,0,.72) 60%,
-      #000 100%
+      rgba(0,0,0,.35),
+      rgba(0,0,0,.82)
     );
 }
 
@@ -200,12 +163,12 @@ nav a:hover {
   position: relative;
   z-index: 2;
 
-  width: min(900px, calc(100% - 35px));
+  width: min(850px, calc(100% - 30px));
 }
 
-.hero-logo {
-  width: 110px;
-  height: 110px;
+.logo-large {
+  width: 115px;
+  height: 115px;
 
   margin: 0 auto 32px;
 
@@ -213,13 +176,13 @@ nav a:hover {
 
   filter:
     drop-shadow(
-      0 0 28px
-      rgba(255,255,255,.45)
+      0 0 30px
+      rgba(255,255,255,.5)
     );
 }
 
-.eyebrow {
-  margin-bottom: 18px;
+.small-title {
+  margin-bottom: 20px;
 
   font-size: 9px;
   font-weight: 700;
@@ -233,54 +196,59 @@ nav a:hover {
 
 .hero h1 {
   font-size:
-    clamp(48px, 9vw, 100px);
+    clamp(48px, 10vw, 100px);
 
-  line-height: .86;
-
-  font-weight: 800;
+  line-height: .85;
 
   letter-spacing: -5px;
+
+  font-weight: 800;
 
   text-transform: uppercase;
 }
 
-.hero-subtitle {
-  margin-top: 28px;
+.hero h1 span {
+  display: block;
+
+  margin-top: 25px;
+
+  font-size:
+    clamp(14px, 2.5vw, 22px);
+
+  line-height: 1.2;
+
+  letter-spacing: 4px;
+
+  font-weight: 700;
+}
+
+.hero p {
+  max-width: 650px;
+
+  margin: 30px auto 0;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size:
-    clamp(18px, 3vw, 25px);
+  font-size: 18px;
+
+  line-height: 1.5;
 
   color: #ddd;
 }
 
-.hero-year {
-  margin-top: 32px;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  letter-spacing: 4px;
-
-  color: #999;
-
-  text-transform: uppercase;
-}
-
 
 /* =========================================================
-   GENERAL SECTIONS
+   SIMPLE SECTIONS
 ========================================================= */
 
 section {
-  padding: 120px 0;
+  padding: 100px 0;
 }
 
-.kicker {
+.label {
   margin-bottom: 18px;
 
   font-size: 9px;
@@ -295,21 +263,21 @@ section {
 
 h2 {
   font-size:
-    clamp(42px, 7vw, 78px);
+    clamp(40px, 7vw, 72px);
 
   line-height: .9;
 
-  font-weight: 800;
-
   letter-spacing: -4px;
+
+  font-weight: 800;
 
   text-transform: uppercase;
 }
 
-.body-copy {
+.text {
   max-width: 600px;
 
-  margin-top: 28px;
+  margin-top: 25px;
 
   font-family:
     Georgia,
@@ -325,46 +293,44 @@ h2 {
 
 
 /* =========================================================
-   MEMORIAL
+   GRANDFATHER
 ========================================================= */
 
-.memorial {
+.memory {
   background: #000;
 }
 
-.memorial-grid {
+.memory-grid {
   display: grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap: 70px;
+  gap: 65px;
 
   align-items: center;
 }
 
-.memorial-photo {
-  overflow: hidden;
+.memory-photo {
+  width: 100%;
 }
 
-.memorial-photo img {
-  aspect-ratio: 4 / 5;
-
-  object-fit: cover;
+.memory-photo img {
+  width: 100%;
 
   filter: grayscale(100%);
 }
 
-.memorial h2 {
-  margin-bottom: 5px;
+.memory h2 {
+  margin-bottom: 10px;
 }
 
 
 /* =========================================================
-   MESSAGE
+   PEACE MESSAGE
 ========================================================= */
 
-.message {
+.peace {
   background: #fff;
 
   color: #000;
@@ -372,27 +338,27 @@ h2 {
   text-align: center;
 }
 
-.message .kicker {
+.peace .label {
   color: #777;
 }
 
-.message h2 {
-  max-width: 950px;
+.peace h2 {
+  max-width: 900px;
 
   margin: auto;
 }
 
-.message p {
-  max-width: 700px;
+.peace p {
+  max-width: 650px;
 
-  margin: 30px auto 0;
+  margin: 28px auto 0;
 
   font-family:
     Georgia,
     "Times New Roman",
     serif;
 
-  font-size: 21px;
+  font-size: 20px;
 
   line-height: 1.5;
 }
@@ -400,7 +366,7 @@ h2 {
 .dove {
   font-size: 38px;
 
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 
@@ -408,28 +374,28 @@ h2 {
    CICAN
 ========================================================= */
 
-.cican {
+.person {
   background: #000;
 }
 
-.cican-grid {
+.person-grid {
   display: grid;
 
   grid-template-columns:
     1.15fr .85fr;
 
-  gap: 70px;
+  gap: 65px;
 
   align-items: center;
 }
 
-.cican-photo img {
-  aspect-ratio: 16 / 10;
+.person-photo img {
+  width: 100%;
 
   object-fit: cover;
 }
 
-.cican h2 {
+.person h2 {
   margin-bottom: 10px;
 }
 
@@ -439,33 +405,31 @@ h2 {
 ========================================================= */
 
 .dublin {
-  padding-bottom: 0;
+  padding: 0;
 
   background: #000;
 }
 
-.dublin-image {
+.dublin-photo {
   width: 100%;
 }
 
-.dublin-image img {
+.dublin-photo img {
   width: 100%;
 
-  max-height: 700px;
+  max-height: 720px;
 
   object-fit: cover;
 }
 
 .dublin-text {
-  padding:
-    80px 20px
-    120px;
+  padding: 85px 20px;
 
   text-align: center;
 }
 
 .dublin-text h2 {
-  max-width: 900px;
+  max-width: 850px;
 
   margin: auto;
 }
@@ -473,7 +437,7 @@ h2 {
 .dublin-text p {
   max-width: 650px;
 
-  margin: 28px auto 0;
+  margin: 25px auto 0;
 
   font-family:
     Georgia,
@@ -484,7 +448,7 @@ h2 {
 
   line-height: 1.6;
 
-  color: #bbb;
+  color: #aaa;
 }
 
 
@@ -502,10 +466,9 @@ h2 {
   display: grid;
 
   grid-template-columns:
-    minmax(260px, 430px)
-    1fr;
+    400px 1fr;
 
-  gap: 90px;
+  gap: 80px;
 
   align-items: center;
 }
@@ -513,25 +476,19 @@ h2 {
 .book-cover {
   width: 100%;
 
-  max-width: 390px;
-
-  margin: auto;
-
   box-shadow:
-    0 30px 70px
+    0 25px 55px
     rgba(0,0,0,.3);
 }
 
 .book h2 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-.book-copy {
-  max-width: 600px;
-}
+.book p {
+  max-width: 550px;
 
-.book-copy p {
-  margin-top: 24px;
+  margin-top: 25px;
 
   font-family:
     Georgia,
@@ -548,8 +505,7 @@ h2 {
 
   margin-top: 30px;
 
-  padding:
-    15px 25px;
+  padding: 14px 24px;
 
   border: 1px solid #000;
 
@@ -578,7 +534,7 @@ h2 {
 }
 
 .light-intro {
-  max-width: 700px;
+  max-width: 650px;
 
   margin: auto;
 }
@@ -587,7 +543,7 @@ h2 {
   margin-bottom: 15px;
 }
 
-.light-intro p {
+.light p {
   font-family:
     Georgia,
     "Times New Roman",
@@ -608,31 +564,33 @@ h2 {
 
   gap: 12px;
 
-  margin-top: 60px;
+  margin-top: 55px;
 }
 
 .light-gallery img {
+  width: 100%;
+
   aspect-ratio: 1 / 1;
 
   object-fit: cover;
 }
 
 .light-caption {
-  margin-top: 35px;
+  margin-top: 25px;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: #888;
+  color: #777;
 
   text-transform: uppercase;
 }
 
 
 /* =========================================================
-   KNOT
+   CICAN KNOT
 ========================================================= */
 
 .knot {
@@ -650,67 +608,59 @@ h2 {
   align-items: center;
 }
 
-.knot img {
+.knot-image {
   max-width: 500px;
 
   margin: auto;
 }
 
 .knot h2 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
-.knot-mark {
-  margin-top: 30px;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  letter-spacing: 2px;
-
-  color: #aaa;
-
-  text-transform: uppercase;
+.knot .text {
+  color: #bbb;
 }
 
 
 /* =========================================================
-   ART
+   €1
 ========================================================= */
 
-.art {
+.contribution {
   background: #fff;
 
   color: #000;
+
+  text-align: center;
 }
 
-.art-grid {
-  display: grid;
+.euro {
+  font-size:
+    clamp(100px, 18vw, 190px);
 
-  grid-template-columns:
-    1fr 1fr;
+  line-height: .75;
 
-  gap: 70px;
+  font-weight: 900;
 
-  align-items: center;
+  letter-spacing: -10px;
 }
 
-.art img {
-  width: 100%;
+.contribution h2 {
+  max-width: 850px;
 
-  max-width: 500px;
+  margin: 45px auto 0;
 
-  margin: auto;
+  font-size:
+    clamp(30px, 5vw, 55px);
+
+  letter-spacing: -3px;
 }
 
-.art h2 {
-  margin-bottom: 15px;
-}
+.contribution p {
+  max-width: 650px;
 
-.art p {
-  max-width: 550px;
-
-  margin-top: 24px;
+  margin: 25px auto 0;
 
   font-family:
     Georgia,
@@ -724,7 +674,7 @@ h2 {
 
 
 /* =========================================================
-   SECOND BOOK / FUTURE
+   COMING SOON
 ========================================================= */
 
 .future {
@@ -734,15 +684,15 @@ h2 {
 }
 
 .future h2 {
-  max-width: 900px;
+  max-width: 850px;
 
   margin: auto;
 }
 
 .future p {
-  max-width: 650px;
+  max-width: 600px;
 
-  margin: 30px auto 0;
+  margin: 25px auto 0;
 
   font-family:
     Georgia,
@@ -763,18 +713,16 @@ h2 {
 
   padding: 8px 14px;
 
-  border:
-    1px solid
-    #555;
+  border: 1px solid #555;
 
   font-size: 8px;
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  text-transform: uppercase;
+  color: #999;
 
-  color: #aaa;
+  text-transform: uppercase;
 }
 
 
@@ -783,7 +731,7 @@ h2 {
 ========================================================= */
 
 .final {
-  min-height: 75vh;
+  min-height: 70vh;
 
   display: flex;
   align-items: center;
@@ -794,7 +742,7 @@ h2 {
 }
 
 .final-inner {
-  width: min(900px, calc(100% - 40px));
+  width: min(850px, calc(100% - 30px));
 
   margin: auto;
 }
@@ -816,18 +764,18 @@ h2 {
 
 .final h2 {
   font-size:
-    clamp(35px, 6vw, 70px);
+    clamp(35px, 6vw, 68px);
 }
 
 .final p {
   margin-top: 45px;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: #777;
+  color: #666;
 
   text-transform: uppercase;
 }
@@ -838,15 +786,15 @@ h2 {
 ========================================================= */
 
 footer {
-  padding: 50px 20px;
+  padding: 45px 20px;
+
+  background: #000;
 
   border-top:
     1px solid
     rgba(255,255,255,.1);
 
   text-align: center;
-
-  background: #000;
 
   color: #666;
 
@@ -855,52 +803,37 @@ footer {
   line-height: 1.8;
 }
 
-footer img {
-  width: 45px;
-  height: 45px;
-
-  margin:
-    0 auto 18px;
-
-  border-radius: 50%;
-}
-
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width: 800px) {
+@media (max-width: 750px) {
 
   header {
-    padding: 0 15px;
+    padding: 0 14px;
   }
 
-  .logo span {
-    display: none;
-  }
-
-  nav {
-    gap: 13px;
+  header nav {
+    gap: 12px;
 
     font-size: 7px;
   }
 
-  section {
-    padding: 85px 0;
-  }
-
   .container {
     width:
-      calc(100% - 30px);
+      calc(100% - 28px);
   }
 
-  .hero-content {
-    width:
-      calc(100% - 30px);
+  section {
+    padding: 75px 0;
   }
 
-  .hero-logo {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .logo-large {
     width: 90px;
     height: 90px;
   }
@@ -909,41 +842,32 @@ footer img {
     letter-spacing: -3px;
   }
 
-  h2 {
-    letter-spacing: -2px;
-  }
-
-  .memorial-grid,
-  .cican-grid,
+  .memory-grid,
+  .person-grid,
   .book-grid,
-  .knot-grid,
-  .art-grid {
+  .knot-grid {
     grid-template-columns: 1fr;
 
     gap: 45px;
   }
 
-  .memorial-photo img {
-    aspect-ratio: 1 / 1;
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .book-cover {
+    max-width: 330px;
+
+    margin: auto;
   }
 
   .light-gallery {
     grid-template-columns: 1fr;
 
-    max-width: 450px;
+    max-width: 430px;
 
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .dublin-text {
-    padding:
-      65px 15px
-      90px;
-  }
-
-  .book-cover {
-    max-width: 310px;
   }
 
   .button {
@@ -968,26 +892,20 @@ footer img {
 
 <header>
 
-  <a
-    href="#top"
-    class="logo"
-  >
+  <a href="#top">
 
     <img
+      class="header-logo"
       src="cican-logo.png"
       alt="CICAN"
     >
-
-    <span>
-      Veteran Awareness Dublin 2026
-    </span>
 
   </a>
 
 
   <nav>
 
-    <a href="#memorial">
+    <a href="#memory">
       Memory
     </a>
 
@@ -1016,44 +934,48 @@ footer img {
 
 
   <img
-    class="hero-photo"
+    class="hero-image"
     src="tent-sunset.jpg"
     alt=""
   >
 
 
-  <div class="hero-overlay"></div>
+  <div class="hero-dark"></div>
 
 
   <div class="hero-content">
 
 
     <img
-      class="hero-logo"
+      class="logo-large"
       src="cican-logo.png"
       alt="CICAN"
     >
 
 
-    <div class="eyebrow">
+    <div class="small-title">
       Dublin · Ireland · 2026
     </div>
 
 
     <h1>
+
       Veteran<br>
       Awareness
+
+      <span>
+        Coloring for World Peace 🕊️
+      </span>
+
     </h1>
 
 
-    <div class="hero-subtitle">
-      Coloring for World Peace 🕊️
-    </div>
-
-
-    <div class="hero-year">
-      A personal remembrance project by Cican George Alin
-    </div>
+    <p>
+      A personal remembrance project by
+      <strong>Cican George Alin</strong>
+      in memory of his grandfather,
+      <strong>Nicolae Urluescu</strong>.
+    </p>
 
 
   </div>
@@ -1067,18 +989,18 @@ footer img {
 ========================================================= -->
 
 <section
-  class="memorial"
-  id="memorial"
+  class="memory"
+  id="memory"
 >
 
-  <div class="container memorial-grid">
+  <div class="container memory-grid">
 
 
-    <div class="memorial-photo">
+    <div class="memory-photo">
 
       <img
         src="nicolae-urluescu.jpg"
-        alt="Nicolae Urluescu"
+        alt="Nicolae Urluescu, Romanian World War II veteran"
         loading="lazy"
       >
 
@@ -1087,7 +1009,7 @@ footer img {
 
     <div>
 
-      <div class="kicker">
+      <div class="label">
         In Memory
       </div>
 
@@ -1098,22 +1020,20 @@ footer img {
       </h2>
 
 
-      <p class="body-copy">
+      <p class="text">
         My grandfather.
         A Romanian World War II veteran.
       </p>
 
 
-      <p class="body-copy">
+      <p class="text">
         His memory is where this project begins.
-        Veteran Awareness Dublin 2026 is my personal
-        way of carrying that memory forward.
       </p>
 
 
-      <p class="body-copy">
-        In remembrance of him,
-        and in honor of veterans everywhere.
+      <p class="text">
+        In his memory, and in honor of veterans
+        everywhere.
       </p>
 
     </div>
@@ -1126,10 +1046,10 @@ footer img {
 
 
 <!-- =========================================================
-     MESSAGE
+     PEACE
 ========================================================= -->
 
-<section class="message">
+<section class="peace">
 
   <div class="container">
 
@@ -1139,7 +1059,7 @@ footer img {
     </div>
 
 
-    <div class="kicker">
+    <div class="label">
       The Message
     </div>
 
@@ -1167,12 +1087,12 @@ footer img {
      CICAN
 ========================================================= -->
 
-<section class="cican">
+<section class="person">
 
-  <div class="container cican-grid">
+  <div class="container person-grid">
 
 
-    <div class="cican-photo">
+    <div class="person-photo">
 
       <img
         src="Cican-George-Alin.jpg"
@@ -1185,7 +1105,7 @@ footer img {
 
     <div>
 
-      <div class="kicker">
+      <div class="label">
         The Person Behind The Project
       </div>
 
@@ -1196,18 +1116,17 @@ footer img {
       </h2>
 
 
-      <p class="body-copy">
+      <p class="text">
         A personal project created in Dublin,
         Ireland, inspired by family memory,
-        remembrance and the hope for peace.
+        remembrance and peace.
       </p>
 
 
-      <p class="body-copy">
-        The idea is simple:
-        remember those who served,
-        create something meaningful,
-        and choose crayons over weapons.
+      <p class="text">
+        Remember the past.
+        Honor those who served.
+        Create something peaceful for the future.
       </p>
 
     </div>
@@ -1225,7 +1144,8 @@ footer img {
 
 <section class="dublin">
 
-  <div class="dublin-image">
+
+  <div class="dublin-photo">
 
     <img
       src="dublin-memorial-poppies.jpg"
@@ -1239,21 +1159,20 @@ footer img {
   <div class="dublin-text">
 
 
-    <div class="kicker">
+    <div class="label">
       Dublin · Ireland
     </div>
 
 
     <h2>
-      We Remember.
-      We Honor.
+      We Remember.<br>
+      We Honor.<br>
       We Carry Their Memory Forward.
     </h2>
 
 
     <p>
-      Remembrance is not only about looking back.
-      It is about carrying the memory forward.
+      Remembrance is something we carry forward.
     </p>
 
 
@@ -1287,11 +1206,11 @@ footer img {
     </div>
 
 
-    <div class="book-copy">
+    <div>
 
 
-      <div class="kicker">
-        The First Book
+      <div class="label">
+        The Book
       </div>
 
 
@@ -1303,8 +1222,8 @@ footer img {
 
 
       <p>
-        The first coloring book created as part
-        of the Veteran Awareness Dublin 2026 project.
+        The first coloring book of the
+        Veteran Awareness Dublin 2026 project.
       </p>
 
 
@@ -1352,7 +1271,7 @@ footer img {
       </div>
 
 
-      <div class="kicker">
+      <div class="label">
         The Light Remains On
       </div>
 
@@ -1418,7 +1337,7 @@ footer img {
   <div class="container knot-grid">
 
 
-    <div>
+    <div class="knot-image">
 
       <img
         src="cican-knot.jpg.png"
@@ -1431,8 +1350,7 @@ footer img {
 
     <div>
 
-
-      <div class="kicker">
+      <div class="label">
         A Personal Symbol
       </div>
 
@@ -1443,16 +1361,16 @@ footer img {
       </h2>
 
 
-      <p class="body-copy">
-        A handmade knot created as a commemorative
-        symbol within the project.
+      <p class="text">
+        A handmade knot created as a
+        personal commemorative symbol.
       </p>
 
 
-      <div class="knot-mark">
-        CICAN knot — Not Given. Not Bought. Earned.
-      </div>
-
+      <p class="text">
+        CICAN knot — Not Given.
+        Not Bought. Earned.
+      </p>
 
     </div>
 
@@ -1464,54 +1382,31 @@ footer img {
 
 
 <!-- =========================================================
-     ROMANIAN ROOTS / ART
+     CONTRIBUTION
 ========================================================= -->
 
-<section class="art">
+<section class="contribution">
 
-  <div class="container art-grid">
+  <div class="container">
 
 
-    <div>
-
-      <img
-        src="Romania-Navy.jpg.png"
-        alt="Romanian Navy themed coloring artwork"
-        loading="lazy"
-      >
-
+    <div class="euro">
+      €1
     </div>
 
 
-    <div>
+    <h2>
+      From every coloring book,
+      approximately €1 of profit
+      is intended to go to the
+      Irish Veterans Association.
+    </h2>
 
 
-      <div class="kicker">
-        Memory Becomes Art
-      </div>
-
-
-      <h2>
-        Remember<br>
-        Through Color
-      </h2>
-
-
-      <p>
-        Personal history, remembrance and
-        veteran awareness become artwork
-        that can be experienced through color.
-      </p>
-
-
-      <p>
-        The project is built around one simple
-        idea: remembering the past while
-        creating something peaceful for the future.
-      </p>
-
-
-    </div>
+    <p>
+      A small contribution made in respect
+      and honor of veterans.
+    </p>
 
 
   </div>
@@ -1541,15 +1436,9 @@ footer img {
 
 
     <p>
-      A future coloring book built around
-      real photographs from Dublin War Memorial Gardens,
-      transformed into coloring artwork.
-    </p>
-
-
-    <p>
-      More than 70 pages are planned for this
-      next chapter of the project.
+      A future coloring book created from
+      real photographs transformed into
+      coloring artwork.
     </p>
 
 
@@ -1564,7 +1453,6 @@ footer img {
 ========================================================= -->
 
 <section class="final">
-
 
   <div class="final-inner">
 
@@ -1608,33 +1496,15 @@ footer img {
 
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
 <footer>
 
+  <strong>
+    CICAN · Veteran Awareness Dublin 2026
+  </strong>
 
-  <img
-    src="cican-logo.png"
-    alt="CICAN"
-  >
+  <br>
 
-
-  <div>
-    Cican George Alin
-  </div>
-
-
-  <div>
-    Veteran Awareness Dublin 2026
-  </div>
-
-
-  <div>
-    Coloring for World Peace 🕊️
-  </div>
-
+  Cican George Alin · Dublin, Ireland
 
 </footer>
 
