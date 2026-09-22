@@ -249,6 +249,31 @@ function tent(){
  x.restore();
 }
 
+function memorialGround(){
+ const progress=Math.max(0,Math.min(1,(P.x-2050)/400));
+ const alpha=.08+progress*.10;
+ const cx=2325-world.cam, cy=H*.68-8;
+ x.fillStyle=`rgba(190,188,178,${alpha})`;
+ x.fillRect(cx-210,cy-7,420,7);
+ // small memorial stones, deliberately simple and human
+ for(let i=0;i<7;i++){
+   const xx=cx-170+i*57;
+   const h=18+(i%3)*8;
+   x.fillStyle=`rgba(120,119,112,${alpha+.06})`;
+   x.fillRect(xx,cy-h,18,h);
+   x.fillStyle=`rgba(255,226,160,${.08+progress*.08})`;
+   x.beginPath();x.arc(xx+9,cy-h-5,2,0,Math.PI*2);x.fill();
+ }
+ // a quiet central stone
+ x.fillStyle=`rgba(150,148,140,${alpha+.10})`;
+ x.fillRect(cx-34,cy-58,68,51);
+ x.fillStyle=`rgba(235,230,215,${.20+progress*.10})`;
+ x.font='8px Georgia';x.textAlign='center';
+ x.fillText('IN MEMORY',cx,cy-39);
+ x.fillText('NICOLAE URLUESCU',cx,cy-27);
+ x.fillText('SOL',cx,cy-16);
+ x.textAlign='left';
+}
 function memorialMarkers(){
  const base=H*.68;
  const names=[
@@ -369,7 +394,7 @@ function drawTrail(){
  }
 }
 function draw(){
- sky();drawWorldTransition();tent();drawTrail();
+ sky();drawWorldTransition();tent();drawTrail();memorialGround();
  for(const q of platforms)platform(q);
  memorialMarkers();
  for(const l of lights)orb(l,'light');
@@ -382,6 +407,10 @@ function draw(){
 
  // final memorial lamp: the light is deliberately small and human
  const lampX=2325-world.cam, lampY=py({y:-105})-42;
+ const memorialHalo=x.createRadialGradient(lampX,lampY,5,lampX,lampY,170);
+ memorialHalo.addColorStop(0,'rgba(255,220,150,.10)');
+ memorialHalo.addColorStop(1,'rgba(255,220,150,0)');
+ x.fillStyle=memorialHalo;x.beginPath();x.arc(lampX,lampY,170,0,Math.PI*2);x.fill();
  const lampGlow=x.createRadialGradient(lampX,lampY,2,lampX,lampY,75);
  lampGlow.addColorStop(0,'rgba(255,205,120,.34)');
  lampGlow.addColorStop(1,'rgba(255,180,80,0)');
