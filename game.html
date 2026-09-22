@@ -120,7 +120,15 @@ const lamps=[{x:3920,id:"lamp1"},{x:6150,id:"lamp2"}];
 function reset(){p.x=180;p.y=105;p.vx=0;p.vy=0;p.on=true;coyote=0.12;jumpBuffer=0;cam=0;lights=memory=spirit=0;got.clear();lit.clear();won=false;L.textContent=0;M.textContent=0;S.textContent=0;msg.textContent=""}
 function begin(){reset();run=true;intro.classList.add("hide");ending.classList.add("hide");photo.style.display="none";msg.textContent="This is your journey. Walk, jump, explore. Tap JUMP to leap.";setTimeout(()=>{if(run)msg.textContent=""},4000)}
 function finish(){run=false;won=true;photo.style.display="block";ending.classList.remove("hide")}
-document.getElementById("start").onclick=begin;document.getElementById("again").onclick=begin;
+const startBtn=document.getElementById("start");
+const againBtn=document.getElementById("again");
+function startGame(e){ if(e){e.preventDefault();e.stopPropagation();} begin(); }
+startBtn.addEventListener("click",startGame);
+startBtn.addEventListener("pointerup",startGame);
+startBtn.addEventListener("touchend",startGame,{passive:false});
+againBtn.addEventListener("click",startGame);
+againBtn.addEventListener("pointerup",startGame);
+againBtn.addEventListener("touchend",startGame,{passive:false});
 function tryJump(){ if(!run)return; jumpBuffer=0.16; }
 
 function bind(id,k){const b=document.getElementById(id);const on=e=>{e.preventDefault();key[k]=true},off=e=>{e.preventDefault();key[k]=false};b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointercancel",off);b.addEventListener("pointerleave",off)}
