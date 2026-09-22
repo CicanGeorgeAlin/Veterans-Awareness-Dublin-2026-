@@ -67,6 +67,7 @@ canvas{display:block;width:100%;height:100%}
     <div class="ending-name">NICOLAE URLUESCU SOL</div>
     <div class="ending-line">In memory of a grandfather.<br>In honor of every army veteran.</div>
     <div class="ending-peace">COLORING FOR WORLD PEACE 🕊</div>
+    <div style="margin-top:14px;font-size:8px;letter-spacing:2px;opacity:.42">FOR THOSE WHO SERVED · FOR THOSE WHO REMEMBER</div>
     <div style="margin-top:18px;font-size:9px;letter-spacing:2px;opacity:.5">€1 FROM EACH COLORING BOOK SALE SUPPORTS THE IRISH VETERANS ASSOCIATION</div>
     <div id="endingCredit" style="margin-top:22px;font-family:cursive;font-size:15px;letter-spacing:1px;opacity:0;transition:opacity 2s">A journey made with remembrance.</div>
     <button id="replay" style="margin-top:28px;padding:12px 22px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.05);color:#fff;font-size:9px;letter-spacing:3px;text-transform:uppercase">Begin again</button>
@@ -131,7 +132,14 @@ bind(document.getElementById('left'),'l');bind(document.getElementById('right'),
 document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
 addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
-function jump(){if(P.ground){P.vy=-13;P.ground=false}}
+function jump(){if(!playing)return;if(P.ground){P.vy=-13;P.ground=false}}
+function restartAfterFall(){
+ P.vx=0;P.vy=0;
+ P.x=Math.max(80,P.x-190);
+ P.y=H*.3;
+ P.ground=false;
+ say('The journey continues. Find your footing, then carry the light.',2600);
+}
 function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
@@ -162,13 +170,14 @@ function update(dt){
   updateHud()
  }
  if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){knot.got=true;world.knot=1;say('The CICAN knot — memory connected to memory.',4200);updateHud()}
- if(P.y>H+120){P.x=Math.max(80,P.x-190);P.y=H*.3;P.vy=0;say('Some memories take more than one attempt.',2600)}
+ if(P.y>H+120){restartAfterFall()}
  const previousChapter=world.chapter;
  if(P.x<360) world.chapter=0;
  else if(P.x<1100) world.chapter=1;
  else if(P.x<2050) world.chapter=2;
  else if(P.x<2280) world.chapter=3;
  else world.chapter=4;
+ if(world.finished){P.vx*=.96;return}
  if(world.chapter!==previousChapter){
    updateHud();
    if(world.chapter===1) say('The first light is not a reward. It is a memory.',3200);
