@@ -572,6 +572,25 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawCheckpointMemoryGlow(){
+  if(!world.checkpoints||!world.checkpoints.length||lowAmbient)return;
+  ctx.save();
+  for(const cp of world.checkpoints){
+    const x=cp.x-world.cam;
+    if(x<-90||x>W+90)continue;
+    const pulse=.5+.5*Math.sin(world.t*1.6+cp.count);
+    const r=20+pulse*8;
+    const g=ctx.createRadialGradient(x,H*.73,2,x,H*.73,r);
+    g.addColorStop(0,'rgba(255,226,150,.20)');
+    g.addColorStop(1,'rgba(255,226,150,0)');
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.arc(x,H*.73,r,0,Math.PI*2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
 function drawRecoveryPulse(){
  if(recoveryPulse<=0)return;
  const a=recoveryPulse*.16;
@@ -736,6 +755,7 @@ function draw(){
  // signposts
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
  drawCheckpointMarkers();
+  drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
  drawMemoryAura();
