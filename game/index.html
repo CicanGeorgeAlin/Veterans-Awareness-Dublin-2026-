@@ -133,6 +133,13 @@ const knot={x:1580,y:-150,got:false};
 
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
 function py(p){return H*.68+p.y}
+function showChapterCard(kicker,text){
+  memoryCard.querySelector('.memory-card-kicker').textContent=kicker;
+  memoryCardText.textContent=text;
+  memoryCard.classList.add('show');
+  clearTimeout(showChapterCard.t);
+  showChapterCard.t=setTimeout(()=>memoryCard.classList.remove('show'),5200);
+}
 function say(t,ms=3300){msg.textContent=t.replaceAll('\n',' ');msg.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>msg.classList.remove('show'),ms)}
 function bind(el,key){['pointerdown','touchstart'].forEach(e=>el.addEventListener(e,z=>{z.preventDefault();input[key]=true},{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(e=>el.addEventListener(e,z=>{z.preventDefault();input[key]=false},{passive:false}))}
 bind(document.getElementById('left'),'l');bind(document.getElementById('right'),'r');
@@ -246,10 +253,10 @@ function update(dt){
  if(world.finished){P.vx*=.96;return}
  if(world.chapter!==previousChapter){
    updateHud();
-   if(world.chapter===1) say('The first light is not a reward. It is a memory.',3200);
-   if(world.chapter===2) say('The journey moves forward. The memory stays with you.',3200);
-   if(world.chapter===3) say('A name becomes a place. A place becomes remembrance.',3600);
-   if(world.chapter===4) say('The light you carried now belongs to everyone who remembers.',4200);
+   if(world.chapter===1){say('The first light is not a reward. It is a memory.',3200);showChapterCard('A GENERATION REMEMBERS','The first light is not a reward. It is a memory.')}
+   if(world.chapter===2){say('The journey moves forward. The memory stays with you.',3200);showChapterCard('FROM ROOTS TO DUBLIN','The journey moves forward. The memory stays with you.')}
+   if(world.chapter===3){say('A name becomes a place. A place becomes remembrance.',3600);showChapterCard('IN MEMORY OF NICOLAE URLUESCU SOL','A name becomes a place. A place becomes remembrance.')}
+   if(world.chapter===4){say('The light you carried now belongs to everyone who remembers.',4200);showChapterCard('IN HONOR OF EVERY VETERAN','The light you carried now belongs to everyone who remembers.')}
  }
  if(P.x>2295&&P.x<2370&&Math.abs(P.vx)<0.35&&P.ground&&world.lights>=8&&!world.rested){
    world.rested=true;
