@@ -138,7 +138,14 @@ bind(document.getElementById('left'),'l');bind(document.getElementById('right'),
 document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
 addEventListener('keydown',e=>{if(e.key==='Escape'){paused=!paused;pauseBtn.textContent=paused?'RESUME':'PAUSE';return}if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
-function jump(){if(!playing)return;if(P.ground){P.vy=-13;P.ground=false}}
+function jump(){
+ if(!playing||paused||world.finished)return;
+ if(P.ground){
+   P.vy=-13;
+   P.ground=false;
+   say('Carry the light forward.',1200);
+ }
+}
 function restartAfterFall(){
  P.vx=0;P.vy=0;
  P.x=Math.max(80,P.x-190);
