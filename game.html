@@ -78,6 +78,7 @@ const world={w:11200,ground:105,finish:10600};
 const p={x:180,y:105,w:34,h:58,vx:0,vy:0,on:false};
 const key={l:false,r:false};let jump=false,run=false,won=false,cam=0,lights=0,memory=0,spirit=0, coyote=0, jumpBuffer=0;
 const got=new Set(),lit=new Set();
+let lastChapter=-1;
 
 const platforms=[
 {x:0,y:105,w:1400,h:30},{x:1510,y:105,w:980,h:30},{x:2600,y:105,w:1000,h:30},
@@ -127,7 +128,7 @@ const chapters=[
 {x:10100,title:"THE MEMORIAL",sub:"Remember • Honor • Carry it forward"}
 ];
 
-function reset(){p.x=180;p.y=105;p.vx=0;p.vy=0;p.on=true;coyote=0.12;jumpBuffer=0;cam=0;lights=memory=spirit=0;got.clear();lit.clear();won=false;L.textContent=0;M.textContent=0;S.textContent=0;msg.textContent=""}
+function reset(){p.x=180;p.y=105;p.vx=0;p.vy=0;p.on=true;coyote=0.12;jumpBuffer=0;cam=0;lastChapter=-1;lights=memory=spirit=0;got.clear();lit.clear();won=false;L.textContent=0;M.textContent=0;S.textContent=0;msg.textContent=""}
 function begin(){reset();run=true;intro.classList.add("hide");ending.classList.add("hide");photo.style.display="none";msg.textContent="This is your journey. Walk, jump, explore. Tap JUMP to leap.";setTimeout(()=>{if(run)msg.textContent=""},4000)}
 function finish(){run=false;won=true;photo.style.display="block";ending.classList.remove("hide")}
 const startBtn=document.getElementById("start");
@@ -221,6 +222,11 @@ function update(dt){
  const desired=p.x-W*.36;
  cam+=(desired-cam)*Math.min(1,7*dt);
  cam=Math.max(0,Math.min(world.w-W,cam));
+ const chapter=chapters.reduce((n,ch)=>p.x>=ch.x?chapters.indexOf(ch):n,-1);
+ if(chapter>lastChapter){
+   lastChapter=chapter;
+   if(chapter>0){msg.textContent=chapters[chapter].title+" — "+chapters[chapter].sub;setTimeout(()=>{if(run)msg.textContent=""},2600)}
+ }
  collect()
 }
 function collect(){
