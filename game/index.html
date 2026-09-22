@@ -448,7 +448,10 @@ function drawBubbles(){
 }
 function drawCican(){
  const xx=P.x-world.cam,yy=P.y+P.h/2;
- x.save();x.translate(xx,yy);x.scale(1.35,1.35);
+ const moving=Math.abs(P.vx)>.35&&P.ground&&!paused;
+ const step=moving?Math.sin(world.t*.018)*3.2:0;
+ const bob=moving?Math.abs(Math.sin(world.t*.018))*1.2:0;
+ x.save();x.translate(xx,yy-bob);x.scale(1.35,1.35);
 
  // shadow
  x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,30,22,5,0,0,Math.PI*2);x.fill();
@@ -492,16 +495,22 @@ function drawCican(){
  x.beginPath();x.moveTo(-10,-1);x.lineTo(-2,-4);x.stroke();
  x.beginPath();x.moveTo(2,-4);x.lineTo(10,-1);x.stroke();
 
- // arms
- x.fillStyle='#202826';x.fillRect(-17,-5,6,20);x.fillRect(11,-5,6,20);
+ // arms — gently counterbalance the stride
+ x.fillStyle='#202826';
+ x.save();x.translate(-14,1);x.rotate(-step*.025);x.fillRect(-3,-6,6,20);x.restore();
+ x.save();x.translate(14,1);x.rotate(step*.025);x.fillRect(-3,-6,6,20);x.restore();
 
- // legs
- x.fillStyle='#111515';x.fillRect(-9,19,7,13);x.fillRect(2,19,7,13);
+ // legs — a restrained walking cycle, not an arcade animation
+ x.fillStyle='#111515';
+ x.save();
+ x.translate(-5,25);x.rotate(step*.035);x.fillRect(-4,-6,7,13);x.restore();
+ x.save();
+ x.translate(5,25);x.rotate(-step*.035);x.fillRect(-4,-6,7,13);x.restore();
 
  // diving fins
  x.fillStyle='#101414';
- x.beginPath();x.moveTo(-11,30);x.lineTo(-22,35);x.lineTo(-10,36);x.closePath();x.fill();
- x.beginPath();x.moveTo(4,30);x.lineTo(15,35);x.lineTo(5,36);x.closePath();x.fill();
+ x.beginPath();x.moveTo(-10+step*.45,30);x.lineTo(-21+step*.45,35);x.lineTo(-9+step*.45,36);x.closePath();x.fill();
+ x.beginPath();x.moveTo(5-step*.45,30);x.lineTo(16-step*.45,35);x.lineTo(6-step*.45,36);x.closePath();x.fill();
 
  // warm lantern reflection + clear silhouette rim
  const glow=x.createRadialGradient(0,-25,2,0,-25,46);
