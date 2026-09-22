@@ -572,6 +572,21 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawFinalStillnessRing(){
+  if(lowAmbient||!world.rested)return;
+  const age=Math.max(0,world.t-world.restAt);
+  const pulse=.5+.5*Math.sin(age*.8);
+  const r=34+Math.min(18,age*.7)+pulse*3;
+  ctx.save();
+  ctx.globalAlpha=.055+.025*pulse;
+  ctx.strokeStyle='#fff0c4';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.arc(2325-world.cam,H*.67,r,0,Math.PI*2);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawFinalRestHint(){
   if(lowAmbient||world.lights<8||world.rested)return;
   const distance=Math.abs(P.x-2325);
@@ -915,6 +930,7 @@ function draw(){
   drawFinalMemoryStars();
   drawFinalApproachVignette();
   drawFinalRestHint();
+  drawFinalStillnessRing();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
