@@ -66,6 +66,7 @@ canvas{display:block;width:100%;height:100%}
     <div class="ending-name">NICOLAE URLUESCU SOL</div>
     <div class="ending-line">In memory of a grandfather.<br>In honor of every army veteran.</div>
     <div class="ending-peace">COLORING FOR WORLD PEACE 🕊</div>
+    <div style="margin-top:18px;font-size:9px;letter-spacing:2px;opacity:.5">€1 FROM EACH COLORING BOOK SALE SUPPORTS THE IRISH VETERANS ASSOCIATION</div>
     <button id="replay" style="margin-top:28px;padding:12px 22px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.05);color:#fff;font-size:9px;letter-spacing:3px;text-transform:uppercase">Begin again</button>
   </div>
 </div>
@@ -82,7 +83,7 @@ const lc=document.getElementById('lightCount'),kc=document.getElementById('knotC
 let W,H,dpr=1,playing=false,last=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[]};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
@@ -176,6 +177,7 @@ function update(dt){
  if(P.x>2295&&P.x<2370&&Math.abs(P.vx)<0.35&&P.ground&&world.lights>=8&&!world.rested){
    world.rested=true;
    world.restAt=world.t;
+   world.quiet=true;
    say('Stop here. Let the light speak for a moment.',4200);
    obj.textContent='Remember';
  }
@@ -195,6 +197,10 @@ function drawWorldTransition(){
  g.addColorStop(.65,`rgba(8,10,12,${mist})`);
  g.addColorStop(1,`rgba(0,0,0,${mist*1.25})`);
  x.fillStyle=g;x.fillRect(0,0,W,H);
+ if(quietFade>0){
+   x.fillStyle=`rgba(0,0,0,${quietFade*.18})`;
+   x.fillRect(0,0,W,H);
+ }
  // distant memory lights: the farther CICAN travels, the more the horizon remembers
  for(let i=0;i<9;i++){
    const px=(i*175+420-world.cam*.035)%(W+120)-60;
@@ -205,6 +211,7 @@ function drawWorldTransition(){
  }
 }
 function sky(){
+ const quietFade=world.quiet?Math.min(1,(world.t-world.restAt)/5000):0;
  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#08090b');g.addColorStop(.36,'#47352e');g.addColorStop(.6,'#111820');g.addColorStop(1,'#030405');x.fillStyle=g;x.fillRect(0,0,W,H);
  const sunX= W*.48-world.cam*.035, sunY=H*.42;const sg=x.createRadialGradient(sunX,sunY,2,sunX,sunY,150);sg.addColorStop(0,'rgba(255,205,130,.7)');sg.addColorStop(1,'rgba(255,150,80,0)');x.fillStyle=sg;x.beginPath();x.arc(sunX,sunY,150,0,Math.PI*2);x.fill();
  x.fillStyle='rgba(5,8,12,.72)';x.beginPath();x.moveTo(0,H*.55);for(let i=0;i<=12;i++){let xx=i*W/12;let yy=H*(.48+(i%3)*.045);x.lineTo(xx,yy)}x.lineTo(W,H);x.lineTo(0,H);x.fill();
@@ -308,6 +315,20 @@ function orb(o,kind){
  if(kind==='memory'){x.fillStyle='rgba(255,255,255,.7)';x.font='9px Arial';x.fillText('MEMORY',xx-25,yy-20)}
 }
 
+function drawQuietMemorial(){
+ if(!world.quiet)return;
+ const a=Math.min(1,(world.t-world.restAt)/5000);
+ const cx=2325-world.cam, cy=H*.68-115;
+ x.save();x.globalAlpha=a*.75;
+ x.strokeStyle='rgba(255,225,170,.20)';x.lineWidth=1;
+ x.beginPath();x.arc(cx,cy,90+a*30,0,Math.PI*2);x.stroke();
+ x.fillStyle='rgba(255,235,195,.62)';
+ x.font='10px Georgia';x.textAlign='center';
+ x.fillText('WE REMEMBER',cx,cy-75);
+ x.font='8px Arial';x.fillStyle='rgba(255,235,195,.42)';
+ x.fillText('THE LIGHT CONTINUES',cx,cy+95);
+ x.textAlign='left';x.restore();
+}
 function drawBubbles(){
  const xx=P.x-world.cam, yy=P.y+P.h/2;
  for(let i=0;i<5;i++){
@@ -404,6 +425,7 @@ function draw(){
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
  drawCican();
  drawBubbles();
+ drawQuietMemorial();
 
  // final memorial lamp: the light is deliberately small and human
  const lampX=2325-world.cam, lampY=py({y:-105})-42;
