@@ -203,7 +203,10 @@ function update(dt){
    }
  }
 }
- world.cam+=(P.x-W*.30-world.cam)*.075;world.cam=Math.max(0,world.cam);
+ const targetCam=P.x-W*.38;
+ const cameraLead=Math.max(-70,Math.min(120,P.vx*18));
+ world.cam+=(targetCam+cameraLead-world.cam)*.085;
+ world.cam=Math.max(0,Math.min(2450-W*.12,world.cam));
  for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text});say(l.text);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
   m.got=true;world.memories++;say(m.text,3000);
