@@ -91,6 +91,7 @@ const start=document.getElementById('start'),begin=document.getElementById('begi
 const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText'),replay=document.getElementById('replay'),endingCredit=document.getElementById('endingCredit');
 let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0,recoveryPulse=0;
 const input={l:false,r:false};
+let jumpBuffer=0;
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
 const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0,checkpointX:120};
 const platforms=[
@@ -148,6 +149,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape'){paused=!paused;pauseBtn.text
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
 function jump(){
  if(!playing||paused||world.finished)return;
+ jumpBuffer=220;
  if(P.ground){
    P.vy=-13;
    P.ground=false;
@@ -217,7 +219,8 @@ function update(dt){
  if(!document.hidden && playing && !world.finished){
    world.lastActive=world.t;
  }
- world.t+=dt; world.breath+=dt; landPulse=Math.max(0,landPulse-dt/260); recoveryPulse=Math.max(0,recoveryPulse-dt/1500);
+ world.t+=dt; world.breath+=dt; landPulse=Math.max(0,landPulse-dt/260); recoveryPulse=Math.max(0,recoveryPulse-dt/1500); jumpBuffer=Math.max(0,jumpBuffer-dt);
+ if(jumpBuffer>0&&P.ground){P.vy=-13;P.ground=false;jumpBuffer=0;say('Carry the light forward.',1200)}
  const steer=(input.r?1:0)-(input.l?1:0);
  P.vx+=steer*.42;
  if(!steer)P.vx*=P.ground?.86:.97;
@@ -620,10 +623,12 @@ function drawBubbles(){
 }
 function drawCican(){
  const xx=P.x-world.cam,yy=P.y+P.h/2;
+ const anticipation=jumpBuffer>0&&!P.ground;
+ const landingLean=landPulse>0?landPulse*.08:0;
  const moving=Math.abs(P.vx)>.35&&P.ground&&!paused;
  const step=moving?Math.sin(world.t*.018)*3.2:0;
  const bob=moving?Math.abs(Math.sin(world.t*.018))*1.2:0;
- x.save();x.translate(xx,yy-bob);x.scale(1.35,1.35);
+ x.save();x.translate(xx,yy-bob);x.rotate(anticipation?-0.035:landingLean);x.scale(1.35,1.35);
 
  // shadow
  x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,30,22,5,0,0,Math.PI*2);x.fill();
