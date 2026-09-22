@@ -136,9 +136,16 @@ joy.addEventListener("pointermove",e=>{if(e.pointerId===joyPointer){e.preventDef
 function moveJoy(e){const dx=e.clientX-joyCenter.x,dy=e.clientY-joyCenter.y,lim=42;const len=Math.hypot(dx,dy)||1;const nx=Math.max(-1,Math.min(1,dx/lim));key.l=nx<-.18;key.r=nx>.18;const mx=dx/len*Math.min(len,lim),my=dy/len*Math.min(len,lim);stick.style.transform="translate("+mx+"px,"+my+"px)"}
 function releaseJoy(){joyPointer=null;key.l=false;key.r=false;stick.style.transform="translate(0,0)"}
 joy.addEventListener("pointerup",releaseJoy);joy.addEventListener("pointercancel",releaseJoy);
-swipe.addEventListener("pointerdown",e=>{if(!run)return;swipeActive=true;swipeStartY=e.clientY;swipe.setPointerCapture(e.pointerId);});
-swipe.addEventListener("pointerup",e=>{if(!swipeActive)return;swipeActive=false;if(swipeStartY-e.clientY>45)tryJump()});
+
+function doSwipeJump(){if(run){jumpBuffer=0.25; p.vy=18; p.on=false; coyote=0;} }
+function beginSwipe(e){if(!run)return;swipeActive=true;swipeStartY=e.clientY;swipe.setPointerCapture?.(e.pointerId);e.preventDefault();}
+function endSwipe(e){if(!swipeActive)return;swipeActive=false;const distance=swipeStartY-e.clientY;if(distance>25)doSwipeJump();e.preventDefault();}
+swipe.addEventListener("pointerdown",beginSwipe);
+swipe.addEventListener("pointerup",endSwipe);
 swipe.addEventListener("pointercancel",()=>{swipeActive=false});
+swipe.addEventListener("touchstart",e=>{if(!run)return;swipeActive=true;swipeStartY=e.touches[0].clientY;e.preventDefault()},{passive:false});
+swipe.addEventListener("touchend",e=>{if(!swipeActive)return;swipeActive=false;const distance=swipeStartY-e.changedTouches[0].clientY;if(distance>25)doSwipeJump();e.preventDefault()},{passive:false});
+
 addEventListener("keydown",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=true;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=true;if(e.code==="Space"||e.code==="ArrowUp"){tryJump();e.preventDefault()}if((e.code==="Enter"||e.code==="Space")&&!run&&!won)begin()});
 addEventListener("keyup",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=false;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=false});
 
