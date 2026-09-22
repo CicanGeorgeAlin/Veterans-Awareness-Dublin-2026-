@@ -93,7 +93,7 @@ let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,land
 const input={l:false,r:false};
 let jumpBuffer=0;
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0,checkpointX:120};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0,checkpointX:120,checkpoints:[]};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:150,h:28,a:-.06,type:'stone'},
@@ -169,7 +169,7 @@ function restartAfterFall(){
  const checkpointLight=world.lights>=8?'The final light is still ahead.':world.lights>=6?'You carried this far. Continue.':world.lights>=3?'The memory brought you back.':'The journey continues.';
  say(checkpointLight,2600);
 }
-function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;recoveryPulse=0;coyote=0;jumpBuffer=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;recoveryPulse=0;coyote=0;jumpBuffer=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;world.checkpoints=[];endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  const tl=document.getElementById('memoryTrailLabel');
  const pf=document.getElementById('journeyProgressFill');
@@ -260,7 +260,7 @@ function update(dt){
  const cameraLead=Math.max(-70,Math.min(120,P.vx*18));
  world.cam+=(targetCam+cameraLead-world.cam)*.085;
  world.cam=Math.max(0,Math.min(2450-W*.12,world.cam));
- for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text,t:world.t});if(world.lights===3||world.lights===6||world.lights===8)world.checkpointX=Math.max(120,l.x-90);say(l.text);memoryCardText.textContent=l.text;memoryCard.classList.add('show');clearTimeout(memoryCard.t);memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),4200);updateHud()}
+ for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text,t:world.t});if(world.lights===3||world.lights===6||world.lights===8){world.checkpointX=Math.max(120,l.x-90);world.checkpoints.push({x:world.checkpointX,count:world.lights});}say(l.text);memoryCardText.textContent=l.text;memoryCard.classList.add('show');clearTimeout(memoryCard.t);memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),4200);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
   m.got=true;world.memories++;say(m.text,3000);
   memoryCardText.textContent=m.text.replaceAll('\\n',' ');
@@ -552,15 +552,11 @@ function drawRestingLight(){
  x.beginPath();x.arc(cx,cy,2.5+breathe*1.5,0,Math.PI*2);x.fill();
 }
 function drawCheckpointMarkers(){
- if(world.lights<3)return;
- const checkpoints=[
-   {count:3,label:'MEMORY CARRIED'},
-   {count:6,label:'REMEMBER'},
-   {count:8,label:'FINAL MEMORY'}
- ];
- for(const cp of checkpoints){
-   if(world.lights<cp.count)continue;
-   const xx=world.checkpointX-world.cam;
+ if(!world.checkpoints.length)return;
+ const labels={3:'MEMORY CARRIED',6:'REMEMBER',8:'FINAL MEMORY'};
+ for(const cp of world.checkpoints){
+   const xx=cp.x-world.cam;
+   if(xx<-100||xx>W+100)continue;
    const yy=H*.68-18;
    const pulse=.55+.18*Math.sin(world.t*.002+cp.count);
    x.save();
@@ -571,7 +567,7 @@ function drawCheckpointMarkers(){
    x.fillStyle='rgba(255,232,180,.72)';
    x.beginPath();x.arc(xx,yy,2,0,Math.PI*2);x.fill();
    x.font='7px Arial';x.textAlign='center';
-   x.fillText(cp.label,xx,yy-15);
+   x.fillText(labels[cp.count]||'MEMORY',xx,yy-15);
    x.restore();
  }
 }
