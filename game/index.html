@@ -47,6 +47,8 @@ canvas{display:block;width:100%;height:100%}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important}}
 <style>
 .low-ambient .particle,.low-ambient .bubble{display:none!important}
+<style>
+.intro-hold{pointer-events:none}
 </style></style>
 </head>
 <body><button id="ambientToggle" type="button" aria-label="Toggle ambient effects">AMBIENT: ON</button>
@@ -144,6 +146,7 @@ function restartAfterFall(){
  P.x=Math.max(80,P.x-190);
  P.y=H*.3;
  P.ground=false;
+ if(introHold){setTimeout(()=>{introHold=false},2200);}
  say('The journey continues. Find your footing, then carry the light.',2600);
 }
 function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
@@ -155,7 +158,8 @@ function updateHud(){
  else if(world.chapter===3){obj.textContent='Find the memorial';story.textContent='IN MEMORY OF NICOLAE URULESCU SOL'}
  else {obj.textContent='Keep the light alive';story.textContent='IN HONOR OF EVERY VETERAN'}
 }
-function beginGame(){playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
+function beginGame(){
+ introHold=true;playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
 begin.onclick=beginGame;
 replay.onclick=beginGame;
 
