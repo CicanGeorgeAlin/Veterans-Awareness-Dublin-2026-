@@ -572,6 +572,22 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawMemoryEcho(){
+  if(lowAmbient||!world.lights)return;
+  const x=P.x-world.cam;
+  if(x<-100||x>W+100)return;
+  ctx.save();
+  const a=.025+.018*Math.sin(world.t*1.5);
+  const g=ctx.createRadialGradient(x,H*.68,1,x,H*.68,75);
+  g.addColorStop(0,'rgba(255,238,190,'+a+')');
+  g.addColorStop(1,'rgba(255,238,190,0)');
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.arc(x,H*.68,75,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
 function drawMemoryPath(){
   if(lowAmbient||!world.lights)return;
   ctx.save();
@@ -777,6 +793,7 @@ function draw(){
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
  drawCheckpointMarkers();
   drawMemoryPath();
+  drawMemoryEcho();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
