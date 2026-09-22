@@ -229,7 +229,12 @@ function update(dt){
   memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),7000);
   updateHud()
  }
- if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){knot.got=true;world.knot=1;say('The CICAN knot — memory connected to memory.',4200);updateHud()}
+ if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){
+  knot.got=true;world.knot=1;
+  world.trail.push({x:knot.x,y:knot.y,text:'The CICAN knot — memory connected to memory.',t:world.t,knot:true});
+  say('The CICAN knot — memory connected to memory.',4200);
+  updateHud()
+}
  if(P.y>H+120){restartAfterFall()}
  const previousChapter=world.chapter;
  if(P.x<360) world.chapter=0;
@@ -511,6 +516,16 @@ function drawCican(){
 function drawTrail(){
  for(const l of world.trail){
    const age=Math.max(0,world.t-(l.t||0));
+   if(l.knot){
+     const kx=l.x-world.cam,ky=py({y:l.y})-28;
+     x.save();x.translate(kx,ky);x.rotate(Math.sin(world.t*.001)*.08);
+     x.strokeStyle='rgba(255,238,190,.28)';x.lineWidth=1;
+     x.beginPath();x.arc(0,0,16,0,Math.PI*2);x.stroke();
+     x.strokeStyle='rgba(255,225,165,.50)';x.lineWidth=2;
+     x.beginPath();x.arc(-4,0,7,.2,Math.PI*1.8);x.arc(4,0,7,Math.PI*1.2,Math.PI*2+.9);x.stroke();
+     x.restore();
+     continue;
+   }
    const fade=Math.max(.12,1-age/26000);
    const xx=l.x-world.cam, yy=py({y:l.y})-28;
    const g=x.createRadialGradient(xx,yy,1,xx,yy,34);
