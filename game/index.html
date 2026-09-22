@@ -572,6 +572,25 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawFinalApproachAtmosphere(){
+  if(lowAmbient||world.lights<8)return;
+  const remaining=Math.max(0,2325-P.x);
+  const intensity=Math.max(0,1-Math.min(1,remaining/500));
+  if(intensity<=0)return;
+  ctx.save();
+  const x=2325-world.cam;
+  const pulse=.5+.5*Math.sin(world.t*.8);
+  const r=90+intensity*70+pulse*8;
+  const g=ctx.createRadialGradient(x,H*.55,8,x,H*.55,r);
+  g.addColorStop(0,'rgba(255,239,190,'+(.05*intensity)+')');
+  g.addColorStop(1,'rgba(255,239,190,0)');
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.arc(x,H*.55,r,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
 function drawMemoryBreath(){
   if(lowAmbient||world.lights<6)return;
   const strength=Math.min(1,(world.lights-5)/7);
@@ -844,6 +863,7 @@ function draw(){
   drawCarriedLightParticles();
   drawMemoryCountHalo();
   drawMemoryBreath();
+  drawFinalApproachAtmosphere();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
