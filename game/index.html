@@ -169,41 +169,64 @@ function orb(o,kind){
 function drawCican(){
  const xx=P.x-world.cam,yy=P.y+P.h/2;
  x.save();x.translate(xx,yy);
- // soft shadow
- x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,28,20,5,0,0,Math.PI*2);x.fill();
 
- // diving/outdoor backpack and gear — inspired by the reference photo
- x.fillStyle='#111817';x.fillRect(-20,-12,14,31);
- x.fillStyle='#242b2a';x.fillRect(-14,-7,28,28);
- x.fillStyle='#c58d65';x.beginPath();x.arc(0,-27,13,0,Math.PI*2);x.fill();
+ // shadow
+ x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,30,22,5,0,0,Math.PI*2);x.fill();
 
- // short dark hair
- x.fillStyle='#191716';x.beginPath();x.arc(0,-34,12,Math.PI,Math.PI*2);x.fill();
+ // scuba tank — CICAN's signature silhouette
+ x.fillStyle='#777d7d';x.fillRect(12,-16,9,31);
+ x.fillStyle='#aeb4b3';x.fillRect(14,-18,5,4);
+ x.fillStyle='#222';x.fillRect(19,-13,5,7);
+
+ // outdoor/diving backpack
+ x.fillStyle='#111817';x.fillRect(-21,-12,14,32);
+ x.fillStyle='#242b2a';x.fillRect(-14,-8,28,29);
+
+ // wetsuit / technical suit
+ x.fillStyle='#171d1d';x.fillRect(-12,-8,24,29);
+ x.fillStyle='#303938';x.fillRect(-8,-7,16,22);
+
+ // head
+ x.fillStyle='#c58d65';x.beginPath();x.arc(0,-28,13,0,Math.PI*2);x.fill();
+
+ // dark hair
+ x.fillStyle='#191716';x.beginPath();x.arc(0,-35,12,Math.PI,Math.PI*2);x.fill();
+
  // beard
- x.fillStyle='#302825';x.beginPath();x.arc(0,-22,11,0,Math.PI);x.fill();
+ x.fillStyle='#302825';x.beginPath();x.arc(0,-23,11,0,Math.PI);x.fill();
 
- // dark technical cap
- x.fillStyle='#0d1010';x.fillRect(-14,-42,28,8);x.fillRect(-9,-47,18,8);
- x.fillStyle='#ddd';x.font='5px Arial';x.fillText('CICAN',-7,-41);
+ // dive mask
+ x.strokeStyle='#c8d4d4';x.lineWidth=2;x.fillStyle='rgba(80,110,115,.35)';
+ x.beginPath();x.roundRect(-11,-34,22,11,4);x.fill();x.stroke();
+ x.fillStyle='#101515';x.beginPath();x.arc(-4,-29,2,0,Math.PI*2);x.arc(4,-29,2,0,Math.PI*2);x.fill();
 
- // eyes
- x.fillStyle='#111';x.beginPath();x.arc(-4,-28,1.5,0,Math.PI*2);x.arc(4,-28,1.5,0,Math.PI*2);x.fill();
+ // regulator hose
+ x.strokeStyle='#222';x.lineWidth=2;x.beginPath();x.arc(10,-25,9,.1,1.9);x.stroke();
 
- // reflective strips / technical suit
- x.strokeStyle='#d9dddd';x.lineWidth=2;
- x.beginPath();x.moveTo(-10,-2);x.lineTo(-2,-5);x.stroke();
- x.beginPath();x.moveTo(2,-5);x.lineTo(10,-2);x.stroke();
+ // small CICAN cap/hood detail
+ x.fillStyle='#0d1010';x.fillRect(-12,-42,24,5);
+ x.fillStyle='#ddd';x.font='5px Arial';x.fillText('CICAN',-7,-43);
+
+ // reflective strips
+ x.strokeStyle='#e1e4e3';x.lineWidth=2;
+ x.beginPath();x.moveTo(-10,-1);x.lineTo(-2,-4);x.stroke();
+ x.beginPath();x.moveTo(2,-4);x.lineTo(10,-1);x.stroke();
 
  // arms
  x.fillStyle='#202826';x.fillRect(-17,-5,6,20);x.fillRect(11,-5,6,20);
- // legs and heavy boots
- x.fillStyle='#111515';x.fillRect(-9,19,7,13);x.fillRect(2,19,7,13);
- x.fillRect(-13,30,11,5);x.fillRect(2,30,11,5);
 
- // tiny warm reflection from the memorial lantern
- const glow=x.createRadialGradient(0,-25,2,0,-25,30);
- glow.addColorStop(0,'rgba(255,205,130,.16)');glow.addColorStop(1,'rgba(255,205,130,0)');
- x.fillStyle=glow;x.beginPath();x.arc(0,-25,30,0,Math.PI*2);x.fill();
+ // legs
+ x.fillStyle='#111515';x.fillRect(-9,19,7,13);x.fillRect(2,19,7,13);
+
+ // diving fins
+ x.fillStyle='#101414';
+ x.beginPath();x.moveTo(-11,30);x.lineTo(-22,35);x.lineTo(-10,36);x.closePath();x.fill();
+ x.beginPath();x.moveTo(4,30);x.lineTo(15,35);x.lineTo(5,36);x.closePath();x.fill();
+
+ // warm lantern reflection
+ const glow=x.createRadialGradient(0,-25,2,0,-25,34);
+ glow.addColorStop(0,'rgba(255,205,130,.18)');glow.addColorStop(1,'rgba(255,205,130,0)');
+ x.fillStyle=glow;x.beginPath();x.arc(0,-25,34,0,Math.PI*2);x.fill();
 
  x.restore();
 }
