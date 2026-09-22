@@ -572,6 +572,20 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawFinalRestHint(){
+  if(lowAmbient||world.lights<8||world.rested)return;
+  const distance=Math.abs(P.x-2325);
+  if(distance>170)return;
+  const pulse=.5+.5*Math.sin(world.t*1.2);
+  ctx.save();
+  ctx.globalAlpha=.16+.08*pulse;
+  ctx.fillStyle='#fff1c9';
+  ctx.font='600 11px system-ui,sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('REST WITH THE LIGHT',2325-world.cam,H*.62);
+  ctx.restore();
+}
+
 function drawFinalApproachVignette(){
   if(lowAmbient||world.lights<8)return;
   const remaining=Math.max(0,2325-P.x);
@@ -900,6 +914,7 @@ function draw(){
   drawFinalApproachAtmosphere();
   drawFinalMemoryStars();
   drawFinalApproachVignette();
+  drawFinalRestHint();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
