@@ -78,236 +78,190 @@ h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;l
 <script>
 "use strict";
 const canvas=document.getElementById("game"),ctx=canvas.getContext("2d");
-const lightsEl=document.getElementById("lights"),memoriesEl=document.getElementById("memories"),messageEl=document.getElementById("message"),spiritsEl=document.getElementById("spirits");
+const lightsEl=document.getElementById("lights"),memoriesEl=document.getElementById("memories"),spiritsEl=document.getElementById("spirits"),messageEl=document.getElementById("message");
 const intro=document.getElementById("intro"),ending=document.getElementById("ending"),endPhoto=document.getElementById("endPhoto");
 let W=innerWidth,H=innerHeight,DPR=Math.min(devicePixelRatio||1,2);
 function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,2);canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0)}
 addEventListener("resize",resize);resize();
 
-const world={
-  width:7200,
-  ground:0,
-  start:260,
-  memorialX:6650
-};
-const player={x:260,y:0,vx:0,vy:0,w:30,h:48,onGround:false};
-let camera=0,running=false,won=false,lights=0,memories=0,spirits=0,startedAt=0;
-const keys={left:false,right:false};
-const collected=new Set(), activated=new Set();
-const spirit={x:3180,y:225};
-const objects=[
-  {type:"light",x:620,y:170,id:"l1"},
-  {type:"memory",x:1050,y:135,id:"m1",text:"A memory can travel farther than a person."},
-  {type:"light",x:1450,y:215,id:"l2"},
-  {type:"knot",x:1820,y:125,id:"k1"},
-  {type:"memory",x:2300,y:165,id:"m2",text:"From Romania to Dublin, memory crossed the distance."},
-  {type:"light",x:2780,y:235,id:"l3"},
-  {type:"lamp",x:3350,y:0,id:"lamp1"},
-  {type:"spirit",x:3520,y:210,id:"s1"},
-  {type:"memory",x:3880,y:170,id:"m3",text:"Those who served are remembered in many places."},
-  {type:"light",x:4300,y:190,id:"l4"},
-  {type:"knot",x:4800,y:140,id:"k2"},
-  {type:"memory",x:5200,y:190,id:"m4",text:"Ireland. Dublin. Family. Remembrance."},
-  {type:"light",x:5660,y:235,id:"l5"},
-  {type:"lamp",x:6100,y:0,id:"lamp2"},
-  {type:"spirit",x:6200,y:230,id:"s2"}
-];
-const platforms=[
-  {x:0,y:0,w:1250,h:120},{x:1380,y:0,w:760,h:120},{x:2260,y:0,w:900,h:120},
-  {x:3300,y:0,w:760,h:120},{x:4240,y:0,w:780,h:120},{x:5100,y:0,w:720,h:120},
-  {x:5600,y:0,w:1600,h:120},
-  {x:850,y:120,w:180,h:20},{x:1330,y:175,w:120,h:20},{x:1700,y:105,w:220,h:20},
-  {x:2660,y:145,w:220,h:20},{x:3780,y:115,w:200,h:20},{x:4450,y:135,w:220,h:20},
-  {x:5000,y:100,w:190,h:20},{x:5480,y:145,w:200,h:20}
-];
-const lamps=[
-  {x:3350,id:"lamp1"},{x:6100,id:"lamp2"}
-];
-const poppies=[];
-for(let x=120;x<world.width;x+=92){poppies.push({x:x+(x%31),h:10+(x%18)})}
-function reset(){
-  player.x=world.start;player.y=180;player.vx=0;player.vy=0;camera=0;lights=0;memories=0;won=false;collected.clear();activated.clear();
-  lightsEl.textContent="0";memoriesEl.textContent="0";messageEl.textContent="";spirits=0;spiritsEl.textContent="0";
-  objects.forEach(o=>{if(o.type==="light"||o.type==="memory"||o.type==="knot")collected.delete(o.id)});
-}
-function startGame(){reset();running=true;startedAt=performance.now();intro.classList.add("hide");ending.classList.add("hide");endPhoto.style.display="none";messageEl.textContent="Walk toward the light. Explore gently.";setTimeout(()=>messageEl.textContent="",4200)}
-function finish(){running=false;won=true;endPhoto.style.display="block";ending.classList.remove("hide")}
-document.getElementById("start").onclick=startGame;
-document.getElementById("again").onclick=startGame;
+const WORLD_W=7600, GROUND_Y=110, START_X=180, FINISH_X=7040;
+const player={x:START_X,y:GROUND_Y,w:34,h:58,vx:0,vy:0,onGround:false};
+const input={left:false,right:false};
+let camera=0,running=false,won=false,lights=0,memories=0,spirits=0,jumpQueued=false;
+const collected=new Set(),activated=new Set();
 
-function bind(btn,name){
-  const on=e=>{e.preventDefault();keys[name]=true};
-  const off=e=>{e.preventDefault();keys[name]=false};
-  btn.addEventListener("pointerdown",on);btn.addEventListener("pointerup",off);btn.addEventListener("pointercancel",off);btn.addEventListener("pointerleave",off);
+const platforms=[
+ {x:0,y:GROUND_Y,w:1250,h:28},{x:1380,y:GROUND_Y,w:800,h:28},{x:2290,y:GROUND_Y,w:820,h:28},
+ {x:3220,y:GROUND_Y,w:820,h:28},{x:4150,y:GROUND_Y,w:850,h:28},{x:5120,y:GROUND_Y,w:700,h:28},
+ {x:5900,y:GROUND_Y,w:1700,h:28},
+ {x:780,y:240,w:190,h:22},{x:1160,y:175,w:150,h:22},{x:1570,y:205,w:190,h:22},
+ {x:2020,y:270,w:190,h:22},{x:2600,y:220,w:190,h:22},{x:3000,y:175,w:170,h:22},
+ {x:3500,y:240,w:190,h:22},{x:3890,y:180,w:190,h:22},{x:4450,y:250,w:190,h:22},
+ {x:4860,y:180,w:180,h:22},{x:5350,y:240,w:190,h:22},{x:5660,y:175,w:170,h:22},
+ {x:6350,y:250,w:200,h:22}
+];
+
+const objects=[
+ {type:"light",x:620,y:205,id:"l1"},{type:"memory",x:880,y:300,id:"m1",text:"A memory can travel farther than a person."},
+ {type:"light",x:1500,y:205,id:"l2"},{type:"knot",x:1740,y:270,id:"k1"},
+ {type:"memory",x:2100,y:330,id:"m2",text:"From Romania to Dublin, memory crossed the distance."},
+ {type:"light",x:2750,y:280,id:"l3"},{type:"lamp",x:3350,id:"lamp1"},
+ {type:"spirit",x:3540,y:300,id:"s1"},{type:"memory",x:3960,y:240,id:"m3",text:"Those who served are remembered in many places."},
+ {type:"light",x:4550,y:310,id:"l4"},{type:"knot",x:4950,y:240,id:"k2"},
+ {type:"memory",x:5450,y:300,id:"m4",text:"Ireland. Dublin. Family. Remembrance."},
+ {type:"light",x:5750,y:170,id:"l5"},{type:"lamp",x:6100,id:"lamp2"},
+ {type:"spirit",x:6480,y:310,id:"s2"}
+];
+const lamps=[{x:3350,id:"lamp1"},{x:6100,id:"lamp2"}];
+
+function reset(){
+ player.x=START_X;player.y=GROUND_Y;player.vx=0;player.vy=0;player.onGround=false;camera=0;
+ lights=0;memories=0;spirits=0;won=false;collected.clear();activated.clear();
+ lightsEl.textContent=0;memoriesEl.textContent=0;spiritsEl.textContent=0;messageEl.textContent="";
 }
-bind(document.getElementById("left"),"left");bind(document.getElementById("right"),"right");
-let jumpQueued=false;
-const jumpBtn=document.getElementById("jump");
-["pointerdown","keydown"].forEach(()=>{});
-jumpBtn.addEventListener("pointerdown",e=>{e.preventDefault();jumpQueued=true});
+function startGame(){
+ reset();running=true;intro.classList.add("hide");ending.classList.add("hide");endPhoto.style.display="none";
+ messageEl.textContent="← Move   → Move   JUMP to travel   •   Collect light and memory";
+ setTimeout(()=>{if(running)messageEl.textContent=""},4500);
+}
+function finish(){running=false;won=true;endPhoto.style.display="block";ending.classList.remove("hide")}
+document.getElementById("start").onclick=startGame;document.getElementById("again").onclick=startGame;
+
+function bindMove(id,key){
+ const b=document.getElementById(id);
+ const on=e=>{e.preventDefault();input[key]=true};
+ const off=e=>{e.preventDefault();input[key]=false};
+ b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointercancel",off);b.addEventListener("pointerleave",off);
+}
+bindMove("left","left");bindMove("right","right");
+document.getElementById("jump").addEventListener("pointerdown",e=>{e.preventDefault();jumpQueued=true});
 addEventListener("keydown",e=>{
-  if(e.code==="ArrowLeft"||e.code==="KeyA")keys.left=true;
-  if(e.code==="ArrowRight"||e.code==="KeyD")keys.right=true;
-  if(e.code==="Space"||e.code==="ArrowUp")jumpQueued=true;
-  if((e.code==="Enter"||e.code==="Space")&&!running&&!won)startGame();
+ if(e.code==="ArrowLeft"||e.code==="KeyA"){input.left=true;e.preventDefault()}
+ if(e.code==="ArrowRight"||e.code==="KeyD"){input.right=true;e.preventDefault()}
+ if(e.code==="Space"||e.code==="ArrowUp"){jumpQueued=true;e.preventDefault()}
+ if((e.code==="Enter"||e.code==="Space")&&!running&&!won)startGame();
 });
 addEventListener("keyup",e=>{
-  if(e.code==="ArrowLeft"||e.code==="KeyA")keys.left=false;
-  if(e.code==="ArrowRight"||e.code==="KeyD")keys.right=false;
+ if(e.code==="ArrowLeft"||e.code==="KeyA")input.left=false;
+ if(e.code==="ArrowRight"||e.code==="KeyD")input.right=false;
 });
 
-function groundAt(x){
-  let best=-Infinity;
-  for(const p of platforms)if(x>p.x&&x<p.x+p.w)best=Math.max(best,p.y+p.h);
-  return best;
-}
-function collide(){
-  const foot=player.y;
-  const g=groundAt(player.x+player.w*.5);
-  if(g>-Infinity&&player.vy>=0&&foot<=g+14&&foot+player.vy>=g-2){player.y=g;player.vy=0;player.onGround=true}else player.onGround=false;
-}
-function collect(){
-  for(const o of objects){
-    if(collected.has(o.id))continue;
-    const dx=(player.x+player.w/2)-o.x,dy=(player.y-player.h/2)-o.y;
-    const d=Math.hypot(dx,dy);
-    if(d<58){
-      if(o.type==="light"){lights++;lightsEl.textContent=lights;collected.add(o.id);messageEl.textContent="A light carried forward."}
-      else if(o.type==="memory"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent=o.text}
-      else if(o.type==="knot"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent="A connection carried forward."}
-      else if(o.type==="spirit"){spirits++;collected.add(o.id);messageEl.textContent="Spiritum Sancti — the spirit of our grandparents and ancestors, carried with us."}
-    }
+function platformBelow(px,py,vy){
+ let best=null;
+ for(const p of platforms){
+  if(px>p.x-2&&px<p.x+p.w+2&&py>=p.y&&py+vy<=p.y+10&&vy>=0){
+   if(!best||p.y>best.y)best=p;
   }
-  for(const l of lamps){
-    if(activated.has(l.id))continue;
-    if(Math.abs(player.x-l.x)<85){activated.add(l.id);messageEl.textContent="The lamp is lit. Remember. Honor. Never forget."}
-  }
-  if(player.x>world.memorialX-110 && lights>=3 && spirits>=2){finish()}
+ }
+ return best;
 }
 function update(dt){
-  const accel=keys.left?-0.62:keys.right?0.62:0;
-  player.vx+=accel;
-  if(!accel)player.vx*=Math.pow(.80,dt*60);
-  player.vx=Math.max(-5,Math.min(5,player.vx));
-  if(jumpQueued&&player.onGround){player.vy=-11;jumpQueued=false}else jumpQueued=false;
-  player.vy+=.55*dt*60;
-  player.x+=player.vx*dt*60;
-  player.y+=player.vy*dt*60;
-  if(player.x<0)player.x=0;
-  if(player.x>world.width-player.w)player.x=world.width-player.w;
-  collide();
-  if(player.y>H+300){player.x=Math.max(0,player.x-180);player.y=240;player.vy=0}
-  camera+=(player.x-W*.38-camera)*.075;
-  camera=Math.max(0,Math.min(world.width-W,camera));
-  collect();
+ const dir=(input.right?1:0)-(input.left?1:0);
+ player.vx += dir*0.72*dt*60;
+ if(!dir)player.vx*=Math.pow(.78,dt*60);
+ player.vx=Math.max(-5.5,Math.min(5.5,player.vx));
+ if(jumpQueued){if(player.onGround){player.vy=12;player.onGround=false}jumpQueued=false}
+ player.vy-=28*dt;
+ const oldY=player.y;
+ player.x+=player.vx*dt*60;
+ player.x=Math.max(0,Math.min(WORLD_W-player.w,player.x));
+ player.y+=player.vy*dt*60;
+ player.onGround=false;
+ const p=platformBelow(player.x+player.w/2,oldY,player.vy*dt*60);
+ if(p){player.y=p.y;player.vy=0;player.onGround=true}
+ if(player.y<-250){player.x=Math.max(START_X,player.x-220);player.y=GROUND_Y;player.vy=0}
+ camera+=(player.x-W*.38-camera)*.10;
+ camera=Math.max(0,Math.min(WORLD_W-W,camera));
+ collect();
 }
+function collect(){
+ for(const o of objects){
+  if(collected.has(o.id))continue;
+  const dx=player.x+player.w/2-o.x,dy=player.y+player.h/2-o.y;
+  if(Math.hypot(dx,dy)<62){
+   collected.add(o.id);
+   if(o.type==="light"){lights++;lightsEl.textContent=lights;messageEl.textContent="Light carried forward."}
+   if(o.type==="memory"){memories++;memoriesEl.textContent=memories;messageEl.textContent=o.text}
+   if(o.type==="knot"){memories++;memoriesEl.textContent=memories;messageEl.textContent="A connection carried forward."}
+   if(o.type==="spirit"){spirits++;spiritsEl.textContent=spirits;messageEl.textContent="Spiritum Sancti — the spirit of our grandparents and ancestors, carried with us."}
+  }
+ }
+ for(const l of lamps){
+  if(!activated.has(l.id)&&Math.abs(player.x-l.x)<75){activated.add(l.id);messageEl.textContent="The veteran lamp is lit. Remember. Honor. Never forget."}
+ }
+ if(player.x>FINISH_X && lights>=3 && spirits>=2)finish();
+}
+
+function worldY(y){return H-y}
 function sky(){
-  const grad=ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,"#050608");grad.addColorStop(.55,"#101317");grad.addColorStop(1,"#17191b");
-  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
-  const moonX= W*.78,moonY=H*.18;
-  const glow=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,120);glow.addColorStop(0,"rgba(255,255,255,.18)");glow.addColorStop(1,"rgba(255,255,255,0)");
-  ctx.fillStyle=glow;ctx.fillRect(moonX-130,moonY-130,260,260);
-  ctx.beginPath();ctx.arc(moonX,moonY,23,0,Math.PI*2);ctx.fillStyle="rgba(255,255,255,.85)";ctx.fill();
+ const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#050608");g.addColorStop(.65,"#111518");g.addColorStop(1,"#1b1d1f");
+ ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ const mx=W*.78,my=H*.18,mg=ctx.createRadialGradient(mx,my,2,mx,my,120);
+ mg.addColorStop(0,"rgba(255,255,255,.18)");mg.addColorStop(1,"rgba(255,255,255,0)");
+ ctx.fillStyle=mg;ctx.fillRect(mx-120,my-120,240,240);
+ ctx.fillStyle="rgba(255,255,255,.9)";ctx.beginPath();ctx.arc(mx,my,23,0,Math.PI*2);ctx.fill();
 }
 function drawDublin(){
-  ctx.save();ctx.translate(-camera*.28,H-235);
-  for(let i=0;i<22;i++){
-    const x=i*190+60,h=55+(i*37)%100;
-    ctx.fillStyle="rgba(255,255,255,.035)";ctx.fillRect(x,-h,100,h);
-    if(i%3===0){ctx.fillStyle="rgba(255,255,255,.08)";ctx.fillRect(x+18,-h+18,7,7);ctx.fillRect(x+45,-h+18,7,7)}
-  }
-  ctx.fillStyle="rgba(255,255,255,.06)";ctx.font="700 13px Arial";ctx.letterSpacing="3px";ctx.fillText("D U B L I N",60,25);
-  ctx.restore();
+ ctx.save();ctx.translate(-camera*.18,H-GROUND_Y-165);
+ for(let i=0;i<30;i++){const x=i*180,h=45+(i*31)%105;ctx.fillStyle="rgba(255,255,255,.035)";ctx.fillRect(x,-h,115,h)}
+ ctx.fillStyle="rgba(255,255,255,.08)";ctx.font="700 13px Arial";ctx.fillText("D U B L I N",60,25);
+ ctx.restore();
 }
 function drawGround(){
-  for(const p of platforms){
-    const x=p.x-camera,y=H-(p.y+p.h);
-    if(x+p.w<0||x>W)continue;
-    ctx.fillStyle=p.y===0?"#111416":"#202326";ctx.fillRect(x,y,p.w,p.h);
-    ctx.fillStyle="rgba(255,255,255,.10)";ctx.fillRect(x,y,p.w,2);
-    if(p.y===0){
-      for(let k=0;k<p.w;k+=92){
-        const px=x+k+25;const py=y+7;
-        ctx.strokeStyle="rgba(255,255,255,.18)";ctx.lineWidth=1;
-        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+7,py-5);ctx.lineTo(px+12,py);ctx.stroke();
-      }
-    }
-  }
-}
-function drawPoppies(){
-  for(const p of poppies){
-    const x=p.x-camera,y=H-120;
-    if(x<-20||x>W+20)continue;
-    ctx.strokeStyle="rgba(180,180,180,.45)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-p.h);ctx.stroke();
-    ctx.fillStyle="rgba(210,210,210,.8)";ctx.beginPath();ctx.arc(x,y-p.h,3,0,Math.PI*2);ctx.fill();
-  }
-}
-function drawSpirit(x,y,active=true){
-  const g=ctx.createRadialGradient(x,y,2,x,y,52);g.addColorStop(0,"rgba(255,255,255,.30)");g.addColorStop(.45,"rgba(255,255,255,.10)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(x-52,y-52,104,104);
-  ctx.strokeStyle="rgba(255,255,255,.70)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y-8,15,0,Math.PI*2);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(x-10,y+5);ctx.quadraticCurveTo(x-18,y+28,x,y+36);ctx.quadraticCurveTo(x+18,y+28,x+10,y+5);ctx.stroke();
-  ctx.fillStyle="#fff";ctx.font="600 8px Arial";ctx.textAlign="center";ctx.fillText("SPIRITUM SANCTI",x,y+56);
-}
-function drawObjects(){
-  for(const o of objects){
-    if(collected.has(o.id))continue;
-    const x=o.x-camera,y=H-o.y-120;
-    if(x<-80||x>W+80)continue;
-    if(o.type==="light"){
-      const g=ctx.createRadialGradient(x,y,1,x,y,32);g.addColorStop(0,"rgba(255,255,255,.55)");g.addColorStop(1,"rgba(255,255,255,0)");
-      ctx.fillStyle=g;ctx.fillRect(x-32,y-32,64,64);ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();
-    }
-    if(o.type==="memory"){
-      ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,11,0,Math.PI*2);ctx.stroke();
-      ctx.fillStyle="#fff";ctx.font="700 9px Arial";ctx.textAlign="center";ctx.fillText("M",x,y+3);
-    }
-    if(o.type==="knot"){
-      ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x-5,y,8,0,Math.PI*2);ctx.arc(x+5,y,8,0,Math.PI*2);ctx.stroke();
-    }
-    if(o.type==="spirit") drawSpirit(x,y);
-  }
-  for(const l of lamps){
-    const x=l.x-camera,y=H-120;
-    if(x<-100||x>W+100)continue;
-    const lit=activated.has(l.id);
-    ctx.strokeStyle="rgba(255,255,255,.55)";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-78);ctx.stroke();
-    ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-12,y-78);ctx.lineTo(x+12,y-78);ctx.stroke();
-    const g=ctx.createRadialGradient(x,y-91,2,x,y-91,45);g.addColorStop(0,lit?"rgba(255,255,255,.55)":"rgba(255,255,255,.08)");g.addColorStop(1,"rgba(255,255,255,0)");
-    ctx.fillStyle=g;ctx.fillRect(x-45,y-136,90,90);ctx.fillStyle=lit?"#fff":"#777";ctx.beginPath();ctx.arc(x,y-91,7,0,Math.PI*2);ctx.fill();
-  }
+ for(const p of platforms){
+  const x=p.x-camera,y=worldY(p.y+p.h);
+  if(x+p.w<0||x>W)continue;
+  ctx.fillStyle=p.y===GROUND_Y?"#15181a":"#24282a";ctx.fillRect(x,y,p.w,p.h);
+  ctx.fillStyle="rgba(255,255,255,.18)";ctx.fillRect(x,y,p.w,2);
+  if(p.y===GROUND_Y){ctx.fillStyle="rgba(255,255,255,.09)";for(let k=20;k<p.w;k+=90)ctx.fillRect(x+k,y+8,32,2)}
+ }
 }
 function drawPlayer(){
-  const x=player.x-camera+player.w/2,y=H-player.y-player.h;
-  ctx.save();ctx.translate(x,y);
-  const glow=ctx.createRadialGradient(0,20,4,0,20,42);glow.addColorStop(0,"rgba(255,255,255,.25)");glow.addColorStop(1,"rgba(255,255,255,0)");
-  ctx.fillStyle=glow;ctx.fillRect(-45,-25,90,90);
-  ctx.fillStyle="#f7f7f3";ctx.beginPath();ctx.roundRect(-15,-24,30,48,12);ctx.fill();
-  ctx.fillStyle="#111";ctx.beginPath();ctx.arc(-6,-10,3,0,Math.PI*2);ctx.arc(6,-10,3,0,Math.PI*2);ctx.fill();
-  ctx.restore();
+ const x=player.x-camera+player.w/2,y=worldY(player.y+player.h);
+ ctx.save();ctx.translate(x,y);
+ const glow=ctx.createRadialGradient(0,28,3,0,28,48);glow.addColorStop(0,"rgba(255,255,255,.25)");glow.addColorStop(1,"rgba(255,255,255,0)");
+ ctx.fillStyle=glow;ctx.fillRect(-50,-15,100,100);
+ ctx.fillStyle="#fff";ctx.beginPath();ctx.roundRect(-17,0,34,58,14);ctx.fill();
+ ctx.fillStyle="#111";ctx.beginPath();ctx.arc(-6,17,3,0,Math.PI*2);ctx.arc(6,17,3,0,Math.PI*2);ctx.fill();
+ ctx.restore();
+}
+function drawSpirit(x,y){
+ const sx=x-camera,sy=worldY(y);
+ const g=ctx.createRadialGradient(sx,sy,2,sx,sy,55);g.addColorStop(0,"rgba(255,255,255,.30)");g.addColorStop(1,"rgba(255,255,255,0)");
+ ctx.fillStyle=g;ctx.fillRect(sx-55,sy-55,110,110);
+ ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(sx,sy-12,16,0,Math.PI*2);ctx.stroke();
+ ctx.beginPath();ctx.moveTo(sx-12,sy);ctx.quadraticCurveTo(sx-20,sy+25,sx,sy+38);ctx.quadraticCurveTo(sx+20,sy+25,sx+12,sy);ctx.stroke();
+ ctx.font="600 8px Arial";ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText("SPIRITUM SANCTI",sx,sy+58);
+}
+function drawObjects(){
+ for(const o of objects){
+  if(collected.has(o.id))continue;
+  const x=o.x-camera,y=worldY(o.y);
+  if(x<-100||x>W+100)continue;
+  if(o.type==="light"){const g=ctx.createRadialGradient(x,y,1,x,y,34);g.addColorStop(0,"rgba(255,255,255,.75)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(x-34,y-34,68,68);ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fill();ctx.font="700 8px Arial";ctx.textAlign="center";ctx.fillText("LIGHT",x,y+22)}
+  if(o.type==="memory"){ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);ctx.stroke();ctx.fillStyle="#fff";ctx.font="700 9px Arial";ctx.textAlign="center";ctx.fillText("M",x,y+3)}
+  if(o.type==="knot"){ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x-6,y,9,0,Math.PI*2);ctx.arc(x+6,y,9,0,Math.PI*2);ctx.stroke()}
+  if(o.type==="spirit")drawSpirit(o.x,o.y);
+ }
+ for(const l of lamps){
+  const x=l.x-camera,y=worldY(GROUND_Y);
+  const lit=activated.has(l.id);
+  ctx.strokeStyle="rgba(255,255,255,.65)";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-82);ctx.stroke();
+  ctx.fillStyle=lit?"#fff":"#777";ctx.beginPath();ctx.arc(x,y-94,8,0,Math.PI*2);ctx.fill();
+  if(lit){const g=ctx.createRadialGradient(x,y-94,2,x,y-94,55);g.addColorStop(0,"rgba(255,255,255,.5)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(x-55,y-149,110,110)}
+  ctx.fillStyle="rgba(255,255,255,.65)";ctx.font="700 8px Arial";ctx.textAlign="center";ctx.fillText("VETERAN LAMP",x,y+18);
+ }
 }
 function drawMemorial(){
-  const x=world.memorialX-camera,y=H-120;
-  if(x<-250||x>W+250)return;
-  ctx.save();ctx.translate(x,y);
-  ctx.fillStyle="#16191b";ctx.fillRect(-170,-170,340,170);
-  ctx.strokeStyle="rgba(255,255,255,.25)";ctx.strokeRect(-170,-170,340,170);
-  ctx.fillStyle="#fff";ctx.font="500 18px Arial";ctx.textAlign="center";ctx.fillText("DUBLIN",0,-132);
-  ctx.font="700 12px Arial";ctx.letterSpacing="3px";ctx.fillText("REMEMBRANCE",0,-105);
-  for(let i=-120;i<=120;i+=40){ctx.fillStyle="rgba(255,255,255,.55)";ctx.beginPath();ctx.arc(i,-48-(Math.abs(i)%20),4,0,Math.PI*2);ctx.fill()}
-  ctx.restore();
+ const x=FINISH_X-camera,y=worldY(GROUND_Y);
+ ctx.fillStyle="#171a1c";ctx.fillRect(x-180,y-190,360,190);ctx.strokeStyle="rgba(255,255,255,.35)";ctx.strokeRect(x-180,y-190,360,190);
+ ctx.fillStyle="#fff";ctx.textAlign="center";ctx.font="500 20px Arial";ctx.fillText("DUBLIN",x,y-145);
+ ctx.font="700 12px Arial";ctx.fillText("REMEMBRANCE",x,y-118);
+ ctx.font="11px Arial";ctx.fillStyle="rgba(255,255,255,.65)";ctx.fillText("Collect 3 LIGHTS + 2 SPIRITS",x,y-82);
 }
-function render(){
-  sky();drawDublin();drawPoppies();drawGround();drawObjects();drawMemorial();drawPlayer();
-  if(!running&&!won){
-    ctx.fillStyle="rgba(0,0,0,.25)";ctx.fillRect(0,0,W,H);
-  }
-}
+function render(){sky();drawDublin();drawGround();drawObjects();drawMemorial();drawPlayer()}
 let last=performance.now();
-function loop(t){
-  const dt=Math.min(.033,(t-last)/1000);last=t;
-  if(running)update(dt);render();requestAnimationFrame(loop);
-}
+function loop(t){const dt=Math.min(.032,(t-last)/1000);last=t;if(running)update(dt);render();requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
 </script>
 </body>
