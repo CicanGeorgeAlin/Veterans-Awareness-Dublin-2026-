@@ -56,7 +56,7 @@ h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;l
 
 <div class="overlay" id="intro">
   <div class="card">
-    <div class="kicker">An experimental memorial game</div>
+    <div class="kicker">Veteran Awareness Dublin 2026</div>
     <h1>The Journey</h1>
     <p class="sub">A playable journey through Dublin, memory and light — created for Veteran Awareness Dublin 2026, in memory of Nicolae Urluescu and in honor of veterans everywhere.</p>
     <button class="start" id="start">Begin the walk</button>
@@ -120,10 +120,13 @@ const lamps=[{x:3920,id:"lamp1"},{x:6150,id:"lamp2"}];
 function reset(){p.x=180;p.y=105;p.vx=0;p.vy=0;p.on=true;coyote=0.12;jumpBuffer=0;cam=0;lights=memory=spirit=0;got.clear();lit.clear();won=false;L.textContent=0;M.textContent=0;S.textContent=0;msg.textContent=""}
 function begin(){reset();run=true;intro.classList.add("hide");ending.classList.add("hide");photo.style.display="none";msg.textContent="This is your journey. Walk, jump, explore. Tap JUMP to leap.";setTimeout(()=>{if(run)msg.textContent=""},4000)}
 function finish(){run=false;won=true;photo.style.display="block";ending.classList.remove("hide")}
-document.getElementById("start").onclick=begin;document.getElementById("again").onclick=begin;\nfunction tryJump(){ if(!run)return; jumpBuffer=0.16; }
+document.getElementById("start").onclick=begin;document.getElementById("again").onclick=begin;
+function tryJump(){ if(!run)return; jumpBuffer=0.16; }
 
 function bind(id,k){const b=document.getElementById(id);const on=e=>{e.preventDefault();key[k]=true},off=e=>{e.preventDefault();key[k]=false};b.addEventListener("pointerdown",on);b.addEventListener("pointerup",off);b.addEventListener("pointercancel",off);b.addEventListener("pointerleave",off)}
-bind("left","l");bind("right","r");const jumpBtn=document.getElementById("jump");\njumpBtn.addEventListener("pointerdown",e=>{e.preventDefault();tryJump();jumpBtn.setPointerCapture?.(e.pointerId)});\njumpBtn.addEventListener("touchstart",e=>{e.preventDefault();tryJump()},{passive:false});
+bind("left","l");bind("right","r");const jumpBtn=document.getElementById("jump");
+jumpBtn.addEventListener("pointerdown",e=>{e.preventDefault();tryJump();jumpBtn.setPointerCapture?.(e.pointerId)});
+jumpBtn.addEventListener("touchstart",e=>{e.preventDefault();tryJump()},{passive:false});
 addEventListener("keydown",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=true;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=true;if(e.code==="Space"||e.code==="ArrowUp"){tryJump();e.preventDefault()}if((e.code==="Enter"||e.code==="Space")&&!run&&!won)begin()});
 addEventListener("keyup",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=false;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=false});
 
