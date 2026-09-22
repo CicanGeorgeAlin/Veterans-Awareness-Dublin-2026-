@@ -219,6 +219,9 @@ function update(dt){
  else if(P.ground)P.vx*=.94;
  P.vx=Math.max(-5.0,Math.min(5.0,P.vx));
  P.x+=P.vx;
+ // Gentle world boundary: the journey stays inside the memorial route.
+ if(P.x<70){P.x=70;P.vx=Math.max(0,P.vx)}
+ if(P.x>2470){P.x=2470;P.vx=Math.min(0,P.vx)}
  P.vy+=P.ground?.68:.72;
  const wasGround=P.ground;
  const old=P.y+P.h;
