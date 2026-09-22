@@ -89,7 +89,7 @@ canvas{display:block;width:100%;height:100%}
 const c=document.getElementById('game'),x=c.getContext('2d'),pauseBtn=document.getElementById('pauseBtn'),ambientToggle=document.getElementById('ambientToggle');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
 const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText'),replay=document.getElementById('replay'),endingCredit=document.getElementById('endingCredit');
-let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0;
+let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
 const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0};
@@ -187,7 +187,7 @@ function update(dt){
  if(!document.hidden && playing && !world.finished){
    world.lastActive=world.t;
  }
- world.t+=dt; world.breath+=dt;
+ world.t+=dt; world.breath+=dt; landPulse=Math.max(0,landPulse-dt/260);
  const steer=(input.r?1:0)-(input.l?1:0);
  P.vx+=steer*.42;
  if(!steer)P.vx*=P.ground?.86:.97;
@@ -209,6 +209,7 @@ function update(dt){
      const landingSpeed=P.vy;
      P.vy=0;
      P.ground=true;
+     if(!wasGround){landPulse=Math.min(1,landingSpeed/10)}
      if(!wasGround && landingSpeed>4.5){
        P.vx*=.92;
        world.breath+=180;
@@ -436,6 +437,14 @@ function drawQuietMemorial(){
  x.fillText('THE LIGHT CONTINUES',cx,cy+95);
  x.textAlign='left';x.restore();
 }
+function drawLandingPulse(){
+ if(landPulse<=0)return;
+ const xx=P.x-world.cam, yy=P.y+P.h;
+ const radius=18+(1-landPulse)*22;
+ x.strokeStyle='rgba(255,225,165,'+(landPulse*.22)+')';
+ x.lineWidth=1.5;
+ x.beginPath();x.ellipse(xx,yy,radius,4+landPulse*3,0,0,Math.PI*2);x.stroke();
+}
 function drawMemoryAura(){
  if(world.lights<=0)return;
  const xx=P.x-world.cam, yy=P.y+P.h/2;
@@ -573,6 +582,7 @@ function draw(){
  orb(knot,'knot');
  // signposts
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
+ drawLandingPulse();
  drawMemoryAura();
  drawCican();
  drawBubbles();
