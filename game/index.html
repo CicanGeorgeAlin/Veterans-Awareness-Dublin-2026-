@@ -295,10 +295,11 @@ function update(dt){
    world.rested=true;
    world.restAt=world.t;
    world.quiet=true;
+   P.vx=0;
    say('Stop here. Let the light speak for a moment.',4200);
    obj.textContent='Remember';
  }
- if(P.x>2280&&world.lights>=8&&!world.finished&&world.rested&&world.t-world.restAt>5000){
+ if(world.lights>=8&&!world.finished&&world.rested&&Math.abs(P.x-2325)<120&&Math.abs(P.vx)<0.08&&P.ground&&world.t-world.restAt>5000){
    world.finished=true;
    world.endingAt=world.t;
    P.vx=0;
