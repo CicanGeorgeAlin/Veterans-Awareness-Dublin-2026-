@@ -220,7 +220,7 @@ function update(dt){
  const cameraLead=Math.max(-70,Math.min(120,P.vx*18));
  world.cam+=(targetCam+cameraLead-world.cam)*.085;
  world.cam=Math.max(0,Math.min(2450-W*.12,world.cam));
- for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text});say(l.text);updateHud()}
+ for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text,t:world.t});say(l.text);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
   m.got=true;world.memories++;say(m.text,3000);
   memoryCardText.textContent=m.text.replaceAll('\\n',' ');
@@ -482,12 +482,19 @@ function drawCican(){
 
 function drawTrail(){
  for(const l of world.trail){
+   const age=Math.max(0,world.t-(l.t||0));
+   const fade=Math.max(.12,1-age/26000);
    const xx=l.x-world.cam, yy=py({y:l.y})-28;
-   const g=x.createRadialGradient(xx,yy,1,xx,yy,28);
-   g.addColorStop(0,'rgba(255,218,145,.20)');
+   const g=x.createRadialGradient(xx,yy,1,xx,yy,34);
+   g.addColorStop(0,'rgba(255,225,165,'+(0.26*fade)+')');
+   g.addColorStop(.38,'rgba(255,200,110,'+(0.10*fade)+')');
    g.addColorStop(1,'rgba(255,180,80,0)');
-   x.fillStyle=g;x.beginPath();x.arc(xx,yy,28,0,Math.PI*2);x.fill();
-   x.fillStyle='rgba(255,232,175,.52)';x.beginPath();x.arc(xx,yy,2.2,0,Math.PI*2);x.fill();
+   x.fillStyle=g;x.beginPath();x.arc(xx,yy,34,0,Math.PI*2);x.fill();
+   x.fillStyle='rgba(255,238,190,'+(0.58*fade)+')';
+   x.beginPath();x.arc(xx,yy,2.4,0,Math.PI*2);x.fill();
+   x.strokeStyle='rgba(255,225,165,'+(0.12*fade)+')';
+   x.lineWidth=1;
+   x.beginPath();x.arc(xx,yy,9+Math.sin(world.t*.003+l.x)*2,0,Math.PI*2);x.stroke();
  }
 }
 function draw(){
