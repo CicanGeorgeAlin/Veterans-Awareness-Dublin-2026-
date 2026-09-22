@@ -74,20 +74,20 @@ const c=document.getElementById("game"),x=c.getContext("2d"),L=document.getEleme
 let W=innerWidth,H=innerHeight,dpr=Math.min(devicePixelRatio||1,2);
 function size(){W=innerWidth;H=innerHeight;dpr=Math.min(devicePixelRatio||1,2);c.width=W*dpr;c.height=H*dpr;c.style.width=W+"px";c.style.height=H+"px";x.setTransform(dpr,0,0,dpr,0,0)}addEventListener("resize",size);size();
 
-const world={w:8200,ground:105,finish:7700};
+const world={w:11200,ground:105,finish:10600};
 const p={x:180,y:105,w:34,h:58,vx:0,vy:0,on:false};
 const key={l:false,r:false};let jump=false,run=false,won=false,cam=0,lights=0,memory=0,spirit=0, coyote=0, jumpBuffer=0;
 const got=new Set(),lit=new Set();
 
 const platforms=[
 {x:0,y:105,w:1400,h:30},{x:1510,y:105,w:980,h:30},{x:2600,y:105,w:1000,h:30},
-{x:3710,y:105,w:950,h:30},{x:4770,y:105,w:1000,h:30},{x:5880,y:105,w:2320,h:30},
+{x:3710,y:105,w:950,h:30},{x:4770,y:105,w:1000,h:30},{x:5880,y:105,w:5320,h:30},
 {x:430,y:245,w:220,h:20},{x:900,y:190,w:220,h:20},{x:1210,y:290,w:190,h:20},
 {x:1650,y:220,w:210,h:20},{x:2050,y:300,w:200,h:20},{x:2350,y:190,w:180,h:20},
 {x:2750,y:250,w:220,h:20},{x:3100,y:190,w:180,h:20},{x:3420,y:300,w:200,h:20},
 {x:3860,y:220,w:220,h:20},{x:4200,y:300,w:190,h:20},{x:4520,y:200,w:180,h:20},
 {x:4900,y:270,w:220,h:20},{x:5300,y:205,w:190,h:20},{x:5650,y:290,w:200,h:20},
-{x:6100,y:230,w:220,h:20},{x:6500,y:300,w:200,h:20},{x:6900,y:220,w:220,h:20}
+{x:6100,y:230,w:220,h:20},{x:6500,y:300,w:200,h:20},{x:6900,y:220,w:220,h:20},{x:7300,y:300,w:220,h:20},{x:7700,y:210,w:210,h:20},{x:8080,y:285,w:240,h:20},{x:8500,y:220,w:220,h:20},{x:8900,y:310,w:220,h:20},{x:9300,y:235,w:240,h:20},{x:9700,y:300,w:220,h:20},{x:10100,y:220,w:260,h:20}
 ];
 
 const objects=[
@@ -106,9 +106,26 @@ const objects=[
 {t:"spirit",x:5200,y:260,id:"s2"},
 {t:"memory",x:5400,y:260,id:"m5",text:"Spiritum Sancti — the spirit of our grandparents and ancestors."},
 {t:"lamp",x:6150,id:"lamp2"},
-{t:"light",x:6660,y:340,id:"l5"}
+{t:"light",x:6660,y:340,id:"l5"},
+{t:"memory",x:7350,y:350,id:"m6",text:"A grandfather can leave a light behind without ever knowing how far it will travel."},
+{t:"knot",x:7800,y:350,id:"k3"},
+{t:"memory",x:8150,y:335,id:"m7",text:"Some memories are not photographs. They are the way we continue."},
+{t:"spirit",x:8550,y:285,id:"s3"},
+{t:"light",x:9000,y:350,id:"l6"},
+{t:"memory",x:9350,y:320,id:"m8",text:"For the veterans who carried the weight of their generation."},
+{t:"lamp",x:9750,id:"lamp3"},
+{t:"memory",x:10150,y:310,id:"m9",text:"From one generation to the next: remember, honor, carry it forward."},
+{t:"light",x:10400,y:350,id:"l7"}
 ];
-const lamps=[{x:3920,id:"lamp1"},{x:6150,id:"lamp2"}];
+const lamps=[{x:3920,id:"lamp1"},{x:6150,id:"lamp2"},{x:9750,id:"lamp3"}];
+const chapters=[
+{x:0,title:"THE BEGINNING",sub:"Cican • Outdoor life"},
+{x:1700,title:"THE ROOTS",sub:"Romania • family • memory"},
+{x:3700,title:"THE JOURNEY",sub:"Dublin • a new chapter"},
+{x:6100,title:"THE LIGHT",sub:"Veterans • remembrance"},
+{x:8300,title:"SPIRITUM SANCTI",sub:"The spirit of our grandparents and ancestors"},
+{x:10100,title:"THE MEMORIAL",sub:"Remember • Honor • Carry it forward"}
+];
 
 function reset(){p.x=180;p.y=105;p.vx=0;p.vy=0;p.on=true;coyote=0.12;jumpBuffer=0;cam=0;lights=memory=spirit=0;got.clear();lit.clear();won=false;L.textContent=0;M.textContent=0;S.textContent=0;msg.textContent=""}
 function begin(){reset();run=true;intro.classList.add("hide");ending.classList.add("hide");photo.style.display="none";msg.textContent="This is your journey. Walk, jump, explore. Tap JUMP to leap.";setTimeout(()=>{if(run)msg.textContent=""},4000)}
@@ -226,7 +243,10 @@ function drawOutdoor(){
  x.fillStyle="rgba(10,8,6,.75)";for(let i=0;i<24;i++){const bx=i*220,bh=45+(i*29)%95;x.beginPath();x.moveTo(bx,-bh);x.lineTo(bx+55,-bh-45);x.lineTo(bx+110,-bh);x.lineTo(bx+110,0);x.lineTo(bx,0);x.fill()}
  x.restore();
 }
-function drawPlatforms(){for(const q of platforms){const xx=q.x-cam,yy=H-q.y-q.h;if(xx+q.w<0||xx>W)continue;x.fillStyle=q.y===105?"#302318":"#59402a";x.fillRect(xx,yy,q.w,q.h);x.fillStyle="rgba(255,226,185,.30)";x.fillRect(xx,yy,q.w,2);if(q.y===105){x.fillStyle="rgba(34,50,27,.9)";for(let k=10;k<q.w;k+=70){x.beginPath();x.arc(xx+k,yy-2,4,0,Math.PI*2);x.fill()}}}}
+function drawPlatforms(){for(const q of platforms){const xx=q.x-cam,yy=H-q.y;if(xx+q.w<0||xx>W)continue;x.fillStyle=q.y===105?"#302318":"#59402a";x.fillRect(xx,yy,q.w,q.h);x.fillStyle="rgba(255,226,185,.30)";x.fillRect(xx,yy,q.w,2);if(q.y===105){x.fillStyle="rgba(34,50,27,.9)";for(let k=10;k<q.w;k+=70){x.beginPath();x.arc(xx+k,yy-2,4,0,Math.PI*2);x.fill()}}}}
+function drawChapters(){
+ for(const ch of chapters){const xx=ch.x-cam;if(xx<-260||xx>W+260)continue;x.save();x.globalAlpha=.18;x.textAlign="center";x.fillStyle="#f1dec1";x.font="700 11px Arial";x.letterSpacing="3px";x.fillText(ch.title,xx,H*.25);x.font="10px Arial";x.globalAlpha=.11;x.fillText(ch.sub,xx,H*.25+20);x.restore()}
+}
 function drawTent(){const xx=360-cam,yy=H-105;if(xx<-180||xx>W+180)return;x.fillStyle="#6b563f";x.beginPath();x.moveTo(xx-105,yy);x.lineTo(xx,yy-92);x.lineTo(xx+110,yy);x.closePath();x.fill();x.strokeStyle="#d8c2a0";x.lineWidth=2;x.stroke();x.fillStyle="#17120d";x.beginPath();x.moveTo(xx-30,yy);x.lineTo(xx,yy-48);x.lineTo(xx+30,yy);x.fill();x.fillStyle="#eee";x.font="700 9px Arial";x.textAlign="center";x.fillText("CICAN • OUTDOOR",xx,yy+22)}
 function drawObjects(){
  for(const o of objects){if(got.has(o.id))continue;const xx=o.x-cam,yy=H-o.y;if(xx<-100||xx>W+100)continue;
@@ -239,7 +259,7 @@ function drawObjects(){
 }
 function drawPlayer(){const xx=p.x-cam+p.w/2,yy=H-p.y-p.h;x.save();x.translate(xx,yy);x.fillStyle="rgba(255,230,180,.15)";x.beginPath();x.arc(0,32,45,0,Math.PI*2);x.fill();x.fillStyle="#e8c39a";x.beginPath();x.arc(0,9,11,0,Math.PI*2);x.fill();x.fillStyle="#24201b";x.fillRect(-12,-2,24,8);x.fillStyle="#53634b";x.fillRect(-15,20,30,29);x.fillStyle="#29231d";x.fillRect(-12,49,9,9);x.fillRect(3,49,9,9);x.fillStyle="#fff";x.font="700 8px Arial";x.textAlign="center";x.fillText("CICAN",0,72);x.restore()}
 function drawMemorial(){const xx=world.finish-cam,yy=H-105;if(xx<-300||xx>W+300)return;x.fillStyle="#201a15";x.fillRect(xx-200,yy-205,400,205);x.strokeStyle="#d8c2a0";x.strokeRect(xx-200,yy-205,400,205);x.fillStyle="#fff";x.textAlign="center";x.font="500 22px Arial";x.fillText("VETERAN AWARENESS",xx,yy-155);x.font="700 16px Arial";x.fillText("DUBLIN 2026",xx,yy-128);x.font="12px Arial";x.fillStyle="#d9c9b4";x.fillText("REMEMBRANCE",xx,yy-96);x.fillText("3 LIGHTS • 2 SPIRITS",xx,yy-66)}
-function render(){sky();drawOutdoor();drawPlatforms();drawTent();drawObjects();drawMemorial();drawPlayer()}
+function render(){sky();drawOutdoor();drawChapters();drawPlatforms();drawTent();drawObjects();drawMemorial();drawPlayer()}
 let last=performance.now();function loop(t){const dt=Math.min(.032,(t-last)/1000);last=t;if(run)update(dt);render();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 </script>
 </body>
