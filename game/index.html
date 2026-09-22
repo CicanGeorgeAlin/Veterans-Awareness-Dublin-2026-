@@ -5,179 +5,203 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>SPIRITUM SANCTI — A Journey Through Memory</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
-body{touch-action:none}
-canvas{display:block;width:100%;height:100%;background:#000}
+:root{--w:#fff;--glass:rgba(0,0,0,.38)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050505;color:var(--w);font-family:Arial,Helvetica,sans-serif}body{touch-action:none}
+canvas{display:block;width:100%;height:100%}
 .hud{position:fixed;inset:0;pointer-events:none}
-.title{position:absolute;top:24px;left:24px;font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.55}
-.message{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);width:min(88vw,620px);text-align:center;font-size:14px;letter-spacing:1.5px;line-height:1.7;opacity:0;transition:opacity 1s ease;text-transform:uppercase}
-.message.show{opacity:.78}
-.controls{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center;gap:14px;pointer-events:auto}
-button{width:64px;height:64px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(255,255,255,.05);color:#fff;font-size:22px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-button:active{background:rgba(255,255,255,.18)}
-.start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:5;transition:opacity 1.2s}
+.brand{position:absolute;top:20px;left:22px;text-shadow:0 2px 15px #000}
+.brand b{display:block;font-family:Georgia,serif;font-size:clamp(18px,4vw,30px);font-weight:400;letter-spacing:3px}
+.brand span{display:block;margin-top:2px;font-family:cursive;font-size:13px;letter-spacing:1px;opacity:.8}
+.stats{position:absolute;top:18px;right:18px;padding:10px 13px;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:var(--glass);backdrop-filter:blur(8px);font-size:10px;letter-spacing:1.5px;line-height:1.9;text-transform:uppercase}
+.dedication{position:absolute;top:20px;right:180px;text-align:right;font-size:9px;letter-spacing:2px;line-height:1.7;opacity:.8}
+.message{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:min(86vw,560px);padding:15px 18px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(7px);text-align:center;font-family:Georgia,serif;font-size:15px;line-height:1.55;opacity:0;transition:opacity .8s}
+.message.show{opacity:1}
+.objective{position:absolute;left:50%;top:18%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:.65;text-shadow:0 2px 10px #000}
+.controls{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:space-between;padding:0 18px;pointer-events:auto}
+.joy{position:relative;width:88px;height:88px;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(0,0,0,.24);backdrop-filter:blur(5px)}
+.joy button{position:absolute;border:0;background:transparent;color:#fff;font-size:21px;width:40px;height:40px}
+#left{left:3px;top:24px}#right{right:3px;top:24px}
+#jump{width:88px;height:88px;border:1px solid rgba(255,255,255,.35);border-radius:50%;background:rgba(0,0,0,.28);color:#fff;font-size:12px;letter-spacing:2px;text-transform:uppercase}
+.start{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;background:#050505;transition:opacity 1.1s}
 .start.hide{opacity:0;pointer-events:none}
-.start-inner{text-align:center;padding:30px}
-.start h1{margin:0;font-size:clamp(34px,8vw,72px);font-weight:400;letter-spacing:7px}
-.start p{margin:22px 0 34px;font-size:12px;letter-spacing:3px;line-height:2;opacity:.6;text-transform:uppercase}
-.start button{width:auto;height:auto;border-radius:0;padding:15px 25px;font-size:10px;letter-spacing:3px;text-transform:uppercase}
-@media(min-width:800px){.controls{bottom:30px}.title{top:30px;left:30px}}
+.start-inner{text-align:center;width:min(90vw,700px)}
+.start h1{margin:0;font-family:Georgia,serif;font-size:clamp(36px,9vw,80px);font-weight:400;letter-spacing:7px}
+.start .script{margin:8px 0 25px;font-family:cursive;font-size:clamp(17px,4vw,28px);opacity:.85}
+.start p{font-size:10px;letter-spacing:2px;line-height:2;opacity:.6;text-transform:uppercase}
+.start button{margin-top:25px;padding:14px 25px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.05);color:#fff;font-size:10px;letter-spacing:3px;text-transform:uppercase}
+@media(max-width:700px){.dedication{display:none}.stats{top:65px;right:12px}.brand{top:14px;left:14px}.objective{top:25%}}
 </style>
 </head>
 <body>
 <canvas id="game"></canvas>
 
-<div class="start" id="start">
-  <div class="start-inner">
-    <h1>SPIRITUM SANCTI</h1>
-    <p>A journey through memory<br>For those who served. For those who remember.</p>
-    <button id="begin">Begin the journey</button>
-  </div>
-</div>
+<div class="start" id="start"><div class="start-inner">
+<h1>SPIRITUM SANCTI</h1><div class="script">A journey through memory</div>
+<p>For those who served.<br>For those who remember.</p>
+<button id="begin">Begin the journey</button>
+</div></div>
 
 <div class="hud">
-  <div class="title">Veteran Awareness Dublin 2026</div>
-  <div class="message" id="message"></div>
-  <div class="controls">
-    <button id="left" aria-label="Move left">←</button>
-    <button id="jump" aria-label="Jump">↑</button>
-    <button id="right" aria-label="Move right">→</button>
-  </div>
+<div class="brand"><b>SPIRITUM SANCTI</b><span>A journey through memory</span></div>
+<div class="dedication">IN MEMORY OF<br>NICOLAE URLUESCU<br><br>IN HONOR OF<br>EVERY VETERAN</div>
+<div class="stats">Lights <b id="lightCount">0</b>/12<br>Knot <b id="knotCount">0</b>/1<br>Memories <b id="memoryCount">0</b>/8</div>
+<div class="objective" id="objective">Find the light</div>
+<div class="message" id="message"></div>
+<div class="controls">
+<div class="joy"><button id="left">◀</button><button id="right">▶</button></div>
+<button id="jump">JUMP<br>↑</button>
+</div>
 </div>
 
 <script>
-const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-const start=document.getElementById('start'),begin=document.getElementById('begin'),message=document.getElementById('message');
-let W=0,H=0,dpr=1,started=false,last=0;
-const input={left:false,right:false};
-const world={camera:0,time:0,memories:0,lights:0};
-const player={x:120,y:0,vx:0,vy:0,r:13,onGround:false};
-const gravity=.72,jump=-13,speed=.55,maxSpeed=5.2,friction=.82;
-
+const c=document.getElementById('game'),x=c.getContext('2d');
+const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
+const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective');
+let W,H,dpr=1,playing=false,last=0;
+const input={l:false,r:false};
+const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false};
 const platforms=[
-{x:-100,y:0,w:420,h:34,tilt:0},
-{x:390,y:-42,w:190,h:28,tilt:-.035},
-{x:640,y:-92,w:190,h:28,tilt:.025},
-{x:910,y:-25,w:210,h:28,tilt:-.03},
-{x:1200,y:-105,w:170,h:28,tilt:.04},
-{x:1450,y:-35,w:230,h:28,tilt:-.02},
-{x:1760,y:-120,w:220,h:28,tilt:.035},
-{x:2070,y:-45,w:300,h:28,tilt:-.025}
+{x:-100,y:0,w:410,h:34,a:0,type:'earth'},
+{x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
+{x:600,y:-72,w:175,h:28,a:.025,type:'stone'},
+{x:835,y:-10,w:205,h:28,a:-.025,type:'stone'},
+{x:1100,y:-88,w:185,h:28,a:.045,type:'stone'},
+{x:1350,y:-25,w:210,h:28,a:-.03,type:'stone'},
+{x:1630,y:-105,w:185,h:28,a:.035,type:'stone'},
+{x:1890,y:-38,w:220,h:28,a:-.02,type:'stone'},
+{x:2170,y:-105,w:280,h:30,a:.01,type:'memorial'}
 ];
-
 const lights=[
-{x:520,y:-92,got:false,text:'Someone once carried a story through war.'},
-{x:1010,y:-75,got:false,text:'Someone remembered.'},
-{x:1290,y:-155,got:false,text:'Memory is what we carry forward.'},
-{x:1550,y:-85,got:false,text:'A life can end. A memory does not have to.'},
-{x:1880,y:-170,got:false,text:'For those who served. For those who came home.'}
-];
+{x:410,y:-75,text:'Someone once carried a story through war.'},
+{x:650,y:-122,text:'A generation remembers.'},
+{x:880,y:-60,text:'Another carries the memory forward.'},
+{x:1135,y:-138,text:'Memory is what we choose not to lose.'},
+{x:1390,y:-75,text:'For those who served.'},
+{x:1680,y:-155,text:'For those who came home.'},
+{x:1935,y:-88,text:'For those whose stories remain.'},
+{x:2240,y:-155,text:'You were never carrying the light alone.'},
+{x:2290,y:-155,text:'For a future without war.'},
+{x:2340,y:-155,text:'Coloring for World Peace.'},
+{x:2390,y:-155,text:'In memory. In honor.'},
+{x:2440,y:-155,text:'Remember.'}
+].map((o,i)=>({...o,got:false,id:i}));
+const memories=[
+{x:505,y:-92,text:'MEMORY 01\nA story can cross generations.'},
+{x:775,y:-135,text:'MEMORY 02\nLove survives the distance of time.'},
+{x:1210,y:-155,text:'MEMORY 03\nSome names should never disappear.'},
+{x:1475,y:-92,text:'MEMORY 04\nA small light can guide a long journey.'},
+{x:1770,y:-172,text:'MEMORY 05\nWe carry what others gave us.'},
+{x:2010,y:-105,text:'MEMORY 06\nRemembering is an act of peace.'},
+{x:2250,y:-170,text:'MEMORY 07\nFrom Romania to Dublin.'},
+{x:2410,y:-170,text:'MEMORY 08\nFor every veteran.'}
+].map(o=>({...o,got:false}));
+const knot={x:1580,y:-150,got:false};
 
-function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
-addEventListener('resize',resize);resize();
-
-function reset(){player.x=120;player.vx=0;player.vy=0;world.camera=0;world.time=0;world.memories=0;world.lights=0;lights.forEach(l=>l.got=false);player.y=H*.58}
-function jumpNow(){if(player.onGround){player.vy=jump;player.onGround=false}}
-function bind(id,key){const b=document.getElementById(id);['pointerdown','touchstart'].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();input[key]=true},{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();input[key]=false},{passive:false}))}
-bind('left','left');bind('right','right');
-document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefault();jumpNow()});
-addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')input.left=true;if(e.key==='ArrowRight'||e.key==='d')input.right=true;if(e.key==='ArrowUp'||e.key===' '||e.key==='w')jumpNow()});
-addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='a')input.left=false;if(e.key==='ArrowRight'||e.key==='d')input.right=false});
-
-function beginGame(){started=true;start.classList.add('hide');reset();show('Walk into the light.',2400)}
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}addEventListener('resize',resize);resize();
+function py(p){return H*.68+p.y}
+function say(t,ms=3300){msg.textContent=t.replaceAll('\n',' ');msg.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>msg.classList.remove('show'),ms)}
+function bind(el,key){['pointerdown','touchstart'].forEach(e=>el.addEventListener(e,z=>{z.preventDefault();input[key]=true},{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(e=>el.addEventListener(e,z=>{z.preventDefault();input[key]=false},{passive:false}))}
+bind(document.getElementById('left'),'l');bind(document.getElementById('right'),'r');
+document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
+addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
+addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
+function jump(){if(P.ground){P.vy=-13;P.ground=false}}
+function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function updateHud(){lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories}
+function beginGame(){playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600)}
 begin.onclick=beginGame;
 
-function show(t,ms=2800){message.textContent=t;message.classList.add('show');clearTimeout(show.timer);show.timer=setTimeout(()=>message.classList.remove('show'),ms)}
-
-function platformY(p){return H*.66+p.y}
 function update(dt){
-  world.time+=dt;
-  const accel=(input.right?speed:0)-(input.left?speed:0);
-  player.vx+=accel;
-  if(!input.left&&!input.right)player.vx*=friction;
-  player.vx=Math.max(-maxSpeed,Math.min(maxSpeed,player.vx));
-  player.x+=player.vx;
-  player.vy+=gravity;
-  const prevBottom=player.y+player.r;
-  player.y+=player.vy;
-  player.onGround=false;
-  for(const p of platforms){
-    const py=platformY(p);
-    if(player.x+player.r>p.x && player.x-player.r<p.x+p.w &&
-       prevBottom<=py && player.y+player.r>=py && player.vy>=0){
-      player.y=py-player.r;player.vy=0;player.onGround=true;
-    }
-  }
-  world.camera+=(player.x-W*.34-world.camera)*.075;
-  world.camera=Math.max(0,world.camera);
-  for(const l of lights){
-    if(!l.got && Math.hypot(player.x-l.x,player.y-(platformY({y:l.y})-30))<55){
-      l.got=true;world.lights++;world.memories++;show(l.text,3600);
-    }
-  }
-  if(player.y>H+120){player.x=Math.max(80,player.x-180);player.y=H*.35;player.vy=0;show('Some memories take more than one attempt.',2600)}
+ world.t+=dt;
+ P.vx+=(input.r?0.52:0)-(input.l?0.52:0); if(!input.l&&!input.r)P.vx*=.82;
+ P.vx=Math.max(-5.3,Math.min(5.3,P.vx)); P.x+=P.vx; P.vy+=.72;
+ const old=P.y+P.h;P.y+=P.vy;P.ground=false;
+ for(const q of platforms){const top=py(q);if(P.x+P.w/2>q.x&&P.x-P.w/2<q.x+q.w&&old<=top&&P.y+P.h>=top&&P.vy>=0){P.y=top-P.h;P.vy=0;P.ground=true}}
+ world.cam+=(P.x-W*.30-world.cam)*.075;world.cam=Math.max(0,world.cam);
+ for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;say(l.text);updateHud()}
+ for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){m.got=true;world.memories++;say(m.text,3000);updateHud()}
+ if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){knot.got=true;world.knot=1;say('The CICAN knot — memory connected to memory.',4200);updateHud()}
+ if(P.y>H+120){P.x=Math.max(80,P.x-190);P.y=H*.3;P.vy=0;say('Some memories take more than one attempt.',2600)}
+ if(P.x>2140&&world.lights>=8){obj.textContent='Approach the memorial'}
+ else if(P.x>1500){obj.textContent='Carry the light forward'}
+ else obj.textContent='Follow the light'
+ if(P.x>2280&&world.lights>=8&&!world.finished){world.finished=true;say('You were never carrying the light alone.\nIn memory of Nicolae Urluescu.\nIn honor of every veteran.',9000)}
 }
 
-function drawBackground(){
-  const darkness=Math.max(0,1-world.lights*.13);
-  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#020202');g.addColorStop(.65,'#070707');g.addColorStop(1,'#000');
-  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-  // distant memory lights
-  for(let i=0;i<18;i++){
-    const x=((i*173-world.camera*.16)% (W+200))-100;
-    const y=H*.18+(i%5)*H*.1;
-    const a=.025+(1-darkness)*.025;
-    ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.beginPath();ctx.arc(x,y,1.5,0,Math.PI*2);ctx.fill();
-  }
+function sky(){
+ const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#08090b');g.addColorStop(.36,'#47352e');g.addColorStop(.6,'#111820');g.addColorStop(1,'#030405');x.fillStyle=g;x.fillRect(0,0,W,H);
+ const sunX= W*.48-world.cam*.035, sunY=H*.42;const sg=x.createRadialGradient(sunX,sunY,2,sunX,sunY,150);sg.addColorStop(0,'rgba(255,205,130,.7)');sg.addColorStop(1,'rgba(255,150,80,0)');x.fillStyle=sg;x.beginPath();x.arc(sunX,sunY,150,0,Math.PI*2);x.fill();
+ x.fillStyle='rgba(5,8,12,.72)';x.beginPath();x.moveTo(0,H*.55);for(let i=0;i<=12;i++){let xx=i*W/12;let yy=H*(.48+(i%3)*.045);x.lineTo(xx,yy)}x.lineTo(W,H);x.lineTo(0,H);x.fill();
+ // distant dam
+ const dx=520-world.cam*.18,dy=H*.59;x.fillStyle='rgba(180,185,185,.2)';x.fillRect(dx,dy,180,10);for(let i=0;i<7;i++){x.fillRect(dx+i*27,dy+10,5,H*.12)}
+ // distant memorial obelisk appears toward end
+ const mx=2240-world.cam,base=H*.62;x.fillStyle='rgba(210,210,205,.18)';x.fillRect(mx,base-145,16,145);x.beginPath();x.moveTo(mx-4,base-145);x.lineTo(mx+8,base-165);x.lineTo(mx+20,base-145);x.fill();
 }
 
-function drawPlatform(p){
-  const x=p.x-world.camera,y=platformY(p);
-  ctx.save();ctx.translate(x,y);ctx.rotate(p.tilt);
-  const glow=ctx.createLinearGradient(0,0,p.w,0);glow.addColorStop(0,'rgba(255,255,255,.05)');glow.addColorStop(.5,'rgba(255,255,255,.15)');glow.addColorStop(1,'rgba(255,255,255,.04)');
-  ctx.fillStyle=glow;ctx.fillRect(0,0,p.w,p.h);
-  ctx.strokeStyle='rgba(255,255,255,.14)';ctx.strokeRect(0,0,p.w,p.h);
-  ctx.restore();
+function tent(){
+ const tx=90-world.cam,ty=H*.68-150;
+ // warm glow
+ const g=x.createRadialGradient(tx+80,ty+105,5,tx+80,ty+105,180);g.addColorStop(0,'rgba(255,166,72,.34)');g.addColorStop(1,'rgba(255,130,50,0)');x.fillStyle=g;x.beginPath();x.arc(tx+80,ty+105,180,0,Math.PI*2);x.fill();
+ x.fillStyle='#252523';x.beginPath();x.moveTo(tx,ty+130);x.lineTo(tx+82,ty);x.lineTo(tx+170,ty+130);x.closePath();x.fill();
+ x.strokeStyle='rgba(255,210,145,.55)';x.stroke();
+ x.fillStyle='#ddd0a6';x.font='bold 15px Arial';x.fillText('CICAN',tx+48,ty+91);
+ // lantern
+ const lx=tx+185,ly=ty+112;const lg=x.createRadialGradient(lx,ly,2,lx,ly,42);lg.addColorStop(0,'rgba(255,206,100,.9)');lg.addColorStop(1,'rgba(255,170,50,0)');x.fillStyle=lg;x.beginPath();x.arc(lx,ly,42,0,Math.PI*2);x.fill();x.fillStyle='#d8d1bc';x.fillRect(lx-6,ly-13,12,25);x.fillStyle='#191919';x.fillRect(lx-8,ly-17,16,4);
+ // backpack
+ x.fillStyle='#171918';x.fillRect(tx+20,ty+111,42,30);
 }
 
-function drawLight(l){
-  if(l.got)return;
-  const x=l.x-world.camera,y=platformY({y:l.y})-32;
-  const pulse=4+Math.sin(world.time*.004+l.x)*2;
-  const rg=ctx.createRadialGradient(x,y,0,x,y,30+pulse);
-  rg.addColorStop(0,'rgba(255,255,255,.7)');rg.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,34+pulse,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+function platform(q){
+ const xx=q.x-world.cam,yy=py(q);x.save();x.translate(xx,yy);x.rotate(q.a);
+ if(q.type==='earth'){x.fillStyle='#1a1714';x.fillRect(0,0,q.w,q.h);x.fillStyle='#33261c';x.fillRect(0,0,q.w,7)}
+ else if(q.type==='memorial'){x.fillStyle='#3a3935';x.fillRect(0,0,q.w,q.h);x.fillStyle='#77736a';x.fillRect(0,0,q.w,4)}
+ else{x.fillStyle='#292827';x.fillRect(0,0,q.w,q.h);x.fillStyle='#54514b';x.fillRect(0,0,q.w,4)}
+ x.strokeStyle='rgba(255,255,255,.15)';x.strokeRect(0,0,q.w,q.h);x.restore();
 }
 
-function drawPlayer(){
-  const x=player.x-world.camera,y=player.y;
-  const pulse=1+Math.sin(world.time*.006)*.08;
-  ctx.save();ctx.translate(x,y);ctx.scale(pulse,pulse);
-  const rg=ctx.createRadialGradient(0,0,2,0,0,34);rg.addColorStop(0,'rgba(255,255,255,.45)');rg.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=rg;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,13,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-4,-2,2,0,Math.PI*2);ctx.arc(4,-2,2,0,Math.PI*2);ctx.fill();
-  ctx.restore();
+function orb(o,kind){
+ if(o.got)return;const xx=o.x-world.cam,yy=py({y:o.y})-28;const r=5+Math.sin(world.t*.005+o.x)*2;
+ const g=x.createRadialGradient(xx,yy,0,xx,yy,34);g.addColorStop(0,'rgba(255,218,145,.9)');g.addColorStop(.35,'rgba(255,190,100,.3)');g.addColorStop(1,'rgba(255,180,80,0)');x.fillStyle=g;x.beginPath();x.arc(xx,yy,34,0,Math.PI*2);x.fill();x.fillStyle='#fff2ca';x.beginPath();x.arc(xx,yy,r,0,Math.PI*2);x.fill();
+ if(kind==='memory'){x.fillStyle='rgba(255,255,255,.7)';x.font='9px Arial';x.fillText('MEMORY',xx-25,yy-20)}
+}
+
+function drawCican(){
+ const xx=P.x-world.cam,yy=P.y+P.h/2;x.save();x.translate(xx,yy);
+ // shadow
+ x.fillStyle='rgba(0,0,0,.45)';x.beginPath();x.ellipse(0,26,18,5,0,0,Math.PI*2);x.fill();
+ // backpack
+ x.fillStyle='#17201f';x.fillRect(-18,-10,13,27);
+ // body/jacket
+ x.fillStyle='#26322e';x.fillRect(-11,-7,22,27);
+ // head
+ x.fillStyle='#c99168';x.beginPath();x.arc(0,-25,12,0,Math.PI*2);x.fill();
+ // beard
+ x.fillStyle='#332b28';x.beginPath();x.arc(0,-20,11,0,Math.PI);x.fill();
+ // cap
+ x.fillStyle='#111';x.fillRect(-13,-39,26,7);x.fillRect(-8,-44,17,8);x.fillStyle='#eee';x.font='5px Arial';x.fillText('CICAN',-7,-38);
+ // face
+ x.fillStyle='#111';x.beginPath();x.arc(-4,-27,1.5,0,Math.PI*2);x.arc(4,-27,1.5,0,Math.PI*2);x.fill();
+ // legs
+ x.fillStyle='#111';x.fillRect(-9,18,7,12);x.fillRect(2,18,7,12);
+ // boots
+ x.fillRect(-12,28,10,4);x.fillRect(2,28,10,4);x.restore();
 }
 
 function draw(){
-  drawBackground();
-  for(const p of platforms)drawPlatform(p);
-  for(const l of lights)drawLight(l);
-  // final distant memorial glow
-  const fx=2320-world.camera,fy=H*.46;
-  const fr=ctx.createRadialGradient(fx,fy,0,fx,fy,180);
-  fr.addColorStop(0,'rgba(255,255,255,.12)');fr.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=fr;ctx.beginPath();ctx.arc(fx,fy,180,0,Math.PI*2);ctx.fill();
-  drawPlayer();
-  if(world.lights===lights.length && player.x>2050)show('You were never carrying the light alone.',6000);
+ sky();tent();
+ for(const q of platforms)platform(q);
+ for(const l of lights)orb(l,'light');
+ for(const m of memories)orb(m,'memory');
+ orb(knot,'knot');
+ // signposts
+ const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
+ drawCican();
+ // footer
+ x.textAlign='center';x.fillStyle='rgba(255,255,255,.8)';x.font='11px Arial';x.letterSpacing='2px';x.fillText('COLORING FOR WORLD PEACE  🕊',W/2,H-24);x.textAlign='left';
 }
 
-function loop(t){
-  if(!last)last=t;const dt=Math.min(32,t-last);last=t;
-  if(started){update(dt);draw()}requestAnimationFrame(loop)
-}
+function loop(t){if(!last)last=t;const dt=Math.min(32,t-last);last=t;if(playing){update(dt);draw()}requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
 </script>
 </body>
