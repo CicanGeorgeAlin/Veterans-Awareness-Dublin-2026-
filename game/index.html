@@ -384,11 +384,39 @@ function platform(q){
 }
 
 function orb(o,kind){
- if(o.got)return;const xx=o.x-world.cam,yy=py({y:o.y})-28;const r=5+Math.sin(world.t*.005+o.x)*2;
- const g=x.createRadialGradient(xx,yy,0,xx,yy,34);g.addColorStop(0,'rgba(255,218,145,.9)');g.addColorStop(.35,'rgba(255,190,100,.3)');g.addColorStop(1,'rgba(255,180,80,0)');x.fillStyle=g;x.beginPath();x.arc(xx,yy,34,0,Math.PI*2);x.fill();x.fillStyle='#fff2ca';x.beginPath();x.arc(xx,yy,r,0,Math.PI*2);x.fill();
- if(kind==='memory'){x.fillStyle='rgba(255,255,255,.7)';x.font='9px Arial';x.fillText('MEMORY',xx-25,yy-20)}
+ if(o.got)return;
+ const xx=o.x-world.cam,yy=py({y:o.y})-28;
+ const pulse=1+Math.sin(world.t*.004+o.x)*.12;
+ if(kind==='knot'){
+   x.save();x.translate(xx,yy);x.scale(pulse,pulse);
+   x.strokeStyle='rgba(255,238,190,.85)';x.lineWidth=3;
+   x.beginPath();x.arc(-6,0,8,.2,Math.PI*1.8);x.arc(6,0,8,Math.PI*1.2,Math.PI*2+.9);x.stroke();
+   x.strokeStyle='rgba(255,214,140,.32)';x.lineWidth=1;
+   x.beginPath();x.arc(0,0,25,0,Math.PI*2);x.stroke();
+   x.restore();
+   return;
+ }
+ const r=(kind==='memory'?6:5)*pulse;
+ const radius=kind==='memory'?40:34;
+ const g=x.createRadialGradient(xx,yy,0,xx,yy,radius);
+ if(kind==='memory'){
+   g.addColorStop(0,'rgba(225,235,255,.92)');
+   g.addColorStop(.35,'rgba(190,210,255,.24)');
+   g.addColorStop(1,'rgba(160,190,255,0)');
+ }else{
+   g.addColorStop(0,'rgba(255,218,145,.9)');
+   g.addColorStop(.35,'rgba(255,190,100,.3)');
+   g.addColorStop(1,'rgba(255,180,80,0)');
+ }
+ x.fillStyle=g;x.beginPath();x.arc(xx,yy,radius,0,Math.PI*2);x.fill();
+ x.fillStyle=kind==='memory'?'#eef4ff':'#fff2ca';
+ x.beginPath();x.arc(xx,yy,r,0,Math.PI*2);x.fill();
+ if(kind==='memory'){
+   x.strokeStyle='rgba(220,235,255,.45)';x.lineWidth=1;
+   x.beginPath();x.arc(xx,yy,12+Math.sin(world.t*.003+o.x)*2,0,Math.PI*2);x.stroke();
+   x.fillStyle='rgba(235,242,255,.72)';x.font='8px Arial';x.fillText('MEMORY',xx-25,yy-22);
+ }
 }
-
 function drawQuietMemorial(){
  if(!world.quiet)return;
  const a=Math.min(1,(world.t-world.restAt)/5000);
