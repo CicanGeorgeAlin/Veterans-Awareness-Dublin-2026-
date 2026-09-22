@@ -150,6 +150,8 @@ function restartAfterFall(){
 function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  const tl=document.getElementById('memoryTrailLabel');
+ const pf=document.getElementById('journeyProgressFill');
+ if(pf) pf.style.width=Math.max(0,Math.min(100,(P.x/2325)*100))+'%';
  if(tl) tl.style.opacity=(world.lights>=3&&!world.finished)?'.7':'0';
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
  if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
@@ -491,5 +493,6 @@ function loop(t){if(!last)last=t;const dt=Math.min(32,t-last);last=t;if(playing)
 requestAnimationFrame(loop);
 </script>
 <div id="memoryTrailLabel" aria-hidden="true">THE LIGHTS REMEMBER THE WAY</div>
-<style>#memoryTrailLabel{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:12;font:8px/1 sans-serif;letter-spacing:2.5px;color:rgba(255,255,255,.34);pointer-events:none;opacity:0;transition:opacity 1.5s;text-align:center;white-space:nowrap}@media(max-width:700px){#memoryTrailLabel{font-size:7px;letter-spacing:2px;bottom:7px}}</style></body>
+<div id="journeyProgress" aria-hidden="true"><span id="journeyProgressFill"></span></div>
+<style>#journeyProgress{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);width:min(220px,42vw);height:2px;background:rgba(255,255,255,.09);z-index:12;pointer-events:none;opacity:.55}#journeyProgressFill{display:block;height:100%;width:0%;background:rgba(255,255,255,.7);transition:width .5s ease}#memoryTrailLabel{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);z-index:12;font:8px/1 sans-serif;letter-spacing:2.5px;color:rgba(255,255,255,.34);pointer-events:none;opacity:0;transition:opacity 1.5s;text-align:center;white-space:nowrap}@media(max-width:700px){#memoryTrailLabel{font-size:7px;letter-spacing:2px;bottom:7px}}</style></body>
 </html>
