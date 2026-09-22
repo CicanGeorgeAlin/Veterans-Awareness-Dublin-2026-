@@ -380,7 +380,7 @@ function drawBubbles(){
 }
 function drawCican(){
  const xx=P.x-world.cam,yy=P.y+P.h/2;
- x.save();x.translate(xx,yy);
+ x.save();x.translate(xx,yy);x.scale(1.35,1.35);
 
  // shadow
  x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,30,22,5,0,0,Math.PI*2);x.fill();
@@ -435,10 +435,12 @@ function drawCican(){
  x.beginPath();x.moveTo(-11,30);x.lineTo(-22,35);x.lineTo(-10,36);x.closePath();x.fill();
  x.beginPath();x.moveTo(4,30);x.lineTo(15,35);x.lineTo(5,36);x.closePath();x.fill();
 
- // warm lantern reflection
- const glow=x.createRadialGradient(0,-25,2,0,-25,34);
- glow.addColorStop(0,'rgba(255,205,130,.18)');glow.addColorStop(1,'rgba(255,205,130,0)');
- x.fillStyle=glow;x.beginPath();x.arc(0,-25,34,0,Math.PI*2);x.fill();
+ // warm lantern reflection + clear silhouette rim
+ const glow=x.createRadialGradient(0,-25,2,0,-25,46);
+ glow.addColorStop(0,'rgba(255,225,165,.28)');glow.addColorStop(1,'rgba(255,205,130,0)');
+ x.fillStyle=glow;x.beginPath();x.arc(0,-25,46,0,Math.PI*2);x.fill();
+ x.strokeStyle='rgba(255,255,255,.38)';x.lineWidth=1.2;
+ x.beginPath();x.ellipse(0,-8,18,29,0,0,Math.PI*2);x.stroke();
 
  x.restore();
 }
