@@ -275,7 +275,10 @@ function update(dt){
   say('The CICAN knot — memory connected to memory.',4200);
   updateHud()
 }
- if(P.y>H+120){restartAfterFall()}
+ if(P.y>H+120){
+  restartAfterFall();
+  say(world.lights>=8?'The final light is still ahead.':world.lights>=6?'You carried this far. Continue.':world.lights>=3?'The memory brought you back.':'The journey continues.',2600);
+}
  const previousChapter=world.chapter;
  if(P.x<360) world.chapter=0;
  else if(P.x<1100) world.chapter=1;
