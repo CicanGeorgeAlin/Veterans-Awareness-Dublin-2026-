@@ -92,7 +92,7 @@ const lc=document.getElementById('lightCount'),kc=document.getElementById('knotC
 let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[],quiet:false,endingAt:0,checkpointX:120};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:150,h:28,a:-.06,type:'stone'},
@@ -156,13 +156,13 @@ function jump(){
 }
 function restartAfterFall(){
  P.vx=0;P.vy=0;
- P.x=Math.max(80,P.x-190);
+ P.x=Math.max(80,world.checkpointX);
  P.y=H*.3;
  P.ground=false;
  if(introHold){setTimeout(()=>{introHold=false},2200);}
  say('The journey continues. Find your footing, then carry the light.',2600);
 }
-function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  const tl=document.getElementById('memoryTrailLabel');
  const pf=document.getElementById('journeyProgressFill');
@@ -249,7 +249,7 @@ function update(dt){
  const cameraLead=Math.max(-70,Math.min(120,P.vx*18));
  world.cam+=(targetCam+cameraLead-world.cam)*.085;
  world.cam=Math.max(0,Math.min(2450-W*.12,world.cam));
- for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text,t:world.t});say(l.text);memoryCardText.textContent=l.text;memoryCard.classList.add('show');clearTimeout(memoryCard.t);memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),4200);updateHud()}
+ for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text,t:world.t});if(world.lights===3||world.lights===6||world.lights===8)world.checkpointX=Math.max(120,l.x-90);say(l.text);memoryCardText.textContent=l.text;memoryCard.classList.add('show');clearTimeout(memoryCard.t);memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),4200);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
   m.got=true;world.memories++;say(m.text,3000);
   memoryCardText.textContent=m.text.replaceAll('\\n',' ');
