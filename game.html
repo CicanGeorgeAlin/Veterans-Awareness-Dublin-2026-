@@ -16,12 +16,7 @@ button{font:inherit}
 .stats{position:absolute;top:max(18px,env(safe-area-inset-top));right:18px;display:flex;gap:16px;font-size:10px;letter-spacing:1.7px;text-transform:uppercase;opacity:.72}
 .stats b{color:#fff;font-size:12px}
 .message{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);width:min(620px,calc(100% - 36px));text-align:center;font-size:13px;line-height:1.55;letter-spacing:.6px;color:var(--soft);text-shadow:0 2px 16px #000;transition:opacity .5s}
-.controls{position:fixed;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));z-index:8;display:flex;justify-content:space-between;align-items:end;padding:0 20px;pointer-events:none}
-.pad{display:flex;gap:10px;pointer-events:auto}
-.ctrl{width:58px;height:58px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(0,0,0,.38);color:#fff;backdrop-filter:blur(10px);font-size:20px;touch-action:none;user-select:none}
-.ctrl:active{background:rgba(255,255,255,.18);transform:scale(.96)}
-.jump{width:72px;height:72px;font-size:12px;letter-spacing:1px;text-transform:uppercase}
-.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),rgba(0,0,0,.94) 58%,#000 100%);transition:opacity .55s}
+.controls{position:fixed;inset:0;z-index:8;pointer-events:none}.joystick{position:absolute;left:24px;bottom:max(24px,env(safe-area-inset-bottom));width:118px;height:118px;border:1px solid rgba(255,255,255,.25);border-radius:50%;background:rgba(0,0,0,.28);backdrop-filter:blur(8px);pointer-events:auto;touch-action:none;user-select:none}.stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:50%;background:rgba(255,255,255,.20);border:1px solid rgba(255,255,255,.45);pointer-events:none}.swipeArea{position:absolute;right:0;top:0;width:55%;height:100%;pointer-events:auto;touch-action:none;user-select:none}.jumpHint{position:absolute;right:24px;bottom:max(24px,env(safe-area-inset-bottom));font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55);pointer-events:none}.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),rgba(0,0,0,.94) 58%,#000 100%);transition:opacity .55s}
 .overlay.hide{opacity:0;pointer-events:none}
 .card{width:min(620px,100%);text-align:center}
 .kicker{font-size:10px;letter-spacing:4px;text-transform:uppercase;opacity:.55;margin-bottom:22px}
@@ -137,14 +132,17 @@ function moveJoy(e){const dx=e.clientX-joyCenter.x,dy=e.clientY-joyCenter.y,lim=
 function releaseJoy(){joyPointer=null;key.l=false;key.r=false;stick.style.transform="translate(0,0)"}
 joy.addEventListener("pointerup",releaseJoy);joy.addEventListener("pointercancel",releaseJoy);
 
-function doSwipeJump(){if(run){jumpBuffer=0.25; p.vy=18; p.on=false; coyote=0;} }
-function beginSwipe(e){if(!run)return;swipeActive=true;swipeStartY=e.clientY;swipe.setPointerCapture?.(e.pointerId);e.preventDefault();}
-function endSwipe(e){if(!swipeActive)return;swipeActive=false;const distance=swipeStartY-e.clientY;if(distance>25)doSwipeJump();e.preventDefault();}
+function doSwipeJump(){if(!run)return;p.vy=18;p.on=false;coyote=0;jumpBuffer=0;msg.textContent="Jump";setTimeout(()=>{if(run&&msg.textContent==="Jump")msg.textContent=""},500)}
+function beginSwipe(e){if(!run)return;swipeActive=true;swipeStartY=e.clientY;swipeStartX=e.clientX;swipe.setPointerCapture?.(e.pointerId);e.preventDefault();}
+function moveSwipe(e){if(!swipeActive)return;const dy=swipeStartY-e.clientY;if(dy>25){swipeActive=false;doSwipeJump();e.preventDefault();}}
+function endSwipe(e){if(!swipeActive)return;const dy=swipeStartY-e.clientY;swipeActive=false;if(dy>20)doSwipeJump();e.preventDefault();}
 swipe.addEventListener("pointerdown",beginSwipe);
+swipe.addEventListener("pointermove",moveSwipe);
 swipe.addEventListener("pointerup",endSwipe);
 swipe.addEventListener("pointercancel",()=>{swipeActive=false});
-swipe.addEventListener("touchstart",e=>{if(!run)return;swipeActive=true;swipeStartY=e.touches[0].clientY;e.preventDefault()},{passive:false});
-swipe.addEventListener("touchend",e=>{if(!swipeActive)return;swipeActive=false;const distance=swipeStartY-e.changedTouches[0].clientY;if(distance>25)doSwipeJump();e.preventDefault()},{passive:false});
+swipe.addEventListener("touchstart",e=>{if(!run)return;swipeActive=true;swipeStartY=e.touches[0].clientY;swipeStartX=e.touches[0].clientX;e.preventDefault()},{passive:false});
+swipe.addEventListener("touchmove",e=>{if(!swipeActive)return;const dy=swipeStartY-e.touches[0].clientY;if(dy>25){swipeActive=false;doSwipeJump();e.preventDefault()}},{passive:false});
+swipe.addEventListener("touchend",e=>{if(!swipeActive)return;const dy=swipeStartY-e.changedTouches[0].clientY;swipeActive=false;if(dy>20)doSwipeJump();e.preventDefault()},{passive:false});
 
 addEventListener("keydown",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=true;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=true;if(e.code==="Space"||e.code==="ArrowUp"){tryJump();e.preventDefault()}if((e.code==="Enter"||e.code==="Space")&&!run&&!won)begin()});
 addEventListener("keyup",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=false;if(e.code==="ArrowRight"||e.code==="KeyD")key.r=false});
