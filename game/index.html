@@ -159,11 +159,21 @@ function updateHud(){
 function beginGame(){
  paused=false; pauseBtn.textContent="PAUSE";
  introHold=true;playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden && playing && !world.finished && !paused){
+   paused=true;
+   if(pauseBtn)pauseBtn.textContent='RESUME';
+   say('The journey pauses. The memory remains.',2200);
+ }
+});
 begin.onclick=beginGame;
 replay.onclick=beginGame;
 
 function update(dt){
  if(paused)return;
+ if(!document.hidden && playing && !world.finished){
+   world.lastActive=world.t;
+ }
  world.t+=dt; world.breath+=dt;
  P.vx+=(input.r?0.52:0)-(input.l?0.52:0); if(!input.l&&!input.r)P.vx*=.82;
  P.vx=Math.max(-5.3,Math.min(5.3,P.vx)); P.x+=P.vx; P.vy+=.72;
