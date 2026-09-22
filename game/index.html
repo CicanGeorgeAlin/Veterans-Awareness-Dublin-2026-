@@ -180,6 +180,17 @@ function beginGame(){
  introHold=true;quietFade=0;playing=true;reset();
  memoryCard.querySelector('.memory-card-kicker').textContent='A MEMORY TO CARRY';
  start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
+pauseBtn.onclick=()=>{
+  if(!playing||world.finished)return;
+  paused=!paused;
+  pauseBtn.textContent=paused?'RESUME':'PAUSE';
+  if(paused){
+    say('The journey pauses. The memory remains.',2200);
+  }else{
+    last=performance.now();
+    say('The journey continues.',1600);
+  }
+};
 ambientToggle.onclick=()=>{
   document.body.classList.toggle('low-ambient');
   ambientToggle.textContent=document.body.classList.contains('low-ambient')?'AMBIENT: OFF':'AMBIENT: ON';
