@@ -41,7 +41,7 @@ h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;l
   <div class="brand">Veteran Awareness Dublin 2026</div>
   <div class="stats">
     <span>LIGHT <b id="lights">0</b></span>
-    <span>MEMORY <b id="memories">0</b></span>
+    <span>MEMORY <b id="memories">0</b></span><span>SPIRIT <b id="spirits">0</b></span>
   </div>
   <div class="message" id="message"></div>
 </div>
@@ -69,7 +69,7 @@ h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;l
     <img class="end-photo" id="endPhoto" src="nicolae-urluescu.jpg" alt="Nicolae Urluescu">
     <div class="kicker">You reached the memorial</div>
     <h1>Remember.<br>Honor.<br>Carry it forward.</h1>
-    <p class="sub">Every light collected represents a memory carried forward. The journey ends in remembrance, but the light continues.</p>
+    <p class="sub">Every light collected represents a memory carried forward. The spirits of our grandparents and ancestors remain part of the journey. The light continues.</p>
     <button class="start" id="again">Walk again</button>
     <div class="small">Veteran Awareness Dublin 2026 · Coloring for World Peace 🕊️</div>
   </div>
@@ -78,7 +78,7 @@ h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;l
 <script>
 "use strict";
 const canvas=document.getElementById("game"),ctx=canvas.getContext("2d");
-const lightsEl=document.getElementById("lights"),memoriesEl=document.getElementById("memories"),messageEl=document.getElementById("message");
+const lightsEl=document.getElementById("lights"),memoriesEl=document.getElementById("memories"),messageEl=document.getElementById("message"),spiritsEl=document.getElementById("spirits");
 const intro=document.getElementById("intro"),ending=document.getElementById("ending"),endPhoto=document.getElementById("endPhoto");
 let W=innerWidth,H=innerHeight,DPR=Math.min(devicePixelRatio||1,2);
 function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,2);canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0)}
@@ -91,9 +91,10 @@ const world={
   memorialX:6650
 };
 const player={x:260,y:0,vx:0,vy:0,w:30,h:48,onGround:false};
-let camera=0,running=false,won=false,lights=0,memories=0,startedAt=0;
+let camera=0,running=false,won=false,lights=0,memories=0,spirits=0,startedAt=0;
 const keys={left:false,right:false};
 const collected=new Set(), activated=new Set();
+const spirit={x:3180,y:225};
 const objects=[
   {type:"light",x:620,y:170,id:"l1"},
   {type:"memory",x:1050,y:135,id:"m1",text:"A memory can travel farther than a person."},
@@ -102,12 +103,14 @@ const objects=[
   {type:"memory",x:2300,y:165,id:"m2",text:"From Romania to Dublin, memory crossed the distance."},
   {type:"light",x:2780,y:235,id:"l3"},
   {type:"lamp",x:3350,y:0,id:"lamp1"},
+  {type:"spirit",x:3520,y:210,id:"s1"},
   {type:"memory",x:3880,y:170,id:"m3",text:"Those who served are remembered in many places."},
   {type:"light",x:4300,y:190,id:"l4"},
   {type:"knot",x:4800,y:140,id:"k2"},
   {type:"memory",x:5200,y:190,id:"m4",text:"Ireland. Dublin. Family. Remembrance."},
   {type:"light",x:5660,y:235,id:"l5"},
-  {type:"lamp",x:6100,y:0,id:"lamp2"}
+  {type:"lamp",x:6100,y:0,id:"lamp2"},
+  {type:"spirit",x:6200,y:230,id:"s2"}
 ];
 const platforms=[
   {x:0,y:0,w:1250,h:120},{x:1380,y:0,w:760,h:120},{x:2260,y:0,w:900,h:120},
@@ -124,7 +127,7 @@ const poppies=[];
 for(let x=120;x<world.width;x+=92){poppies.push({x:x+(x%31),h:10+(x%18)})}
 function reset(){
   player.x=world.start;player.y=180;player.vx=0;player.vy=0;camera=0;lights=0;memories=0;won=false;collected.clear();activated.clear();
-  lightsEl.textContent="0";memoriesEl.textContent="0";messageEl.textContent="";
+  lightsEl.textContent="0";memoriesEl.textContent="0";messageEl.textContent="";spirits=0;spiritsEl.textContent="0";
   objects.forEach(o=>{if(o.type==="light"||o.type==="memory"||o.type==="knot")collected.delete(o.id)});
 }
 function startGame(){reset();running=true;startedAt=performance.now();intro.classList.add("hide");ending.classList.add("hide");endPhoto.style.display="none";messageEl.textContent="Walk toward the light. Explore gently.";setTimeout(()=>messageEl.textContent="",4200)}
@@ -172,13 +175,14 @@ function collect(){
       if(o.type==="light"){lights++;lightsEl.textContent=lights;collected.add(o.id);messageEl.textContent="A light carried forward."}
       else if(o.type==="memory"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent=o.text}
       else if(o.type==="knot"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent="A connection carried forward."}
+      else if(o.type==="spirit"){spirits++;collected.add(o.id);messageEl.textContent="Spiritum Sancti — the spirit of our grandparents and ancestors, carried with us."}
     }
   }
   for(const l of lamps){
     if(activated.has(l.id))continue;
     if(Math.abs(player.x-l.x)<85){activated.add(l.id);messageEl.textContent="The lamp is lit. Remember. Honor. Never forget."}
   }
-  if(player.x>world.memorialX-110 && lights>=3){finish()}
+  if(player.x>world.memorialX-110 && lights>=3 && spirits>=2){finish()}
 }
 function update(dt){
   const accel=keys.left?-0.62:keys.right?0.62:0;
@@ -239,6 +243,12 @@ function drawPoppies(){
     ctx.fillStyle="rgba(210,210,210,.8)";ctx.beginPath();ctx.arc(x,y-p.h,3,0,Math.PI*2);ctx.fill();
   }
 }
+function drawSpirit(x,y,active=true){
+  const g=ctx.createRadialGradient(x,y,2,x,y,52);g.addColorStop(0,"rgba(255,255,255,.30)");g.addColorStop(.45,"rgba(255,255,255,.10)");g.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=g;ctx.fillRect(x-52,y-52,104,104);
+  ctx.strokeStyle="rgba(255,255,255,.70)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y-8,15,0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x-10,y+5);ctx.quadraticCurveTo(x-18,y+28,x,y+36);ctx.quadraticCurveTo(x+18,y+28,x+10,y+5);ctx.stroke();
+  ctx.fillStyle="#fff";ctx.font="600 8px Arial";ctx.textAlign="center";ctx.fillText("SPIRITUM SANCTI",x,y+56);
+}
 function drawObjects(){
   for(const o of objects){
     if(collected.has(o.id))continue;
@@ -255,6 +265,7 @@ function drawObjects(){
     if(o.type==="knot"){
       ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x-5,y,8,0,Math.PI*2);ctx.arc(x+5,y,8,0,Math.PI*2);ctx.stroke();
     }
+    if(o.type==="spirit") drawSpirit(x,y);
   }
   for(const l of lamps){
     const x=l.x-camera,y=H-120;
