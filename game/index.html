@@ -572,6 +572,21 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawFinalApproachVignette(){
+  if(lowAmbient||world.lights<8)return;
+  const remaining=Math.max(0,2325-P.x);
+  const intensity=Math.max(0,1-Math.min(1,remaining/500));
+  if(intensity<=0)return;
+  ctx.save();
+  const edge=Math.min(W,H)*.34;
+  const g=ctx.createRadialGradient(W*.5,H*.54,Math.min(W,H)*.16,W*.5,H*.54,edge);
+  g.addColorStop(0,'rgba(0,0,0,0)');
+  g.addColorStop(1,'rgba(0,0,0,'+(.16*intensity)+')');
+  ctx.fillStyle=g;
+  ctx.fillRect(0,0,W,H);
+  ctx.restore();
+}
+
 function drawFinalMemoryStars(){
   if(lowAmbient||world.lights<8)return;
   const remaining=Math.max(0,2325-P.x);
@@ -884,6 +899,7 @@ function draw(){
   drawMemoryBreath();
   drawFinalApproachAtmosphere();
   drawFinalMemoryStars();
+  drawFinalApproachVignette();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
