@@ -195,7 +195,10 @@ function update(dt){
  P.vx=Math.max(-5.0,Math.min(5.0,P.vx));
  P.x+=P.vx;
  P.vy+=P.ground?.68:.72;
- const old=P.y+P.h;P.y+=P.vy;P.ground=false;
+ const wasGround=P.ground;
+ const old=P.y+P.h;
+ P.y+=P.vy;
+ P.ground=false;
  for(const q of platforms){
  const left=q.x,right=q.x+q.w;
  if(P.x+P.w/2>left&&P.x-P.w/2<right){
@@ -203,8 +206,13 @@ function update(dt){
    const top=py(q)+Math.tan(q.a)*localX;
    if(old<=top&&P.y+P.h>=top&&P.vy>=0){
      P.y=top-P.h;
+     const landingSpeed=P.vy;
      P.vy=0;
      P.ground=true;
+     if(!wasGround && landingSpeed>4.5){
+       P.vx*=.92;
+       world.breath+=180;
+     }
    }
  }
 }
