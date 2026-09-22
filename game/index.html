@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>SPIRITUM SANCTI — A Journey Through Memory</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{touch-action:none}
+canvas{display:block;width:100%;height:100%;background:#000}
+.hud{position:fixed;inset:0;pointer-events:none}
+.title{position:absolute;top:24px;left:24px;font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.55}
+.message{position:absolute;left:50%;bottom:14%;transform:translateX(-50%);width:min(88vw,620px);text-align:center;font-size:14px;letter-spacing:1.5px;line-height:1.7;opacity:0;transition:opacity 1s ease;text-transform:uppercase}
+.message.show{opacity:.78}
+.controls{position:absolute;left:0;right:0;bottom:24px;display:flex;justify-content:center;gap:14px;pointer-events:auto}
+button{width:64px;height:64px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(255,255,255,.05);color:#fff;font-size:22px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+button:active{background:rgba(255,255,255,.18)}
+.start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;z-index:5;transition:opacity 1.2s}
+.start.hide{opacity:0;pointer-events:none}
+.start-inner{text-align:center;padding:30px}
+.start h1{margin:0;font-size:clamp(34px,8vw,72px);font-weight:400;letter-spacing:7px}
+.start p{margin:22px 0 34px;font-size:12px;letter-spacing:3px;line-height:2;opacity:.6;text-transform:uppercase}
+.start button{width:auto;height:auto;border-radius:0;padding:15px 25px;font-size:10px;letter-spacing:3px;text-transform:uppercase}
+@media(min-width:800px){.controls{bottom:30px}.title{top:30px;left:30px}}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div class="start" id="start">
+  <div class="start-inner">
+    <h1>SPIRITUM SANCTI</h1>
+    <p>A journey through memory<br>For those who served. For those who remember.</p>
+    <button id="begin">Begin the journey</button>
+  </div>
+</div>
+
+<div class="hud">
+  <div class="title">Veteran Awareness Dublin 2026</div>
+  <div class="message" id="message"></div>
+  <div class="controls">
+    <button id="left" aria-label="Move left">←</button>
+    <button id="jump" aria-label="Jump">↑</button>
+    <button id="right" aria-label="Move right">→</button>
+  </div>
+</div>
+
+<script>
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const start=document.getElementById('start'),begin=document.getElementById('begin'),message=document.getElementById('message');
+let W=0,H=0,dpr=1,started=false,last=0;
+const input={left:false,right:false};
+const world={camera:0,time:0,memories:0,lights:0};
+const player={x:120,y:0,vx:0,vy:0,r:13,onGround:false};
+const gravity=.72,jump=-13,speed=.55,maxSpeed=5.2,friction=.82;
+
+const platforms=[
+{x:-100,y:0,w:420,h:34,tilt:0},
+{x:390,y:-42,w:190,h:28,tilt:-.035},
+{x:640,y:-92,w:190,h:28,tilt:.025},
+{x:910,y:-25,w:210,h:28,tilt:-.03},
+{x:1200,y:-105,w:170,h:28,tilt:.04},
+{x:1450,y:-35,w:230,h:28,tilt:-.02},
+{x:1760,y:-120,w:220,h:28,tilt:.035},
+{x:2070,y:-45,w:300,h:28,tilt:-.025}
+];
+
+const lights=[
+{x:520,y:-92,got:false,text:'Someone once carried a story through war.'},
+{x:1010,y:-75,got:false,text:'Someone remembered.'},
+{x:1290,y:-155,got:false,text:'Memory is what we carry forward.'},
+{x:1550,y:-85,got:false,text:'A life can end. A memory does not have to.'},
+{x:1880,y:-170,got:false,text:'For those who served. For those who came home.'}
+];
+
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener('resize',resize);resize();
+
+function reset(){player.x=120;player.vx=0;player.vy=0;world.camera=0;world.time=0;world.memories=0;world.lights=0;lights.forEach(l=>l.got=false);player.y=H*.58}
+function jumpNow(){if(player.onGround){player.vy=jump;player.onGround=false}}
+function bind(id,key){const b=document.getElementById(id);['pointerdown','touchstart'].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();input[key]=true},{passive:false}));['pointerup','pointercancel','pointerleave','touchend'].forEach(e=>b.addEventListener(e,ev=>{ev.preventDefault();input[key]=false},{passive:false}))}
+bind('left','left');bind('right','right');
+document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefault();jumpNow()});
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')input.left=true;if(e.key==='ArrowRight'||e.key==='d')input.right=true;if(e.key==='ArrowUp'||e.key===' '||e.key==='w')jumpNow()});
+addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='a')input.left=false;if(e.key==='ArrowRight'||e.key==='d')input.right=false});
+
+function beginGame(){started=true;start.classList.add('hide');reset();show('Walk into the light.',2400)}
+begin.onclick=beginGame;
+
+function show(t,ms=2800){message.textContent=t;message.classList.add('show');clearTimeout(show.timer);show.timer=setTimeout(()=>message.classList.remove('show'),ms)}
+
+function platformY(p){return H*.66+p.y}
+function update(dt){
+  world.time+=dt;
+  const accel=(input.right?speed:0)-(input.left?speed:0);
+  player.vx+=accel;
+  if(!input.left&&!input.right)player.vx*=friction;
+  player.vx=Math.max(-maxSpeed,Math.min(maxSpeed,player.vx));
+  player.x+=player.vx;
+  player.vy+=gravity;
+  const prevBottom=player.y+player.r;
+  player.y+=player.vy;
+  player.onGround=false;
+  for(const p of platforms){
+    const py=platformY(p);
+    if(player.x+player.r>p.x && player.x-player.r<p.x+p.w &&
+       prevBottom<=py && player.y+player.r>=py && player.vy>=0){
+      player.y=py-player.r;player.vy=0;player.onGround=true;
+    }
+  }
+  world.camera+=(player.x-W*.34-world.camera)*.075;
+  world.camera=Math.max(0,world.camera);
+  for(const l of lights){
+    if(!l.got && Math.hypot(player.x-l.x,player.y-(platformY({y:l.y})-30))<55){
+      l.got=true;world.lights++;world.memories++;show(l.text,3600);
+    }
+  }
+  if(player.y>H+120){player.x=Math.max(80,player.x-180);player.y=H*.35;player.vy=0;show('Some memories take more than one attempt.',2600)}
+}
+
+function drawBackground(){
+  const darkness=Math.max(0,1-world.lights*.13);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#020202');g.addColorStop(.65,'#070707');g.addColorStop(1,'#000');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // distant memory lights
+  for(let i=0;i<18;i++){
+    const x=((i*173-world.camera*.16)% (W+200))-100;
+    const y=H*.18+(i%5)*H*.1;
+    const a=.025+(1-darkness)*.025;
+    ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.beginPath();ctx.arc(x,y,1.5,0,Math.PI*2);ctx.fill();
+  }
+}
+
+function drawPlatform(p){
+  const x=p.x-world.camera,y=platformY(p);
+  ctx.save();ctx.translate(x,y);ctx.rotate(p.tilt);
+  const glow=ctx.createLinearGradient(0,0,p.w,0);glow.addColorStop(0,'rgba(255,255,255,.05)');glow.addColorStop(.5,'rgba(255,255,255,.15)');glow.addColorStop(1,'rgba(255,255,255,.04)');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,p.w,p.h);
+  ctx.strokeStyle='rgba(255,255,255,.14)';ctx.strokeRect(0,0,p.w,p.h);
+  ctx.restore();
+}
+
+function drawLight(l){
+  if(l.got)return;
+  const x=l.x-world.camera,y=platformY({y:l.y})-32;
+  const pulse=4+Math.sin(world.time*.004+l.x)*2;
+  const rg=ctx.createRadialGradient(x,y,0,x,y,30+pulse);
+  rg.addColorStop(0,'rgba(255,255,255,.7)');rg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,34+pulse,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();
+}
+
+function drawPlayer(){
+  const x=player.x-world.camera,y=player.y;
+  const pulse=1+Math.sin(world.time*.006)*.08;
+  ctx.save();ctx.translate(x,y);ctx.scale(pulse,pulse);
+  const rg=ctx.createRadialGradient(0,0,2,0,0,34);rg.addColorStop(0,'rgba(255,255,255,.45)');rg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=rg;ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(0,0,13,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#000';ctx.beginPath();ctx.arc(-4,-2,2,0,Math.PI*2);ctx.arc(4,-2,2,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+
+function draw(){
+  drawBackground();
+  for(const p of platforms)drawPlatform(p);
+  for(const l of lights)drawLight(l);
+  // final distant memorial glow
+  const fx=2320-world.camera,fy=H*.46;
+  const fr=ctx.createRadialGradient(fx,fy,0,fx,fy,180);
+  fr.addColorStop(0,'rgba(255,255,255,.12)');fr.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=fr;ctx.beginPath();ctx.arc(fx,fy,180,0,Math.PI*2);ctx.fill();
+  drawPlayer();
+  if(world.lights===lights.length && player.x>2050)show('You were never carrying the light alone.',6000);
+}
+
+function loop(t){
+  if(!last)last=t;const dt=Math.min(32,t-last);last=t;
+  if(started){update(dt);draw()}requestAnimationFrame(loop)
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
