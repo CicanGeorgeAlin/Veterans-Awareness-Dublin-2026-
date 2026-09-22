@@ -159,8 +159,10 @@ function restartAfterFall(){
  P.x=Math.max(80,world.checkpointX);
  P.y=H*.3;
  P.ground=false;
+ world.cam=Math.max(0,Math.min(2450-W*.12,P.x-W*.38));
  if(introHold){setTimeout(()=>{introHold=false},2200);}
- say('The journey continues. Find your footing, then carry the light.',2600);
+ const checkpointLight=world.lights>=8?'The final light is still ahead.':world.lights>=6?'You carried this far. Continue.':world.lights>=3?'The memory brought you back.':'The journey continues.';
+ say(checkpointLight,2600);
 }
 function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
