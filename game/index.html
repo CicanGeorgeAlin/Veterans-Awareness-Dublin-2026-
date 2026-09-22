@@ -89,7 +89,7 @@ canvas{display:block;width:100%;height:100%}
 const c=document.getElementById('game'),x=c.getContext('2d'),pauseBtn=document.getElementById('pauseBtn'),ambientToggle=document.getElementById('ambientToggle');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
 const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText'),replay=document.getElementById('replay'),endingCredit=document.getElementById('endingCredit');
-let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0,recoveryPulse=0;
+let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0,recoveryPulse=0,coyote=0;
 const input={l:false,r:false};
 let jumpBuffer=0;
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
@@ -150,9 +150,11 @@ addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;
 function jump(){
  if(!playing||paused||world.finished)return;
  jumpBuffer=220;
- if(P.ground){
+ if(P.ground||coyote>0){
    P.vy=-13;
    P.ground=false;
+   coyote=0;
+   jumpBuffer=0;
    say('Carry the light forward.',1200);
  }
 }
@@ -167,7 +169,7 @@ function restartAfterFall(){
  const checkpointLight=world.lights>=8?'The final light is still ahead.':world.lights>=6?'You carried this far. Continue.':world.lights>=3?'The memory brought you back.':'The journey continues.';
  say(checkpointLight,2600);
 }
-function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;recoveryPulse=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){paused=false;introHold=false;quietFade=0;world.quiet=false;landPulse=0;recoveryPulse=0;coyote=0;jumpBuffer=0;P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];world.endingAt=0;world.checkpointX=120;endingCredit.style.opacity='0';ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  const tl=document.getElementById('memoryTrailLabel');
  const pf=document.getElementById('journeyProgressFill');
@@ -219,8 +221,8 @@ function update(dt){
  if(!document.hidden && playing && !world.finished){
    world.lastActive=world.t;
  }
- world.t+=dt; world.breath+=dt; landPulse=Math.max(0,landPulse-dt/260); recoveryPulse=Math.max(0,recoveryPulse-dt/1500); jumpBuffer=Math.max(0,jumpBuffer-dt);
- if(jumpBuffer>0&&P.ground){P.vy=-13;P.ground=false;jumpBuffer=0;say('Carry the light forward.',1200)}
+ world.t+=dt; world.breath+=dt; landPulse=Math.max(0,landPulse-dt/260); recoveryPulse=Math.max(0,recoveryPulse-dt/1500); jumpBuffer=Math.max(0,jumpBuffer-dt); coyote=Math.max(0,coyote-dt);
+ if(jumpBuffer>0&&(P.ground||coyote>0)){P.vy=-13;P.ground=false;coyote=0;jumpBuffer=0;say('Carry the light forward.',1200)}
  const steer=(input.r?1:0)-(input.l?1:0);
  P.vx+=steer*.42;
  if(!steer)P.vx*=P.ground?.86:.97;
@@ -232,6 +234,7 @@ function update(dt){
  if(P.x>2470){P.x=2470;P.vx=Math.min(0,P.vx)}
  P.vy+=P.ground?.68:.72;
  const wasGround=P.ground;
+ if(wasGround)coyote=120;
  const old=P.y+P.h;
  P.y+=P.vy;
  P.ground=false;
@@ -245,7 +248,7 @@ function update(dt){
      const landingSpeed=P.vy;
      P.vy=0;
      P.ground=true;
-     if(!wasGround){landPulse=Math.min(1,landingSpeed/10)}
+     if(!wasGround){landPulse=Math.min(1,landingSpeed/10);coyote=0}
      if(!wasGround && landingSpeed>4.5){
        P.vx*=.92;
        world.breath+=180;
