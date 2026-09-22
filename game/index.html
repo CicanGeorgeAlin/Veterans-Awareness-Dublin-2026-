@@ -572,6 +572,20 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawMemoryCountHalo(){
+  if(lowAmbient||world.lights<4)return;
+  const strength=Math.min(1,(world.lights-3)/5);
+  const pulse=.5+.5*Math.sin(world.t*1.05);
+  ctx.save();
+  ctx.globalAlpha=.035+.025*strength+.012*pulse;
+  ctx.strokeStyle='#fff1c9';
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.arc(P.x-world.cam,P.y-28,34+strength*10+pulse*2,0,Math.PI*2);
+  ctx.stroke();
+  ctx.restore();
+}
+
 function drawCarriedLightParticles(){
   if(lowAmbient||world.lights<2)return;
   ctx.save();
@@ -812,6 +826,7 @@ function draw(){
   drawMemoryPath();
   drawMemoryEcho();
   drawCarriedLightParticles();
+  drawMemoryCountHalo();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
