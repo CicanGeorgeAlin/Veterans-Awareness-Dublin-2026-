@@ -336,6 +336,49 @@ function tent(){
  x.restore();
 }
 
+function openingMemoryScene(){
+  const progress=Math.max(0,Math.min(1,P.x/430));
+  const fade=1-progress*.82;
+  const tx=90-world.cam, ty=H*.68-150;
+
+  // A quiet field glow: the journey begins with warmth, not darkness.
+  const fg=x.createRadialGradient(tx+95,ty+105,2,tx+95,ty+105,125);
+  fg.addColorStop(0,'rgba(255,220,150,'+(.16*fade)+')');
+  fg.addColorStop(1,'rgba(255,170,70,0)');
+  x.fillStyle=fg;x.beginPath();x.arc(tx+95,ty+105,125,0,Math.PI*2);x.fill();
+
+  // A small remembrance place beside the tent.
+  const bx=tx+235, by=H*.68-30;
+  x.fillStyle='rgba(28,27,24,'+(.82*fade)+')';
+  x.fillRect(bx,by-20,74,20);
+  x.fillStyle='rgba(205,196,170,'+(.20*fade)+')';
+  x.fillRect(bx+4,by-17,66,13);
+  x.fillStyle='rgba(255,232,185,'+(.34*fade)+')';
+  x.font='7px Georgia';x.textAlign='center';
+  x.fillText('NICOLAE',bx+37,by-8);
+  x.textAlign='left';
+
+  // One candle-like light, gently breathing in the wind.
+  const cx=bx+37,cy=by-27;
+  const pulse=.75+Math.sin(world.t*.003)*.12;
+  const cg=x.createRadialGradient(cx,cy,1,cx,cy,38);
+  cg.addColorStop(0,'rgba(255,225,155,'+(.24*fade*pulse)+')');
+  cg.addColorStop(1,'rgba(255,180,80,0)');
+  x.fillStyle=cg;x.beginPath();x.arc(cx,cy,38,0,Math.PI*2);x.fill();
+  x.fillStyle='rgba(255,237,190,'+(.72*fade)+')';
+  x.beginPath();x.arc(cx,cy,2.2,0,Math.PI*2);x.fill();
+
+  // A few slow fireflies around the first light.
+  for(let i=0;i<7;i++){
+    const a=world.t*.00045+i*0.91;
+    const rr=35+(i%3)*17;
+    const fx=cx+Math.cos(a)*rr;
+    const fy=cy+Math.sin(a*1.4)*rr*.45;
+    const fa=(.10+((Math.sin(world.t*.002+i)+1)*.06))*fade;
+    x.fillStyle='rgba(255,220,150,'+fa+')';
+    x.beginPath();x.arc(fx,fy,1.2+(i%2)*.5,0,Math.PI*2);x.fill();
+  }
+}
 function memorialGround(){
  const progress=Math.max(0,Math.min(1,(P.x-2050)/400));
  const alpha=.08+progress*.10;
@@ -574,7 +617,7 @@ function drawTrail(){
  }
 }
 function draw(){
- sky();drawWorldTransition();tent();drawTrail();memorialGround();
+ sky();drawWorldTransition();tent();openingMemoryScene();drawTrail();memorialGround();
  for(const q of platforms)platform(q);
  memorialMarkers();
  for(const l of lights)orb(l,'light');
