@@ -583,8 +583,12 @@ function drawMemoryPath(){
     ctx.strokeStyle='rgba(255,238,190,'+alpha+')';
     ctx.beginPath();
     ctx.moveTo(x,H*.72);
-    ctx.lineTo(x+55,H*.69);
+    ctx.quadraticCurveTo(x+28,H*.64,x+55,H*.69);
     ctx.stroke();
+    ctx.fillStyle='rgba(255,238,190,'+(.035+.025*Math.sin(world.t*1.4+i)) +')';
+    ctx.beginPath();
+    ctx.arc(x+55,H*.69,1.5,0,Math.PI*2);
+    ctx.fill();
   }
   ctx.restore();
 }
