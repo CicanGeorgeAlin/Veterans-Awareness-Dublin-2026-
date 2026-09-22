@@ -572,6 +572,23 @@ function drawCheckpointMarkers(){
    x.restore();
  }
 }
+function drawCarriedLightParticles(){
+  if(lowAmbient||world.lights<2)return;
+  ctx.save();
+  const count=Math.min(5,Math.floor(world.lights/2));
+  for(let i=0;i<count;i++){
+    const phase=world.t*.7+i*1.9;
+    const x=P.x-world.cam-18+Math.cos(phase)*18;
+    const y=P.y-18+Math.sin(phase*1.3+i)*14;
+    const a=.08+.05*Math.sin(phase);
+    ctx.fillStyle='rgba(255,244,210,'+a+')';
+    ctx.beginPath();
+    ctx.arc(x,y,1.6,0,Math.PI*2);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
 function drawMemoryEcho(){
   if(lowAmbient||!world.lights)return;
   const x=P.x-world.cam;
@@ -794,6 +811,7 @@ function draw(){
  drawCheckpointMarkers();
   drawMemoryPath();
   drawMemoryEcho();
+  drawCarriedLightParticles();
   drawCheckpointMemoryGlow();
  drawRecoveryPulse();
  drawLandingPulse();
