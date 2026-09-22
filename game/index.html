@@ -66,6 +66,7 @@ canvas{display:block;width:100%;height:100%}
     <div class="ending-name">NICOLAE URLUESCU SOL</div>
     <div class="ending-line">In memory of a grandfather.<br>In honor of every army veteran.</div>
     <div class="ending-peace">COLORING FOR WORLD PEACE 🕊</div>
+    <button id="replay" style="margin-top:28px;padding:12px 22px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.05);color:#fff;font-size:9px;letter-spacing:3px;text-transform:uppercase">Begin again</button>
   </div>
 </div>
 <div class="controls">
@@ -77,11 +78,11 @@ canvas{display:block;width:100%;height:100%}
 <script>
 const c=document.getElementById('game'),x=c.getContext('2d');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
-const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText');
+const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText'),replay=document.getElementById('replay');
 let W,H,dpr=1,playing=false,last=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false,restAt:0,trail:[]};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
@@ -128,7 +129,7 @@ document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefa
 addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
 function jump(){if(P.ground){P.vy=-13;P.ground=false}}
-function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;world.restAt=0;world.trail=[];ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
  if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
@@ -139,6 +140,7 @@ function updateHud(){
 }
 function beginGame(){playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
 begin.onclick=beginGame;
+replay.onclick=beginGame;
 
 function update(dt){
  world.t+=dt; world.breath+=dt;
@@ -147,7 +149,7 @@ function update(dt){
  const old=P.y+P.h;P.y+=P.vy;P.ground=false;
  for(const q of platforms){const top=py(q);if(P.x+P.w/2>q.x&&P.x-P.w/2<q.x+q.w&&old<=top&&P.y+P.h>=top&&P.vy>=0){P.y=top-P.h;P.vy=0;P.ground=true}}
  world.cam+=(P.x-W*.30-world.cam)*.075;world.cam=Math.max(0,world.cam);
- for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;say(l.text);updateHud()}
+ for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text});say(l.text);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
   m.got=true;world.memories++;say(m.text,3000);
   memoryCardText.textContent=m.text.replaceAll('\\n',' ');
@@ -173,10 +175,11 @@ function update(dt){
  }
  if(P.x>2295&&P.x<2370&&Math.abs(P.vx)<0.35&&P.ground&&world.lights>=8&&!world.rested){
    world.rested=true;
+   world.restAt=world.t;
    say('Stop here. Let the light speak for a moment.',4200);
    obj.textContent='Remember';
  }
- if(P.x>2280&&world.lights>=8&&!world.finished&&world.rested){
+ if(P.x>2280&&world.lights>=8&&!world.finished&&world.rested&&world.t-world.restAt>5000){
    world.finished=true;
    P.vx=0;
    say('You were never carrying the light alone.\\nIn memory of Nicolae Urluescu Sol.\\nIn honor of every army veteran.',9000);
@@ -315,8 +318,18 @@ function drawCican(){
  x.restore();
 }
 
+function drawTrail(){
+ for(const l of world.trail){
+   const xx=l.x-world.cam, yy=py({y:l.y})-28;
+   const g=x.createRadialGradient(xx,yy,1,xx,yy,28);
+   g.addColorStop(0,'rgba(255,218,145,.20)');
+   g.addColorStop(1,'rgba(255,180,80,0)');
+   x.fillStyle=g;x.beginPath();x.arc(xx,yy,28,0,Math.PI*2);x.fill();
+   x.fillStyle='rgba(255,232,175,.52)';x.beginPath();x.arc(xx,yy,2.2,0,Math.PI*2);x.fill();
+ }
+}
 function draw(){
- sky();tent();
+ sky();tent();drawTrail();
  for(const q of platforms)platform(q);
  for(const l of lights)orb(l,'light');
  for(const m of memories)orb(m,'memory');
