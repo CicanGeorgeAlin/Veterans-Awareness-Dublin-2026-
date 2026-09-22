@@ -16,6 +16,13 @@ canvas{display:block;width:100%;height:100%}
 .dedication{position:absolute;top:20px;right:180px;text-align:right;font-size:9px;letter-spacing:2px;line-height:1.7;opacity:.8}
 .message{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:min(86vw,560px);padding:15px 18px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(7px);text-align:center;font-family:Georgia,serif;font-size:15px;line-height:1.55;opacity:0;transition:opacity .8s}
 .message.show{opacity:1}
+.ending{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.82);opacity:0;pointer-events:none;transition:opacity 2s ease}
+.ending.show{opacity:1;pointer-events:auto}
+.ending-inner{text-align:center;width:min(88vw,680px);padding:34px;border:1px solid rgba(255,255,255,.18);background:rgba(5,5,5,.55);box-shadow:0 0 80px rgba(255,190,100,.08)}
+.ending-kicker{font-size:9px;letter-spacing:4px;opacity:.55;margin-bottom:20px}
+.ending-name{font-family:Georgia,serif;font-size:clamp(25px,6vw,52px);letter-spacing:4px;font-weight:400}
+.ending-line{margin-top:24px;font-family:Georgia,serif;font-size:16px;line-height:1.8;opacity:.82}
+.ending-peace{margin-top:30px;font-size:10px;letter-spacing:3px;opacity:.65}
 .objective{position:absolute;left:50%;top:18%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:.65;text-shadow:0 2px 10px #000}
 .story{position:absolute;left:50%;top:calc(18% + 18px);transform:translateX(-50%);font-family:Georgia,serif;font-size:11px;letter-spacing:1.5px;opacity:.45;text-shadow:0 2px 10px #000;text-align:center}
 .controls{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:space-between;padding:0 18px;pointer-events:auto}
@@ -49,6 +56,14 @@ canvas{display:block;width:100%;height:100%}
 <div class="objective" id="objective">Begin beside the tent</div>
 <div class="story" id="story">THE JOURNEY OF MEMORY</div>
 <div class="message" id="message"></div>
+<div class="ending" id="ending">
+  <div class="ending-inner">
+    <div class="ending-kicker">THE LIGHT CONTINUES</div>
+    <div class="ending-name">NICOLAE URLUESCU SOL</div>
+    <div class="ending-line">In memory of a grandfather.<br>In honor of every army veteran.</div>
+    <div class="ending-peace">COLORING FOR WORLD PEACE 🕊</div>
+  </div>
+</div>
 <div class="controls">
 <div class="joy"><button id="left">◀</button><button id="right">▶</button></div>
 <button id="jump">JUMP<br>↑</button>
@@ -58,11 +73,11 @@ canvas{display:block;width:100%;height:100%}
 <script>
 const c=document.getElementById('game'),x=c.getContext('2d');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
-const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story');
+const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending');
 let W,H,dpr=1,playing=false,last=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
@@ -109,7 +124,7 @@ document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefa
 addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
 function jump(){if(P.ground){P.vy=-13;P.ground=false}}
-function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;ending.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
  if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
@@ -122,7 +137,7 @@ function beginGame(){playing=true;reset();start.classList.add('hide');say('The j
 begin.onclick=beginGame;
 
 function update(dt){
- world.t+=dt;
+ world.t+=dt; world.breath+=dt;
  P.vx+=(input.r?0.52:0)-(input.l?0.52:0); if(!input.l&&!input.r)P.vx*=.82;
  P.vx=Math.max(-5.3,Math.min(5.3,P.vx)); P.x+=P.vx; P.vy+=.72;
  const old=P.y+P.h;P.y+=P.vy;P.ground=false;
@@ -147,7 +162,9 @@ function update(dt){
  }
  if(P.x>2280&&world.lights>=8&&!world.finished){
    world.finished=true;
+   P.vx=0;
    say('You were never carrying the light alone.\\nIn memory of Nicolae Urluescu Sol.\\nIn honor of every army veteran.',9000);
+   setTimeout(()=>ending.classList.add('show'),5200);
  }
 }
 
@@ -194,7 +211,7 @@ function tent(){
 }
 
 function platform(q){
- const xx=q.x-world.cam,yy=py(q);x.save();x.translate(xx,yy);x.rotate(q.a);
+ const xx=q.x-world.cam,yy=py(q);x.save();x.translate(xx,yy);x.translate(0,Math.sin(world.breath*.003)*.7);x.rotate(q.a);
  if(q.type==='earth'){x.fillStyle='#1a1714';x.fillRect(0,0,q.w,q.h);x.fillStyle='#33261c';x.fillRect(0,0,q.w,7)}
  else if(q.type==='memorial'){x.fillStyle='#3a3935';x.fillRect(0,0,q.w,q.h);x.fillStyle='#77736a';x.fillRect(0,0,q.w,4)}
  else{x.fillStyle='#292827';x.fillRect(0,0,q.w,q.h);x.fillStyle='#54514b';x.fillRect(0,0,q.w,4)}
@@ -207,6 +224,16 @@ function orb(o,kind){
  if(kind==='memory'){x.fillStyle='rgba(255,255,255,.7)';x.font='9px Arial';x.fillText('MEMORY',xx-25,yy-20)}
 }
 
+function drawBubbles(){
+ const xx=P.x-world.cam, yy=P.y+P.h/2;
+ for(let i=0;i<5;i++){
+   const bx=xx+11+Math.sin(world.t*.002+i*1.7)*8;
+   const by=yy-45-((world.t*.025+i*23)%85);
+   const r=1.5+(i%2);
+   x.strokeStyle='rgba(220,235,235,.25)';x.lineWidth=1;
+   x.beginPath();x.arc(bx,by,r,0,Math.PI*2);x.stroke();
+ }
+}
 function drawCican(){
  const xx=P.x-world.cam,yy=P.y+P.h/2;
  x.save();x.translate(xx,yy);
@@ -281,6 +308,18 @@ function draw(){
  // signposts
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
  drawCican();
+ drawBubbles();
+
+ // final memorial lamp: the light is deliberately small and human
+ const lampX=2325-world.cam, lampY=py({y:-105})-42;
+ const lampGlow=x.createRadialGradient(lampX,lampY,2,lampX,lampY,75);
+ lampGlow.addColorStop(0,'rgba(255,205,120,.34)');
+ lampGlow.addColorStop(1,'rgba(255,180,80,0)');
+ x.fillStyle=lampGlow;x.beginPath();x.arc(lampX,lampY,75,0,Math.PI*2);x.fill();
+ x.fillStyle='#bdb7a7';x.fillRect(lampX-6,lampY-18,12,25);
+ x.fillStyle='#161616';x.fillRect(lampX-9,lampY-22,18,4);
+ x.fillStyle='rgba(255,226,150,.9)';x.beginPath();x.arc(lampX,lampY-6,3,0,Math.PI*2);x.fill();
+
  // footer
  x.textAlign='center';x.fillStyle='rgba(255,255,255,.8)';x.font='11px Arial';x.letterSpacing='2px';x.fillText('COLORING FOR WORLD PEACE  🕊',W/2,H-24);x.textAlign='left';
 }
