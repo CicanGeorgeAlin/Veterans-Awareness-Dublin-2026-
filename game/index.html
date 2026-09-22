@@ -190,7 +190,18 @@ function update(dt){
  P.vx+=(input.r?0.52:0)-(input.l?0.52:0); if(!input.l&&!input.r)P.vx*=.82;
  P.vx=Math.max(-5.3,Math.min(5.3,P.vx)); P.x+=P.vx; P.vy+=.72;
  const old=P.y+P.h;P.y+=P.vy;P.ground=false;
- for(const q of platforms){const top=py(q);if(P.x+P.w/2>q.x&&P.x-P.w/2<q.x+q.w&&old<=top&&P.y+P.h>=top&&P.vy>=0){P.y=top-P.h;P.vy=0;P.ground=true}}
+ for(const q of platforms){
+ const left=q.x,right=q.x+q.w;
+ if(P.x+P.w/2>left&&P.x-P.w/2<right){
+   const localX=Math.max(0,Math.min(q.w,(P.x-q.x)));
+   const top=py(q)+Math.tan(q.a)*localX;
+   if(old<=top&&P.y+P.h>=top&&P.vy>=0){
+     P.y=top-P.h;
+     P.vy=0;
+     P.ground=true;
+   }
+ }
+}
  world.cam+=(P.x-W*.30-world.cam)*.075;world.cam=Math.max(0,world.cam);
  for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;world.trail.push({x:l.x,y:l.y,text:l.text});say(l.text);updateHud()}
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
