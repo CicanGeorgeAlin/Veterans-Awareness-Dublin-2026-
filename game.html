@@ -128,11 +128,19 @@ const joy=document.getElementById("joystick"),stick=document.getElementById("sti
 let joyPointer=null,joyCenter={x:0,y:0},swipeStartY=0,swipeStartX=0,swipeActive=false;
 joy.addEventListener("pointerdown",e=>{e.preventDefault();joyPointer=e.pointerId;const r=joy.getBoundingClientRect();joyCenter={x:r.left+r.width/2,y:r.top+r.height/2};joy.setPointerCapture(e.pointerId);moveJoy(e)});
 joy.addEventListener("pointermove",e=>{if(e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}});
-function moveJoy(e){const dx=e.clientX-joyCenter.x,dy=e.clientY-joyCenter.y,lim=42;const len=Math.hypot(dx,dy)||1;const nx=Math.max(-1,Math.min(1,dx/lim));key.l=nx<-.18;key.r=nx>.18;const mx=dx/len*Math.min(len,lim),my=dy/len*Math.min(len,lim);stick.style.transform="translate("+mx+"px,"+my+"px)"}
+function moveJoy(e){
+ const dx=e.clientX-joyCenter.x,dy=e.clientY-joyCenter.y,lim=42;
+ const len=Math.hypot(dx,dy)||1;
+ const nx=Math.max(-1,Math.min(1,dx/lim));
+ key.l=nx<-.12;
+ key.r=nx>.12;
+ const mx=dx/len*Math.min(len,lim),my=dy/len*Math.min(len,lim);
+ stick.style.transform="translate("+mx+"px,"+my+"px)";
+}
 function releaseJoy(){joyPointer=null;key.l=false;key.r=false;stick.style.transform="translate(0,0)"}
 joy.addEventListener("pointerup",releaseJoy);joy.addEventListener("pointercancel",releaseJoy);
 
-function doSwipeJump(){if(!run)return;p.vy=18;p.on=false;coyote=0;jumpBuffer=0;msg.textContent="Jump";setTimeout(()=>{if(run&&msg.textContent==="Jump")msg.textContent=""},500)}
+function doSwipeJump(){if(!run)return;jumpBuffer=0.22;msg.textContent="Jump";setTimeout(()=>{if(run&&msg.textContent==="Jump")msg.textContent=""},400)}
 function beginSwipe(e){if(!run)return;swipeActive=true;swipeStartY=e.clientY;swipeStartX=e.clientX;swipe.setPointerCapture?.(e.pointerId);e.preventDefault();}
 function moveSwipe(e){if(!swipeActive)return;const dy=swipeStartY-e.clientY;if(dy>25){swipeActive=false;doSwipeJump();e.preventDefault();}}
 function endSwipe(e){if(!swipeActive)return;const dy=swipeStartY-e.clientY;swipeActive=false;if(dy>20)doSwipeJump();e.preventDefault();}
@@ -150,45 +158,51 @@ addEventListener("keyup",e=>{if(e.code==="ArrowLeft"||e.code==="KeyA")key.l=fals
 function ground(px,oldY,fall){let best=null;for(const q of platforms)if(px>q.x&&px<q.x+q.w&&oldY>=q.y&&oldY+fall<=q.y+8&&fall<=0)best=!best||q.y>best.y?q:best;return best}
 function update(dt){
  const d=(key.r?1:0)-(key.l?1:0);
- p.vx+=d*.75*dt*60;
- if(!d)p.vx*=Math.pow(.80,dt*60);
- p.vx=Math.max(-5.7,Math.min(5.7,p.vx));
+
+ // Smooth, forgiving platform-game movement: acceleration, braking and a
+ // consistent pixels-per-second physics model.
+ const target=d*300;
+ p.vx+=(target-p.vx)*Math.min(1,12*dt);
+ if(!d)p.vx*=Math.pow(.0008,dt);
 
  jumpBuffer=Math.max(0,jumpBuffer-dt);
- coyote=p.on?0.12:Math.max(0,coyote-dt);
+ coyote=p.on?0.14:Math.max(0,coyote-dt);
 
  if(jumpBuffer>0 && coyote>0){
-   p.vy=18;
+   p.vy=780;
    p.on=false;
    coyote=0;
    jumpBuffer=0;
  }
 
  const old=p.y;
- p.vy-=29*dt;
- p.x+=p.vx*dt*60;
+ p.vy-=1800*dt;
+ p.x+=p.vx*dt;
  p.x=Math.max(0,Math.min(world.w-p.w,p.x));
- p.y+=p.vy*dt*60;
+ p.y+=p.vy*dt;
  p.on=false;
 
- const fall=p.vy*dt*60;
- const q=ground(p.x+p.w/2,old,fall);
+ const dy=p.y-old;
+ const q=ground(p.x+p.w/2,old,dy);
  if(q){
    p.y=q.y;
    p.vy=0;
    p.on=true;
-   coyote=0.12;
+   coyote=0.14;
  }
 
  if(p.y<-220){
-   p.x=Math.max(0,p.x-250);
+   p.x=Math.max(0,p.x-220);
    p.y=105;
+   p.vx=0;
    p.vy=0;
    p.on=true;
-   coyote=0.12;
+   coyote=0.14;
  }
 
- cam+=(p.x-W*.40-cam)*.09;
+ // Softer camera follow keeps Cican near the comfortable play area.
+ const desired=p.x-W*.36;
+ cam+=(desired-cam)*Math.min(1,7*dt);
  cam=Math.max(0,Math.min(world.w-W,cam));
  collect()
 }
