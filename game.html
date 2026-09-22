@@ -125,7 +125,7 @@ againBtn.addEventListener("touchend",startGame,{passive:false});
 function tryJump(){ if(!run)return; jumpBuffer=0.18; }
 
 const joy=document.getElementById("joystick"),stick=document.getElementById("stick"),swipe=document.getElementById("swipeArea");
-let joyPointer=null,joyCenter={x:0,y:0},swipeStartY=0,swipeActive=false;
+let joyPointer=null,joyCenter={x:0,y:0},swipeStartY=0,swipeStartX=0,swipeActive=false;
 joy.addEventListener("pointerdown",e=>{e.preventDefault();joyPointer=e.pointerId;const r=joy.getBoundingClientRect();joyCenter={x:r.left+r.width/2,y:r.top+r.height/2};joy.setPointerCapture(e.pointerId);moveJoy(e)});
 joy.addEventListener("pointermove",e=>{if(e.pointerId===joyPointer){e.preventDefault();moveJoy(e)}});
 function moveJoy(e){const dx=e.clientX-joyCenter.x,dy=e.clientY-joyCenter.y,lim=42;const len=Math.hypot(dx,dy)||1;const nx=Math.max(-1,Math.min(1,dx/lim));key.l=nx<-.18;key.r=nx>.18;const mx=dx/len*Math.min(len,lim),my=dy/len*Math.min(len,lim);stick.style.transform="translate("+mx+"px,"+my+"px)"}
