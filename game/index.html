@@ -178,6 +178,11 @@ function updateHud(){
 function beginGame(){
  paused=false; pauseBtn.textContent="PAUSE";
  introHold=true;quietFade=0;playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
+ambientToggle.onclick=()=>{
+  document.body.classList.toggle('low-ambient');
+  ambientToggle.textContent=document.body.classList.contains('low-ambient')?'AMBIENT: OFF':'AMBIENT: ON';
+  say(document.body.classList.contains('low-ambient')?'Ambient effects reduced.':'Ambient effects restored.',1800);
+};
 document.addEventListener('visibilitychange',()=>{
  if(document.hidden && playing && !world.finished && !paused){
    paused=true;
