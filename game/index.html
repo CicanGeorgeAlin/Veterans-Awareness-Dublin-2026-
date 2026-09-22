@@ -17,6 +17,7 @@ canvas{display:block;width:100%;height:100%}
 .message{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:min(86vw,560px);padding:15px 18px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(7px);text-align:center;font-family:Georgia,serif;font-size:15px;line-height:1.55;opacity:0;transition:opacity .8s}
 .message.show{opacity:1}
 .objective{position:absolute;left:50%;top:18%;transform:translateX(-50%);font-size:9px;letter-spacing:3px;text-transform:uppercase;opacity:.65;text-shadow:0 2px 10px #000}
+.story{position:absolute;left:50%;top:calc(18% + 18px);transform:translateX(-50%);font-family:Georgia,serif;font-size:11px;letter-spacing:1.5px;opacity:.45;text-shadow:0 2px 10px #000;text-align:center}
 .controls{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:space-between;padding:0 18px;pointer-events:auto}
 .joy{position:relative;width:88px;height:88px;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(0,0,0,.24);backdrop-filter:blur(5px)}
 .joy button{position:absolute;border:0;background:transparent;color:#fff;font-size:21px;width:40px;height:40px}
@@ -45,7 +46,8 @@ canvas{display:block;width:100%;height:100%}
 <div class="brand"><b>SPIRITUM SANCTI</b><span>A journey through memory</span></div>
 <div class="dedication">IN MEMORY OF<br>NICOLAE URLUESCU<br><br>IN HONOR OF<br>EVERY VETERAN</div>
 <div class="stats">Lights <b id="lightCount">0</b>/12<br>Knot <b id="knotCount">0</b>/1<br>Memories <b id="memoryCount">0</b>/8</div>
-<div class="objective" id="objective">Find the light</div>
+<div class="objective" id="objective">Begin beside the tent</div>
+<div class="story" id="story">THE JOURNEY OF MEMORY</div>
 <div class="message" id="message"></div>
 <div class="controls">
 <div class="joy"><button id="left">◀</button><button id="right">▶</button></div>
@@ -56,11 +58,11 @@ canvas{display:block;width:100%;height:100%}
 <script>
 const c=document.getElementById('game'),x=c.getContext('2d');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
-const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective');
+const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story');
 let W,H,dpr=1,playing=false,last=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
@@ -107,9 +109,16 @@ document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefa
 addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
 function jump(){if(P.ground){P.vy=-13;P.ground=false}}
-function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
-function updateHud(){lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories}
-function beginGame(){playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600)}
+function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function updateHud(){
+ lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
+ if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
+ else if(world.chapter===1){obj.textContent='Carry the first light';story.textContent='A GENERATION REMEMBERS'}
+ else if(world.chapter===2){obj.textContent='Carry the memory forward';story.textContent='FROM ROOTS TO DUBLIN'}
+ else if(world.chapter===3){obj.textContent='Find the memorial';story.textContent='IN MEMORY OF NICOLAE URULESCU SOL'}
+ else {obj.textContent='Keep the light alive';story.textContent='IN HONOR OF EVERY VETERAN'}
+}
+function beginGame(){playing=true;reset();start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
 begin.onclick=beginGame;
 
 function update(dt){
@@ -123,10 +132,23 @@ function update(dt){
  for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){m.got=true;world.memories++;say(m.text,3000);updateHud()}
  if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){knot.got=true;world.knot=1;say('The CICAN knot — memory connected to memory.',4200);updateHud()}
  if(P.y>H+120){P.x=Math.max(80,P.x-190);P.y=H*.3;P.vy=0;say('Some memories take more than one attempt.',2600)}
- if(P.x>2140&&world.lights>=8){obj.textContent='Approach the memorial'}
- else if(P.x>1500){obj.textContent='Carry the light forward'}
- else obj.textContent='Follow the light'
- if(P.x>2280&&world.lights>=8&&!world.finished){world.finished=true;say('You were never carrying the light alone.\nIn memory of Nicolae Urluescu.\nIn honor of every veteran.',9000)}
+ const previousChapter=world.chapter;
+ if(P.x<360) world.chapter=0;
+ else if(P.x<1100) world.chapter=1;
+ else if(P.x<2050) world.chapter=2;
+ else if(P.x<2280) world.chapter=3;
+ else world.chapter=4;
+ if(world.chapter!==previousChapter){
+   updateHud();
+   if(world.chapter===1) say('The first light is not a reward. It is a memory.',3200);
+   if(world.chapter===2) say('The journey moves forward. The memory stays with you.',3200);
+   if(world.chapter===3) say('A name becomes a place. A place becomes remembrance.',3600);
+   if(world.chapter===4) say('The light you carried now belongs to everyone who remembers.',4200);
+ }
+ if(P.x>2280&&world.lights>=8&&!world.finished){
+   world.finished=true;
+   say('You were never carrying the light alone.\\nIn memory of Nicolae Urluescu Sol.\\nIn honor of every army veteran.',9000);
+ }
 }
 
 function sky(){
@@ -137,6 +159,19 @@ function sky(){
  const dx=520-world.cam*.18,dy=H*.59;x.fillStyle='rgba(180,185,185,.2)';x.fillRect(dx,dy,180,10);for(let i=0;i<7;i++){x.fillRect(dx+i*27,dy+10,5,H*.12)}
  // distant memorial obelisk appears toward end
  const mx=2240-world.cam,base=H*.62;x.fillStyle='rgba(210,210,205,.18)';x.fillRect(mx,base-145,16,145);x.beginPath();x.moveTo(mx-4,base-145);x.lineTo(mx+8,base-165);x.lineTo(mx+20,base-145);x.fill();
+ // quiet lake / dam reflections
+ const waterTop=H*.67;
+ x.fillStyle='rgba(90,105,112,.13)';x.fillRect(0,waterTop,W,H-waterTop);
+ for(let i=0;i<10;i++){
+   const rx=(i*193-world.cam*.12)%(W+120)-60, ry=waterTop+20+(i%5)*14;
+   x.fillStyle='rgba(210,220,220,.06)';x.fillRect(rx,ry,70+(i%3)*20,1);
+ }
+ // drifting particles
+ for(let i=0;i<20;i++){
+   const px=(i*137-world.cam*.05+world.t*.012)%(W+40)-20;
+   const pyy=H*.25+(i*53)%Math.max(100,H*.4);
+   x.fillStyle='rgba(255,220,170,.10)';x.fillRect(px,pyy,1,1);
+ }
 }
 
 function tent(){
@@ -150,6 +185,12 @@ function tent(){
  const lx=tx+185,ly=ty+112;const lg=x.createRadialGradient(lx,ly,2,lx,ly,42);lg.addColorStop(0,'rgba(255,206,100,.9)');lg.addColorStop(1,'rgba(255,170,50,0)');x.fillStyle=lg;x.beginPath();x.arc(lx,ly,42,0,Math.PI*2);x.fill();x.fillStyle='#d8d1bc';x.fillRect(lx-6,ly-13,12,25);x.fillStyle='#191919';x.fillRect(lx-8,ly-17,16,4);
  // backpack
  x.fillStyle='#171918';x.fillRect(tx+20,ty+111,42,30);
+ // tent ropes and small field equipment
+ x.strokeStyle='rgba(220,210,185,.28)';x.lineWidth=1;
+ x.beginPath();x.moveTo(tx+82,ty);x.lineTo(tx-20,ty+132);x.moveTo(tx+82,ty);x.lineTo(tx+190,ty+132);x.stroke();
+ x.fillStyle='#403d35';x.fillRect(tx+98,ty+116,24,13);
+ x.fillStyle='#d8d1bc';x.font='7px Arial';x.fillText('VETERANS',tx+159,ty+143);
+ x.fillText('ALWAYS REMEMBERED',tx+151,ty+151);
 }
 
 function platform(q){
