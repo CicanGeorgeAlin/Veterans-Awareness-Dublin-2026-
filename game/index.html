@@ -167,25 +167,45 @@ function orb(o,kind){
 }
 
 function drawCican(){
- const xx=P.x-world.cam,yy=P.y+P.h/2;x.save();x.translate(xx,yy);
- // shadow
- x.fillStyle='rgba(0,0,0,.45)';x.beginPath();x.ellipse(0,26,18,5,0,0,Math.PI*2);x.fill();
- // backpack
- x.fillStyle='#17201f';x.fillRect(-18,-10,13,27);
- // body/jacket
- x.fillStyle='#26322e';x.fillRect(-11,-7,22,27);
- // head
- x.fillStyle='#c99168';x.beginPath();x.arc(0,-25,12,0,Math.PI*2);x.fill();
+ const xx=P.x-world.cam,yy=P.y+P.h/2;
+ x.save();x.translate(xx,yy);
+ // soft shadow
+ x.fillStyle='rgba(0,0,0,.48)';x.beginPath();x.ellipse(0,28,20,5,0,0,Math.PI*2);x.fill();
+
+ // diving/outdoor backpack and gear — inspired by the reference photo
+ x.fillStyle='#111817';x.fillRect(-20,-12,14,31);
+ x.fillStyle='#242b2a';x.fillRect(-14,-7,28,28);
+ x.fillStyle='#c58d65';x.beginPath();x.arc(0,-27,13,0,Math.PI*2);x.fill();
+
+ // short dark hair
+ x.fillStyle='#191716';x.beginPath();x.arc(0,-34,12,Math.PI,Math.PI*2);x.fill();
  // beard
- x.fillStyle='#332b28';x.beginPath();x.arc(0,-20,11,0,Math.PI);x.fill();
- // cap
- x.fillStyle='#111';x.fillRect(-13,-39,26,7);x.fillRect(-8,-44,17,8);x.fillStyle='#eee';x.font='5px Arial';x.fillText('CICAN',-7,-38);
- // face
- x.fillStyle='#111';x.beginPath();x.arc(-4,-27,1.5,0,Math.PI*2);x.arc(4,-27,1.5,0,Math.PI*2);x.fill();
- // legs
- x.fillStyle='#111';x.fillRect(-9,18,7,12);x.fillRect(2,18,7,12);
- // boots
- x.fillRect(-12,28,10,4);x.fillRect(2,28,10,4);x.restore();
+ x.fillStyle='#302825';x.beginPath();x.arc(0,-22,11,0,Math.PI);x.fill();
+
+ // dark technical cap
+ x.fillStyle='#0d1010';x.fillRect(-14,-42,28,8);x.fillRect(-9,-47,18,8);
+ x.fillStyle='#ddd';x.font='5px Arial';x.fillText('CICAN',-7,-41);
+
+ // eyes
+ x.fillStyle='#111';x.beginPath();x.arc(-4,-28,1.5,0,Math.PI*2);x.arc(4,-28,1.5,0,Math.PI*2);x.fill();
+
+ // reflective strips / technical suit
+ x.strokeStyle='#d9dddd';x.lineWidth=2;
+ x.beginPath();x.moveTo(-10,-2);x.lineTo(-2,-5);x.stroke();
+ x.beginPath();x.moveTo(2,-5);x.lineTo(10,-2);x.stroke();
+
+ // arms
+ x.fillStyle='#202826';x.fillRect(-17,-5,6,20);x.fillRect(11,-5,6,20);
+ // legs and heavy boots
+ x.fillStyle='#111515';x.fillRect(-9,19,7,13);x.fillRect(2,19,7,13);
+ x.fillRect(-13,30,11,5);x.fillRect(2,30,11,5);
+
+ // tiny warm reflection from the memorial lantern
+ const glow=x.createRadialGradient(0,-25,2,0,-25,30);
+ glow.addColorStop(0,'rgba(255,205,130,.16)');glow.addColorStop(1,'rgba(255,205,130,0)');
+ x.fillStyle=glow;x.beginPath();x.arc(0,-25,30,0,Math.PI*2);x.fill();
+
+ x.restore();
 }
 
 function draw(){
