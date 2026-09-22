@@ -156,7 +156,7 @@ function update(dt){
  }
 
  const old=p.y;
- p.vy-=29*dt;
+ p.vy-=29*dt*60;
  p.x+=p.vx*dt*60;
  p.x=Math.max(0,Math.min(world.w-p.w,p.x));
  p.y+=p.vy*dt*60;
