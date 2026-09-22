@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Veteran Awareness Dublin 2026 · The Walk of Remembrance</title>
+<meta name="description" content="An experimental memorial game for Veteran Awareness Dublin 2026 — remembering, honoring and carrying peace forward.">
+<style>
+:root{--ink:#050505;--paper:#f4f1e9;--white:#fff;--soft:rgba(255,255,255,.72);--line:rgba(255,255,255,.16)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050505;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+button{font:inherit}
+#game{position:fixed;inset:0;width:100%;height:100%;display:block;background:#050505}
+.hud{position:fixed;inset:0;pointer-events:none;z-index:5}
+.brand{position:absolute;top:max(18px,env(safe-area-inset-top));left:18px;letter-spacing:2px;font-size:10px;font-weight:700;text-transform:uppercase;opacity:.78}
+.stats{position:absolute;top:max(18px,env(safe-area-inset-top));right:18px;display:flex;gap:16px;font-size:10px;letter-spacing:1.7px;text-transform:uppercase;opacity:.72}
+.stats b{color:#fff;font-size:12px}
+.message{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);width:min(620px,calc(100% - 36px));text-align:center;font-size:13px;line-height:1.55;letter-spacing:.6px;color:var(--soft);text-shadow:0 2px 16px #000;transition:opacity .5s}
+.controls{position:fixed;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));z-index:8;display:flex;justify-content:space-between;align-items:end;padding:0 20px;pointer-events:none}
+.pad{display:flex;gap:10px;pointer-events:auto}
+.ctrl{width:58px;height:58px;border:1px solid rgba(255,255,255,.22);border-radius:50%;background:rgba(0,0,0,.38);color:#fff;backdrop-filter:blur(10px);font-size:20px;touch-action:none;user-select:none}
+.ctrl:active{background:rgba(255,255,255,.18);transform:scale(.96)}
+.jump{width:72px;height:72px;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.07),rgba(0,0,0,.94) 58%,#000 100%);transition:opacity .55s}
+.overlay.hide{opacity:0;pointer-events:none}
+.card{width:min(620px,100%);text-align:center}
+.kicker{font-size:10px;letter-spacing:4px;text-transform:uppercase;opacity:.55;margin-bottom:22px}
+h1{margin:0;font-size:clamp(38px,9vw,78px);font-weight:500;letter-spacing:-2px;line-height:.94}
+.sub{margin:25px auto 0;max-width:520px;font-size:15px;line-height:1.7;color:rgba(255,255,255,.68)}
+.start{margin-top:32px;padding:15px 26px;border:1px solid rgba(255,255,255,.35);background:#fff;color:#000;letter-spacing:2px;font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer}
+.start:active{transform:scale(.98)}
+.end-photo{width:min(270px,70vw);aspect-ratio:4/3;object-fit:cover;margin:0 auto 24px;filter:grayscale(100%);display:none}
+.small{margin-top:18px;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.42}
+@media(min-width:700px){.controls{padding:0 32px}.ctrl{width:64px;height:64px}.jump{width:78px;height:78px}}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div class="hud">
+  <div class="brand">Veteran Awareness Dublin 2026</div>
+  <div class="stats">
+    <span>LIGHT <b id="lights">0</b></span>
+    <span>MEMORY <b id="memories">0</b></span>
+  </div>
+  <div class="message" id="message"></div>
+</div>
+
+<div class="controls" aria-label="Game controls">
+  <div class="pad">
+    <button class="ctrl" id="left" aria-label="Move left">←</button>
+    <button class="ctrl" id="right" aria-label="Move right">→</button>
+  </div>
+  <button class="ctrl jump" id="jump" aria-label="Jump">Jump</button>
+</div>
+
+<div class="overlay" id="intro">
+  <div class="card">
+    <div class="kicker">An experimental memorial game</div>
+    <h1>The Walk<br>of Remembrance</h1>
+    <p class="sub">A small journey through Dublin, memory and light — created for Veteran Awareness Dublin 2026, in memory of Nicolae Urluescu and in honor of veterans everywhere.</p>
+    <button class="start" id="start">Begin the walk</button>
+    <div class="small">Keyboard: A / D or ← / → · Space to jump</div>
+  </div>
+</div>
+
+<div class="overlay hide" id="ending">
+  <div class="card">
+    <img class="end-photo" id="endPhoto" src="nicolae-urluescu.jpg" alt="Nicolae Urluescu">
+    <div class="kicker">You reached the memorial</div>
+    <h1>Remember.<br>Honor.<br>Carry it forward.</h1>
+    <p class="sub">Every light collected represents a memory carried forward. The journey ends in remembrance, but the light continues.</p>
+    <button class="start" id="again">Walk again</button>
+    <div class="small">Veteran Awareness Dublin 2026 · Coloring for World Peace 🕊️</div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const canvas=document.getElementById("game"),ctx=canvas.getContext("2d");
+const lightsEl=document.getElementById("lights"),memoriesEl=document.getElementById("memories"),messageEl=document.getElementById("message");
+const intro=document.getElementById("intro"),ending=document.getElementById("ending"),endPhoto=document.getElementById("endPhoto");
+let W=innerWidth,H=innerHeight,DPR=Math.min(devicePixelRatio||1,2);
+function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,2);canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+"px";canvas.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0)}
+addEventListener("resize",resize);resize();
+
+const world={
+  width:7200,
+  ground:0,
+  start:260,
+  memorialX:6650
+};
+const player={x:260,y:0,vx:0,vy:0,w:30,h:48,onGround:false};
+let camera=0,running=false,won=false,lights=0,memories=0,startedAt=0;
+const keys={left:false,right:false};
+const collected=new Set(), activated=new Set();
+const objects=[
+  {type:"light",x:620,y:170,id:"l1"},
+  {type:"memory",x:1050,y:135,id:"m1",text:"A memory can travel farther than a person."},
+  {type:"light",x:1450,y:215,id:"l2"},
+  {type:"knot",x:1820,y:125,id:"k1"},
+  {type:"memory",x:2300,y:165,id:"m2",text:"From Romania to Dublin, memory crossed the distance."},
+  {type:"light",x:2780,y:235,id:"l3"},
+  {type:"lamp",x:3350,y:0,id:"lamp1"},
+  {type:"memory",x:3880,y:170,id:"m3",text:"Those who served are remembered in many places."},
+  {type:"light",x:4300,y:190,id:"l4"},
+  {type:"knot",x:4800,y:140,id:"k2"},
+  {type:"memory",x:5200,y:190,id:"m4",text:"Ireland. Dublin. Family. Remembrance."},
+  {type:"light",x:5660,y:235,id:"l5"},
+  {type:"lamp",x:6100,y:0,id:"lamp2"}
+];
+const platforms=[
+  {x:0,y:0,w:1250,h:120},{x:1380,y:0,w:760,h:120},{x:2260,y:0,w:900,h:120},
+  {x:3300,y:0,w:760,h:120},{x:4240,y:0,w:780,h:120},{x:5100,y:0,w:720,h:120},
+  {x:5600,y:0,w:1600,h:120},
+  {x:850,y:120,w:180,h:20},{x:1330,y:175,w:120,h:20},{x:1700,y:105,w:220,h:20},
+  {x:2660,y:145,w:220,h:20},{x:3780,y:115,w:200,h:20},{x:4450,y:135,w:220,h:20},
+  {x:5000,y:100,w:190,h:20},{x:5480,y:145,w:200,h:20}
+];
+const lamps=[
+  {x:3350,id:"lamp1"},{x:6100,id:"lamp2"}
+];
+const poppies=[];
+for(let x=120;x<world.width;x+=92){poppies.push({x:x+(x%31),h:10+(x%18)})}
+function reset(){
+  player.x=world.start;player.y=180;player.vx=0;player.vy=0;camera=0;lights=0;memories=0;won=false;collected.clear();activated.clear();
+  lightsEl.textContent="0";memoriesEl.textContent="0";messageEl.textContent="";
+  objects.forEach(o=>{if(o.type==="light"||o.type==="memory"||o.type==="knot")collected.delete(o.id)});
+}
+function startGame(){reset();running=true;startedAt=performance.now();intro.classList.add("hide");ending.classList.add("hide");endPhoto.style.display="none";messageEl.textContent="Walk toward the light. Explore gently.";setTimeout(()=>messageEl.textContent="",4200)}
+function finish(){running=false;won=true;endPhoto.style.display="block";ending.classList.remove("hide")}
+document.getElementById("start").onclick=startGame;
+document.getElementById("again").onclick=startGame;
+
+function bind(btn,name){
+  const on=e=>{e.preventDefault();keys[name]=true};
+  const off=e=>{e.preventDefault();keys[name]=false};
+  btn.addEventListener("pointerdown",on);btn.addEventListener("pointerup",off);btn.addEventListener("pointercancel",off);btn.addEventListener("pointerleave",off);
+}
+bind(document.getElementById("left"),"left");bind(document.getElementById("right"),"right");
+let jumpQueued=false;
+const jumpBtn=document.getElementById("jump");
+["pointerdown","keydown"].forEach(()=>{});
+jumpBtn.addEventListener("pointerdown",e=>{e.preventDefault();jumpQueued=true});
+addEventListener("keydown",e=>{
+  if(e.code==="ArrowLeft"||e.code==="KeyA")keys.left=true;
+  if(e.code==="ArrowRight"||e.code==="KeyD")keys.right=true;
+  if(e.code==="Space"||e.code==="ArrowUp")jumpQueued=true;
+  if((e.code==="Enter"||e.code==="Space")&&!running&&!won)startGame();
+});
+addEventListener("keyup",e=>{
+  if(e.code==="ArrowLeft"||e.code==="KeyA")keys.left=false;
+  if(e.code==="ArrowRight"||e.code==="KeyD")keys.right=false;
+});
+
+function groundAt(x){
+  let best=-Infinity;
+  for(const p of platforms)if(x>p.x&&x<p.x+p.w)best=Math.max(best,p.y+p.h);
+  return best;
+}
+function collide(){
+  const foot=player.y;
+  const g=groundAt(player.x+player.w*.5);
+  if(g>-Infinity&&player.vy>=0&&foot<=g+14&&foot+player.vy>=g-2){player.y=g;player.vy=0;player.onGround=true}else player.onGround=false;
+}
+function collect(){
+  for(const o of objects){
+    if(collected.has(o.id))continue;
+    const dx=(player.x+player.w/2)-o.x,dy=(player.y-player.h/2)-o.y;
+    const d=Math.hypot(dx,dy);
+    if(d<58){
+      if(o.type==="light"){lights++;lightsEl.textContent=lights;collected.add(o.id);messageEl.textContent="A light carried forward."}
+      else if(o.type==="memory"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent=o.text}
+      else if(o.type==="knot"){memories++;memoriesEl.textContent=memories;collected.add(o.id);messageEl.textContent="A connection carried forward."}
+    }
+  }
+  for(const l of lamps){
+    if(activated.has(l.id))continue;
+    if(Math.abs(player.x-l.x)<85){activated.add(l.id);messageEl.textContent="The lamp is lit. Remember. Honor. Never forget."}
+  }
+  if(player.x>world.memorialX-110 && lights>=3){finish()}
+}
+function update(dt){
+  const accel=keys.left?-0.62:keys.right?0.62:0;
+  player.vx+=accel;
+  if(!accel)player.vx*=Math.pow(.80,dt*60);
+  player.vx=Math.max(-5,Math.min(5,player.vx));
+  if(jumpQueued&&player.onGround){player.vy=-11;jumpQueued=false}else jumpQueued=false;
+  player.vy+=.55*dt*60;
+  player.x+=player.vx*dt*60;
+  player.y+=player.vy*dt*60;
+  if(player.x<0)player.x=0;
+  if(player.x>world.width-player.w)player.x=world.width-player.w;
+  collide();
+  if(player.y>H+300){player.x=Math.max(0,player.x-180);player.y=240;player.vy=0}
+  camera+=(player.x-W*.38-camera)*.075;
+  camera=Math.max(0,Math.min(world.width-W,camera));
+  collect();
+}
+function sky(){
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,"#050608");grad.addColorStop(.55,"#101317");grad.addColorStop(1,"#17191b");
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  const moonX= W*.78,moonY=H*.18;
+  const glow=ctx.createRadialGradient(moonX,moonY,2,moonX,moonY,120);glow.addColorStop(0,"rgba(255,255,255,.18)");glow.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=glow;ctx.fillRect(moonX-130,moonY-130,260,260);
+  ctx.beginPath();ctx.arc(moonX,moonY,23,0,Math.PI*2);ctx.fillStyle="rgba(255,255,255,.85)";ctx.fill();
+}
+function drawDublin(){
+  ctx.save();ctx.translate(-camera*.28,H-235);
+  for(let i=0;i<22;i++){
+    const x=i*190+60,h=55+(i*37)%100;
+    ctx.fillStyle="rgba(255,255,255,.035)";ctx.fillRect(x,-h,100,h);
+    if(i%3===0){ctx.fillStyle="rgba(255,255,255,.08)";ctx.fillRect(x+18,-h+18,7,7);ctx.fillRect(x+45,-h+18,7,7)}
+  }
+  ctx.fillStyle="rgba(255,255,255,.06)";ctx.font="700 13px Arial";ctx.letterSpacing="3px";ctx.fillText("D U B L I N",i=60,25);
+  ctx.restore();
+}
+function drawGround(){
+  for(const p of platforms){
+    const x=p.x-camera,y=H-(p.y+p.h);
+    if(x+p.w<0||x>W)continue;
+    ctx.fillStyle=p.y===0?"#111416":"#202326";ctx.fillRect(x,y,p.w,p.h);
+    ctx.fillStyle="rgba(255,255,255,.10)";ctx.fillRect(x,y,p.w,2);
+    if(p.y===0){
+      for(let k=0;k<p.w;k+=92){
+        const px=x+k+25;const py=y+7;
+        ctx.strokeStyle="rgba(255,255,255,.18)";ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+7,py-5);ctx.lineTo(px+12,py);ctx.stroke();
+      }
+    }
+  }
+}
+function drawPoppies(){
+  for(const p of poppies){
+    const x=p.x-camera,y=H-120;
+    if(x<-20||x>W+20)continue;
+    ctx.strokeStyle="rgba(180,180,180,.45)";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-p.h);ctx.stroke();
+    ctx.fillStyle="rgba(210,210,210,.8)";ctx.beginPath();ctx.arc(x,y-p.h,3,0,Math.PI*2);ctx.fill();
+  }
+}
+function drawObjects(){
+  for(const o of objects){
+    if(collected.has(o.id))continue;
+    const x=o.x-camera,y=H-o.y-120;
+    if(x<-80||x>W+80)continue;
+    if(o.type==="light"){
+      const g=ctx.createRadialGradient(x,y,1,x,y,32);g.addColorStop(0,"rgba(255,255,255,.55)");g.addColorStop(1,"rgba(255,255,255,0)");
+      ctx.fillStyle=g;ctx.fillRect(x-32,y-32,64,64);ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fill();
+    }
+    if(o.type==="memory"){
+      ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,11,0,Math.PI*2);ctx.stroke();
+      ctx.fillStyle="#fff";ctx.font="700 9px Arial";ctx.textAlign="center";ctx.fillText("M",x,y+3);
+    }
+    if(o.type==="knot"){
+      ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.beginPath();ctx.arc(x-5,y,8,0,Math.PI*2);ctx.arc(x+5,y,8,0,Math.PI*2);ctx.stroke();
+    }
+  }
+  for(const l of lamps){
+    const x=l.x-camera,y=H-120;
+    if(x<-100||x>W+100)continue;
+    const lit=activated.has(l.id);
+    ctx.strokeStyle="rgba(255,255,255,.55)";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y-78);ctx.stroke();
+    ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-12,y-78);ctx.lineTo(x+12,y-78);ctx.stroke();
+    const g=ctx.createRadialGradient(x,y-91,2,x,y-91,45);g.addColorStop(0,lit?"rgba(255,255,255,.55)":"rgba(255,255,255,.08)");g.addColorStop(1,"rgba(255,255,255,0)");
+    ctx.fillStyle=g;ctx.fillRect(x-45,y-136,90,90);ctx.fillStyle=lit?"#fff":"#777";ctx.beginPath();ctx.arc(x,y-91,7,0,Math.PI*2);ctx.fill();
+  }
+}
+function drawPlayer(){
+  const x=player.x-camera+player.w/2,y=H-player.y-player.h;
+  ctx.save();ctx.translate(x,y);
+  const glow=ctx.createRadialGradient(0,20,4,0,20,42);glow.addColorStop(0,"rgba(255,255,255,.25)");glow.addColorStop(1,"rgba(255,255,255,0)");
+  ctx.fillStyle=glow;ctx.fillRect(-45,-25,90,90);
+  ctx.fillStyle="#f7f7f3";ctx.beginPath();ctx.roundRect(-15,-24,30,48,12);ctx.fill();
+  ctx.fillStyle="#111";ctx.beginPath();ctx.arc(-6,-10,3,0,Math.PI*2);ctx.arc(6,-10,3,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawMemorial(){
+  const x=world.memorialX-camera,y=H-120;
+  if(x<-250||x>W+250)return;
+  ctx.save();ctx.translate(x,y);
+  ctx.fillStyle="#16191b";ctx.fillRect(-170,-170,340,170);
+  ctx.strokeStyle="rgba(255,255,255,.25)";ctx.strokeRect(-170,-170,340,170);
+  ctx.fillStyle="#fff";ctx.font="500 18px Arial";ctx.textAlign="center";ctx.fillText("DUBLIN",0,-132);
+  ctx.font="700 12px Arial";ctx.letterSpacing="3px";ctx.fillText("REMEMBRANCE",0,-105);
+  for(let i=-120;i<=120;i+=40){ctx.fillStyle="rgba(255,255,255,.55)";ctx.beginPath();ctx.arc(i,-48-(Math.abs(i)%20),4,0,Math.PI*2);ctx.fill()}
+  ctx.restore();
+}
+function render(){
+  sky();drawDublin();drawPoppies();drawGround();drawObjects();drawMemorial();drawPlayer();
+  if(!running&&!won){
+    ctx.fillStyle="rgba(0,0,0,.25)";ctx.fillRect(0,0,W,H);
+  }
+}
+let last=performance.now();
+function loop(t){
+  const dt=Math.min(.033,(t-last)/1000);last=t;
+  if(running)update(dt);render();requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
