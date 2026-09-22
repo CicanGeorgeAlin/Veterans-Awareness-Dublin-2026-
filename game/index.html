@@ -187,6 +187,23 @@ function update(dt){
  }
 }
 
+function drawWorldTransition(){
+ const progress=Math.max(0,Math.min(1,(P.x-360)/1900));
+ const mist=0.05+progress*0.12;
+ const g=x.createLinearGradient(0,0,0,H);
+ g.addColorStop(0,`rgba(5,7,10,${mist*.55})`);
+ g.addColorStop(.65,`rgba(8,10,12,${mist})`);
+ g.addColorStop(1,`rgba(0,0,0,${mist*1.25})`);
+ x.fillStyle=g;x.fillRect(0,0,W,H);
+ // distant memory lights: the farther CICAN travels, the more the horizon remembers
+ for(let i=0;i<9;i++){
+   const px=(i*175+420-world.cam*.035)%(W+120)-60;
+   const pyy=H*.50+(i%4)*18;
+   const a=.035+progress*.055;
+   x.fillStyle=`rgba(255,215,150,${a})`;
+   x.beginPath();x.arc(px,pyy,2.2,0,Math.PI*2);x.fill();
+ }
+}
 function sky(){
  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#08090b');g.addColorStop(.36,'#47352e');g.addColorStop(.6,'#111820');g.addColorStop(1,'#030405');x.fillStyle=g;x.fillRect(0,0,W,H);
  const sunX= W*.48-world.cam*.035, sunY=H*.42;const sg=x.createRadialGradient(sunX,sunY,2,sunX,sunY,150);sg.addColorStop(0,'rgba(255,205,130,.7)');sg.addColorStop(1,'rgba(255,150,80,0)');x.fillStyle=sg;x.beginPath();x.arc(sunX,sunY,150,0,Math.PI*2);x.fill();
@@ -212,6 +229,8 @@ function sky(){
 
 function tent(){
  const tx=90-world.cam,ty=H*.68-150;
+ const tentFade=Math.max(0,Math.min(1,(P.x-300)/260));
+ x.save();x.globalAlpha=1-tentFade*.72;
  // warm glow
  const g=x.createRadialGradient(tx+80,ty+105,5,tx+80,ty+105,180);g.addColorStop(0,'rgba(255,166,72,.34)');g.addColorStop(1,'rgba(255,130,50,0)');x.fillStyle=g;x.beginPath();x.arc(tx+80,ty+105,180,0,Math.PI*2);x.fill();
  x.fillStyle='#252523';x.beginPath();x.moveTo(tx,ty+130);x.lineTo(tx+82,ty);x.lineTo(tx+170,ty+130);x.closePath();x.fill();
@@ -227,8 +246,29 @@ function tent(){
  x.fillStyle='#403d35';x.fillRect(tx+98,ty+116,24,13);
  x.fillStyle='#d8d1bc';x.font='7px Arial';x.fillText('VETERANS',tx+159,ty+143);
  x.fillText('ALWAYS REMEMBERED',tx+151,ty+151);
+ x.restore();
 }
 
+function memorialMarkers(){
+ const base=H*.68;
+ const names=[
+   {x:2080,n:'REMEMBER'},
+   {x:2160,n:'HONOR'},
+   {x:2240,n:'NICOLAE'},
+   {x:2320,n:'PEACE'}
+ ];
+ for(const m of names){
+   const xx=m.x-world.cam;
+   if(xx<-80||xx>W+80) continue;
+   x.fillStyle='rgba(210,208,198,.16)';
+   x.fillRect(xx,base-82,3,82);
+   x.fillStyle='rgba(255,235,190,.52)';
+   x.font='7px Arial';
+   x.textAlign='center';
+   x.fillText(m.n,xx,base-92);
+ }
+ x.textAlign='left';
+}
 function platform(q){
  const xx=q.x-world.cam,yy=py(q);x.save();x.translate(xx,yy);x.translate(0,Math.sin(world.breath*.003)*.7);x.rotate(q.a);
  if(q.type==='earth'){x.fillStyle='#1a1714';x.fillRect(0,0,q.w,q.h);x.fillStyle='#33261c';x.fillRect(0,0,q.w,7)}
@@ -329,8 +369,9 @@ function drawTrail(){
  }
 }
 function draw(){
- sky();tent();drawTrail();
+ sky();drawWorldTransition();tent();drawTrail();
  for(const q of platforms)platform(q);
+ memorialMarkers();
  for(const l of lights)orb(l,'light');
  for(const m of memories)orb(m,'memory');
  orb(knot,'knot');
