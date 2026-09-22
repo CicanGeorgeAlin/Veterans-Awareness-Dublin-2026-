@@ -487,6 +487,18 @@ function drawQuietMemorial(){
  x.fillText('THE LIGHT CONTINUES',cx,cy+95);
  x.textAlign='left';x.restore();
 }
+function drawRestingLight(){
+ if(!world.rested)return;
+ const cx=2325-world.cam, cy=H*.68-105;
+ const t=Math.max(0,world.t-world.restAt);
+ const breathe=.5+Math.sin(t*.002)*.08;
+ const g=x.createRadialGradient(cx,cy,1,cx,cy,120);
+ g.addColorStop(0,'rgba(255,228,165,'+(.12+breathe*.08)+')');
+ g.addColorStop(1,'rgba(255,190,90,0)');
+ x.fillStyle=g;x.beginPath();x.arc(cx,cy,120,0,Math.PI*2);x.fill();
+ x.fillStyle='rgba(255,238,195,'+(.72+breathe*.2)+')';
+ x.beginPath();x.arc(cx,cy,2.5+breathe*1.5,0,Math.PI*2);x.fill();
+}
 function drawLandingPulse(){
  if(landPulse<=0)return;
  const xx=P.x-world.cam, yy=P.y+P.h;
