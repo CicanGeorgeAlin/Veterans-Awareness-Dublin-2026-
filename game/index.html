@@ -89,7 +89,7 @@ canvas{display:block;width:100%;height:100%}
 const c=document.getElementById('game'),x=c.getContext('2d'),pauseBtn=document.getElementById('pauseBtn'),ambientToggle=document.getElementById('ambientToggle');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
 const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText'),replay=document.getElementById('replay'),endingCredit=document.getElementById('endingCredit');
-let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0,recoveryPulse=0,coyote=0;
+let W,H,dpr=1,playing=false,last=0,paused=false,introHold=false,quietFade=0,landPulse=0,recoveryPulse=0,coyote=0,lowAmbient=false;
 const input={l:false,r:false};
 let jumpBuffer=0;
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
@@ -198,7 +198,6 @@ pauseBtn.onclick=()=>{
     say('The journey continues.',1600);
   }
 };
-let lowAmbient=false;
 ambientToggle.onclick=()=>{
   lowAmbient=!lowAmbient;
   document.body.classList.toggle('low-ambient',lowAmbient);
