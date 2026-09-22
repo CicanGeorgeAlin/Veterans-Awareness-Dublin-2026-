@@ -177,7 +177,7 @@ function updateHud(){
 }
 function beginGame(){
  paused=false; pauseBtn.textContent="PAUSE";
- introHold=true;quietFade=0;playing=true;reset();
+ quietFade=0;playing=true;reset();introHold=true;
  memoryCard.querySelector('.memory-card-kicker').textContent='A MEMORY TO CARRY';
  start.classList.add('hide');say('The journey begins beside the tent. Follow the light.',3600);updateHud()}
 pauseBtn.onclick=()=>{
