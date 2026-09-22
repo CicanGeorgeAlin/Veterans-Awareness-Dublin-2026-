@@ -16,6 +16,9 @@ canvas{display:block;width:100%;height:100%}
 .dedication{position:absolute;top:20px;right:180px;text-align:right;font-size:9px;letter-spacing:2px;line-height:1.7;opacity:.8}
 .message{position:absolute;left:50%;bottom:16%;transform:translateX(-50%);width:min(86vw,560px);padding:15px 18px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(7px);text-align:center;font-family:Georgia,serif;font-size:15px;line-height:1.55;opacity:0;transition:opacity .8s}
 .message.show{opacity:1}
+.memory-card{position:absolute;left:18px;bottom:18%;width:min(280px,55vw);padding:12px 14px;border-left:2px solid rgba(255,205,130,.55);background:rgba(0,0,0,.34);font-family:Georgia,serif;font-size:11px;line-height:1.5;opacity:0;transform:translateY(8px);transition:.8s}
+.memory-card.show{opacity:.78;transform:translateY(0)}
+.memory-card-kicker{font-family:Arial,sans-serif;font-size:8px;letter-spacing:2px;opacity:.5;margin-bottom:5px}
 .ending{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.82);opacity:0;pointer-events:none;transition:opacity 2s ease}
 .ending.show{opacity:1;pointer-events:auto}
 .ending-inner{text-align:center;width:min(88vw,680px);padding:34px;border:1px solid rgba(255,255,255,.18);background:rgba(5,5,5,.55);box-shadow:0 0 80px rgba(255,190,100,.08)}
@@ -56,6 +59,7 @@ canvas{display:block;width:100%;height:100%}
 <div class="objective" id="objective">Begin beside the tent</div>
 <div class="story" id="story">THE JOURNEY OF MEMORY</div>
 <div class="message" id="message"></div>
+<div class="memory-card" id="memoryCard"><div class="memory-card-kicker">A MEMORY TO CARRY</div><div id="memoryCardText"></div></div>
 <div class="ending" id="ending">
   <div class="ending-inner">
     <div class="ending-kicker">THE LIGHT CONTINUES</div>
@@ -73,11 +77,11 @@ canvas{display:block;width:100%;height:100%}
 <script>
 const c=document.getElementById('game'),x=c.getContext('2d');
 const start=document.getElementById('start'),begin=document.getElementById('begin'),msg=document.getElementById('message');
-const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending');
+const lc=document.getElementById('lightCount'),kc=document.getElementById('knotCount'),mc=document.getElementById('memoryCount'),obj=document.getElementById('objective'),story=document.getElementById('story'),ending=document.getElementById('ending'),memoryCard=document.getElementById('memoryCard'),memoryCardText=document.getElementById('memoryCardText');
 let W,H,dpr=1,playing=false,last=0;
 const input={l:false,r:false};
 const P={x:120,y:0,vx:0,vy:0,w:28,h:48,ground:false};
-const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0};
+const world={cam:0,t:0,lights:0,memories:0,knot:0,finished:false,chapter:0,breath:0,rested:false};
 const platforms=[
 {x:-100,y:0,w:410,h:34,a:0,type:'earth'},
 {x:365,y:-25,w:185,h:28,a:-.04,type:'stone'},
@@ -124,7 +128,7 @@ document.getElementById('jump').addEventListener('pointerdown',e=>{e.preventDefa
 addEventListener('keydown',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=true;if(['ArrowRight','d'].includes(e.key))input.r=true;if(['ArrowUp','w',' '].includes(e.key))jump()});
 addEventListener('keyup',e=>{if(['ArrowLeft','a'].includes(e.key))input.l=false;if(['ArrowRight','d'].includes(e.key))input.r=false});
 function jump(){if(P.ground){P.vy=-13;P.ground=false}}
-function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;ending.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
+function reset(){P.x=120;P.y=H*.68-48;P.vx=P.vy=0;world.cam=0;world.t=0;world.lights=world.memories=world.knot=0;world.finished=false;world.chapter=0;world.rested=false;ending.classList.remove('show');memoryCard.classList.remove('show');lights.forEach(a=>a.got=false);memories.forEach(a=>a.got=false);knot.got=false;updateHud()}
 function updateHud(){
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
  if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
@@ -144,7 +148,14 @@ function update(dt){
  for(const q of platforms){const top=py(q);if(P.x+P.w/2>q.x&&P.x-P.w/2<q.x+q.w&&old<=top&&P.y+P.h>=top&&P.vy>=0){P.y=top-P.h;P.vy=0;P.ground=true}}
  world.cam+=(P.x-W*.30-world.cam)*.075;world.cam=Math.max(0,world.cam);
  for(const l of lights)if(!l.got&&Math.hypot(P.x-l.x,(P.y+P.h/2)-(py({y:l.y})-18))<48){l.got=true;world.lights++;say(l.text);updateHud()}
- for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){m.got=true;world.memories++;say(m.text,3000);updateHud()}
+ for(const m of memories)if(!m.got&&Math.hypot(P.x-m.x,(P.y+P.h/2)-(py({y:m.y})-15))<45){
+  m.got=true;world.memories++;say(m.text,3000);
+  memoryCardText.textContent=m.text.replaceAll('\\n',' ');
+  memoryCard.classList.add('show');
+  clearTimeout(memoryCard.t);
+  memoryCard.t=setTimeout(()=>memoryCard.classList.remove('show'),7000);
+  updateHud()
+ }
  if(!knot.got&&Math.hypot(P.x-knot.x,(P.y+P.h/2)-(py({y:knot.y})-25))<48){knot.got=true;world.knot=1;say('The CICAN knot — memory connected to memory.',4200);updateHud()}
  if(P.y>H+120){P.x=Math.max(80,P.x-190);P.y=H*.3;P.vy=0;say('Some memories take more than one attempt.',2600)}
  const previousChapter=world.chapter;
@@ -160,7 +171,12 @@ function update(dt){
    if(world.chapter===3) say('A name becomes a place. A place becomes remembrance.',3600);
    if(world.chapter===4) say('The light you carried now belongs to everyone who remembers.',4200);
  }
- if(P.x>2280&&world.lights>=8&&!world.finished){
+ if(P.x>2295&&P.x<2370&&Math.abs(P.vx)<0.35&&P.ground&&world.lights>=8&&!world.rested){
+   world.rested=true;
+   say('Stop here. Let the light speak for a moment.',4200);
+   obj.textContent='Remember';
+ }
+ if(P.x>2280&&world.lights>=8&&!world.finished&&world.rested){
    world.finished=true;
    P.vx=0;
    say('You were never carrying the light alone.\\nIn memory of Nicolae Urluescu Sol.\\nIn honor of every army veteran.',9000);
@@ -320,6 +336,12 @@ function draw(){
  x.fillStyle='#161616';x.fillRect(lampX-9,lampY-22,18,4);
  x.fillStyle='rgba(255,226,150,.9)';x.beginPath();x.arc(lampX,lampY-6,3,0,Math.PI*2);x.fill();
 
+ if(world.rested){
+   const rx=P.x-world.cam,ry=P.y+P.h/2;
+   const rr=x.createRadialGradient(rx,ry,3,rx,ry,90);
+   rr.addColorStop(0,'rgba(255,220,150,.16)');rr.addColorStop(1,'rgba(255,220,150,0)');
+   x.fillStyle=rr;x.beginPath();x.arc(rx,ry,90,0,Math.PI*2);x.fill();
+ }
  // footer
  x.textAlign='center';x.fillStyle='rgba(255,255,255,.8)';x.font='11px Arial';x.letterSpacing='2px';x.fillText('COLORING FOR WORLD PEACE  🕊',W/2,H-24);x.textAlign='left';
 }
