@@ -436,6 +436,21 @@ function drawQuietMemorial(){
  x.fillText('THE LIGHT CONTINUES',cx,cy+95);
  x.textAlign='left';x.restore();
 }
+function drawMemoryAura(){
+ if(world.lights<=0)return;
+ const xx=P.x-world.cam, yy=P.y+P.h/2;
+ const count=Math.min(6,Math.ceil(world.lights/2));
+ for(let i=0;i<count;i++){
+   const ang=world.t*.0012+i*(Math.PI*2/count);
+   const radius=25+Math.sin(world.t*.002+i)*4;
+   const px=xx+Math.cos(ang)*radius;
+   const pyy=yy-10+Math.sin(ang)*radius*.55;
+   const a=.12+world.lights*.012;
+   x.fillStyle='rgba(255,220,150,'+a+')';
+   x.beginPath();x.arc(px,pyy,1.5+(i%2),0,Math.PI*2);x.fill();
+ }
+}
+
 function drawBubbles(){
  const xx=P.x-world.cam, yy=P.y+P.h/2;
  for(let i=0;i<5;i++){
@@ -558,6 +573,7 @@ function draw(){
  orb(knot,'knot');
  // signposts
  const sx=980-world.cam,sy=py({y:-40});x.save();x.translate(sx,sy);x.fillStyle='#2b2118';x.fillRect(0,0,6,110);x.fillStyle='#171717';x.font='10px Arial';['DUBLIN →','PEACE →'].forEach((s,i)=>{x.fillRect(5,10+i*30,90,19);x.fillStyle='#eee';x.fillText(s,14,23+i*30);x.fillStyle='#171717'});x.restore();
+ drawMemoryAura();
  drawCican();
  drawBubbles();
  drawQuietMemorial();
