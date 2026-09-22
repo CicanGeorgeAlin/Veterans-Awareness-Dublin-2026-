@@ -162,7 +162,7 @@ function updateHud(){
  if(pf) pf.style.width=Math.max(0,Math.min(100,(P.x/2325)*100))+'%';
  if(tl) tl.style.opacity=(world.lights>=3&&!world.finished)?'.7':'0';
  lc.textContent=world.lights;kc.textContent=world.knot;mc.textContent=world.memories;
- if(world.chapter===0){obj.textContent='Begin beside the tent';story.textContent='THE JOURNEY OF MEMORY'}
+ if(world.chapter===0){obj.textContent=P.x<300?'Begin beside the tent':'Find the first light';story.textContent='THE JOURNEY OF MEMORY'}
  else if(world.chapter===1){obj.textContent='Carry the first light';story.textContent='A GENERATION REMEMBERS'}
  else if(world.chapter===2){obj.textContent='Carry the memory forward';story.textContent='FROM ROOTS TO DUBLIN'}
  else if(world.chapter===3){obj.textContent='Find the memorial';story.textContent='IN MEMORY OF NICOLAE URULESCU SOL'}
