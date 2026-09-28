@@ -47,6 +47,22 @@
     img {
       display: block;
       max-width: 100%;
+      height: auto;
+      image-rendering: auto;
+    }
+
+    /* Photographs are shown at their natural aspect ratio.
+       No CSS crop, grayscale filter, or forced distortion is applied. */
+    .memory-photo img,
+    .story-photo img,
+    .dublin-photo img,
+    .roots-photo img,
+    .remembrance-entry-photo img {
+      height: auto;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+      filter: none;
     }
 
     a {
@@ -234,10 +250,13 @@
     }
 
     .memory-photo img {
+      display: block;
       width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      filter: grayscale(100%);
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
+      filter: none;
     }
 
     /* =========================
@@ -296,11 +315,13 @@
     }
 
     .story-photo img {
+      display: block;
       width: 100%;
       height: auto;
       aspect-ratio: auto;
       object-fit: contain;
-      filter: grayscale(100%);
+      object-position: center;
+      filter: none;
     }
 
     .story-author {
@@ -336,9 +357,10 @@
     .dublin-photo img {
       display: block;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      object-position: center top;
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
       filter: none;
     }
 
@@ -367,11 +389,13 @@
     }
 
     .roots-photo img {
+      display: block;
       width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
-      object-position: center center;
-      filter: grayscale(100%);
+      height: auto;
+      aspect-ratio: auto;
+      object-fit: contain;
+      object-position: center;
+      filter: none;
     }
 
 
@@ -462,8 +486,10 @@
       display: block;
       width: 100%;
       height: auto;
-      max-height: 760px;
+      max-width: 100%;
+      max-height: none;
       object-fit: contain;
+      object-position: center;
       filter: none;
       transition: transform .7s ease;
     }
@@ -934,7 +960,7 @@
       }
 
       .memory-photo img {
-        aspect-ratio: 4 / 5;
+        aspect-ratio: auto;
       }
 
       .remembrance-entry-grid,
@@ -969,8 +995,9 @@
       }
 
       .dublin-photo img {
-        aspect-ratio: 4 / 3;
-        object-position: center top;
+        aspect-ratio: auto;
+        object-fit: contain;
+        object-position: center;
       }
 
       .roots {
@@ -978,9 +1005,9 @@
       }
 
       .roots-photo img {
-        aspect-ratio: 16 / 10;
-        object-fit: cover;
-        object-position: center center;
+        aspect-ratio: auto;
+        object-fit: contain;
+        object-position: center;
       }
 
       .light-grid {
@@ -1093,9 +1120,10 @@
           <div class="memory-photo">
 
             <img
-              src="nicolae-urluescu.jpg"
+              src="nicolae-urluescu.jpg?v=20260928-full"
               alt="Photograph connected to the memory of Nicolae Urluescu"
               loading="lazy"
+              decoding="async"
             >
 
           </div>
@@ -1170,9 +1198,10 @@
           <div class="story-photo">
 
             <img
-              src="Cican-George-Alin.jpg"
+              src="Cican-George-Alin.jpg?v=20260928"
               alt="CICAN GEORGE ALIN"
               loading="lazy"
+              decoding="async"
             >
 
             <p class="story-author">
@@ -1329,6 +1358,7 @@
                 src="memorial-life.jpg?v=20260928"
                 alt="A personal outdoor scene preserved as part of the remembrance story"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
             <div class="remembrance-entry-copy">
@@ -1363,6 +1393,7 @@
                 src="nicolae-urluescu-remembrance.jpg?v=20260928"
                 alt="Nicolae Urluescu memorial tribute beside Dublin Veterans Park"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
             <div class="remembrance-entry-copy">
@@ -1388,6 +1419,7 @@
                 src="family-memory-portrait.jpg?v=20260928"
                 alt="Portrait of Vasile Cican in a suit"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
             <div class="remembrance-entry-copy">
@@ -1413,6 +1445,7 @@
                 src="childhood-memory.jpg?v=20260928"
                 alt="Childhood photograph preserved in the family archive"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
             <div class="remembrance-entry-copy">
@@ -1438,6 +1471,7 @@
                 src="family-story.jpg?v=20260928"
                 alt="Portrait of Maria Urluescu"
                 loading="lazy"
+                decoding="async"
               >
             </figure>
             <div class="remembrance-entry-copy">
