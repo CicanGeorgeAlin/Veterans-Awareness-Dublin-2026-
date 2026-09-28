@@ -374,6 +374,102 @@
       filter: grayscale(100%);
     }
 
+
+    /* =========================
+       COMMEMORATIVE ARCHIVE
+    ========================= */
+
+    .remembrance {
+      padding: 150px 0 165px;
+      background: #000;
+    }
+
+    .remembrance-intro {
+      max-width: 820px;
+      margin-bottom: 72px;
+    }
+
+    .remembrance-intro h2 {
+      max-width: 980px;
+    }
+
+    .remembrance-intro .section-text {
+      max-width: 760px;
+    }
+
+    .remembrance-hero {
+      overflow: hidden;
+      background: #111;
+      margin-bottom: 28px;
+    }
+
+    .remembrance-hero img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: none;
+    }
+
+    .remembrance-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      margin-top: 15px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      text-transform: uppercase;
+      opacity: .52;
+    }
+
+    .remembrance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .remembrance-card {
+      margin: 0;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .remembrance-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      filter: none;
+      transition: transform .6s ease;
+    }
+
+    .remembrance-card:hover img {
+      transform: scale(1.025);
+    }
+
+    .remembrance-card figcaption {
+      padding: 15px 2px 0;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      line-height: 1.55;
+      text-transform: uppercase;
+      opacity: .58;
+    }
+
+    .remembrance-note {
+      max-width: 820px;
+      margin: 58px auto 0;
+      padding-top: 34px;
+      border-top: 1px solid rgba(255,255,255,.16);
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.65;
+      color: var(--soft-white);
+      text-align: center;
+    }
+
     /* =========================
        BOOK
     ========================= */
@@ -859,6 +955,7 @@
 
       <div class="nav-links">
         <a href="#memory">Memory</a>
+        <a href="#remembrance">Remembrance</a>
         <a href="#book">Book</a>
         <a href="#light">Light</a>
       </div>
@@ -1127,6 +1224,95 @@
           </div>
 
         </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         COMMEMORATIVE ARCHIVE
+    ========================= -->
+
+    <section class="remembrance" id="remembrance">
+
+      <div class="container">
+
+        <div class="remembrance-intro">
+
+          <p class="eyebrow">A living memory</p>
+
+          <h2>
+            Photographs become part of the remembrance.
+          </h2>
+
+          <p class="section-text">
+            Some memories are carried in words. Others live in photographs.
+            These images are preserved here as part of the personal story
+            behind Veteran Awareness Dublin 2026 — a quiet record of people,
+            generations, places and moments that deserve to be remembered.
+          </p>
+
+        </div>
+
+        <figure class="remembrance-hero">
+          <img
+            src="memorial-life.jpg?v=20260928"
+            alt="A personal outdoor memorial scene with a tent, clothing, a chair and personal belongings"
+            loading="lazy"
+          >
+          <figcaption class="remembrance-caption">
+            <span>A moment preserved</span>
+            <span>01</span>
+          </figcaption>
+        </figure>
+
+        <div class="remembrance-grid">
+
+          <figure class="remembrance-card">
+            <img
+              src="nicolae-urluescu-remembrance.jpg?v=20260928"
+              alt="Commemorative portrait of Nicolae Urluescu beside Dublin Veterans Park"
+              loading="lazy"
+            >
+            <figcaption>Nicolae Urluescu · Army Veteran Romania</figcaption>
+          </figure>
+
+          <figure class="remembrance-card">
+            <img
+              src="family-memory-portrait.jpg?v=20260928"
+              alt="Portrait preserved in the family memory archive"
+              loading="lazy"
+            >
+            <figcaption>A face preserved in memory</figcaption>
+          </figure>
+
+          <figure class="remembrance-card">
+            <img
+              src="childhood-memory.jpg?v=20260928"
+              alt="Childhood photograph preserved as part of the personal story"
+              loading="lazy"
+            >
+            <figcaption>The beginning of a story</figcaption>
+          </figure>
+
+          <figure class="remembrance-card">
+            <img
+              src="family-story.jpg?v=20260928"
+              alt="Family photograph preserved as part of the remembrance story"
+              loading="lazy"
+            >
+            <figcaption>The people who carry memory forward</figcaption>
+          </figure>
+
+        </div>
+
+        <p class="remembrance-note">
+          We remember not only the uniform, the service or the memorial —
+          we remember the human being, the family, the childhood, the love,
+          and the lives that continued after them. <strong>Memory is a form of
+          respect.</strong>
+        </p>
 
       </div>
 
