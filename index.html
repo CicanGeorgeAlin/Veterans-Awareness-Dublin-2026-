@@ -424,45 +424,91 @@
       opacity: .52;
     }
 
-    .remembrance-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
+    .remembrance-entry {
+      padding: 110px 0;
+      border-top: 1px solid rgba(255,255,255,.12);
     }
 
-    .remembrance-card {
+    .remembrance-entry:first-of-type {
+      border-top: 0;
+    }
+
+    .remembrance-entry-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      gap: 80px;
+      align-items: center;
+    }
+
+    .remembrance-entry.reverse .remembrance-entry-grid {
+      grid-template-columns: minmax(280px, .92fr) minmax(0, 1.08fr);
+    }
+
+    .remembrance-entry.reverse .remembrance-entry-photo {
+      order: 2;
+    }
+
+    .remembrance-entry.reverse .remembrance-entry-copy {
+      order: 1;
+    }
+
+    .remembrance-entry-photo {
       margin: 0;
       overflow: hidden;
       background: #111;
     }
 
-    .remembrance-card img {
+    .remembrance-entry-photo img {
       display: block;
       width: 100%;
-      aspect-ratio: 3 / 4;
-      object-fit: cover;
+      height: auto;
+      max-height: 760px;
+      object-fit: contain;
       filter: none;
-      transition: transform .6s ease;
+      transition: transform .7s ease;
     }
 
-    .remembrance-card:hover img {
-      transform: scale(1.025);
+    .remembrance-entry-photo:hover img {
+      transform: scale(1.012);
     }
 
-    .remembrance-card figcaption {
-      padding: 15px 2px 0;
+    .remembrance-entry-copy h3 {
+      margin: 0;
+      max-width: 760px;
+      font-size: clamp(34px, 5vw, 68px);
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1.02;
+    }
+
+    .remembrance-entry-copy .section-text {
+      max-width: 650px;
+    }
+
+    .remembrance-entry-number {
+      display: block;
+      margin-bottom: 22px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: .45;
+    }
+
+    .remembrance-entry-credit {
+      margin-top: 24px;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 1.8px;
-      line-height: 1.55;
+      line-height: 1.6;
       text-transform: uppercase;
-      opacity: .58;
+      opacity: .48;
     }
 
     .remembrance-note {
       max-width: 820px;
-      margin: 58px auto 0;
-      padding-top: 34px;
+      margin: 65px auto 0;
+      padding-top: 42px;
       border-top: 1px solid rgba(255,255,255,.16);
       font-size: clamp(18px, 2.2vw, 24px);
       line-height: 1.65;
@@ -891,6 +937,27 @@
         aspect-ratio: 4 / 5;
       }
 
+      .remembrance-entry-grid,
+      .remembrance-entry.reverse .remembrance-entry-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      .remembrance-entry.reverse .remembrance-entry-photo,
+      .remembrance-entry.reverse .remembrance-entry-copy {
+        order: initial;
+      }
+
+      .remembrance-entry {
+        padding: 75px 0;
+      }
+
+      .remembrance-entry-photo img {
+        max-height: none;
+      }
+
+
+
       .story-photo img {
         height: auto;
         aspect-ratio: auto;
@@ -1258,54 +1325,114 @@
         <figure class="remembrance-hero">
           <img
             src="memorial-life.jpg?v=20260928"
-            alt="A personal outdoor memorial scene with a tent, clothing, a chair and personal belongings"
+            alt="A personal outdoor scene preserved as part of the remembrance story"
             loading="lazy"
           >
           <figcaption class="remembrance-caption">
-            <span>A moment preserved</span>
+            <span>A life remembered through ordinary moments</span>
             <span>01</span>
           </figcaption>
         </figure>
 
-        <div class="remembrance-grid">
+        <article class="remembrance-entry">
+          <div class="remembrance-entry-grid">
+            <figure class="remembrance-entry-photo">
+              <img
+                src="nicolae-urluescu-remembrance.jpg?v=20260928"
+                alt="Nicolae Urluescu memorial tribute beside Dublin Veterans Park"
+                loading="lazy"
+              >
+            </figure>
+            <div class="remembrance-entry-copy">
+              <span class="remembrance-entry-number">02 · Nicolae Urluescu</span>
+              <h3>A grandfather whose memory became a reason to remember.</h3>
+              <p class="section-text">
+                Nicolae Urluescu was an Army veteran from Romania. His memory
+                stands at the heart of this project. This photograph is kept
+                here as a personal act of remembrance — connecting his life,
+                his service and the family that carries his story forward.
+              </p>
+              <p class="remembrance-entry-credit">
+                In memory of Nicolae Urluescu · Army Veteran Romania
+              </p>
+            </div>
+          </div>
+        </article>
 
-          <figure class="remembrance-card">
-            <img
-              src="nicolae-urluescu-remembrance.jpg?v=20260928"
-              alt="Commemorative portrait of Nicolae Urluescu beside Dublin Veterans Park"
-              loading="lazy"
-            >
-            <figcaption>Nicolae Urluescu · Army Veteran Romania</figcaption>
-          </figure>
+        <article class="remembrance-entry reverse">
+          <div class="remembrance-entry-grid">
+            <figure class="remembrance-entry-photo">
+              <img
+                src="family-memory-portrait.jpg?v=20260928"
+                alt="Portrait of Vasile Cican in a suit"
+                loading="lazy"
+              >
+            </figure>
+            <div class="remembrance-entry-copy">
+              <span class="remembrance-entry-number">03 · Vasile Cican</span>
+              <h3>My father, Vasile Cican.</h3>
+              <p class="section-text">
+                A photograph can hold an entire chapter of a family's life.
+                This portrait of my father, Vasile Cican, belongs here because
+                remembrance is also about the people who shaped us, stood
+                beside us and became part of who we are.
+              </p>
+              <p class="remembrance-entry-credit">
+                Vasile Cican · Father · Family memory
+              </p>
+            </div>
+          </div>
+        </article>
 
-          <figure class="remembrance-card">
-            <img
-              src="family-memory-portrait.jpg?v=20260928"
-              alt="Portrait preserved in the family memory archive"
-              loading="lazy"
-            >
-            <figcaption>A face preserved in memory</figcaption>
-          </figure>
+        <article class="remembrance-entry">
+          <div class="remembrance-entry-grid">
+            <figure class="remembrance-entry-photo">
+              <img
+                src="childhood-memory.jpg?v=20260928"
+                alt="Childhood photograph preserved in the family archive"
+                loading="lazy"
+              >
+            </figure>
+            <div class="remembrance-entry-copy">
+              <span class="remembrance-entry-number">04 · Childhood</span>
+              <h3>Before the story, there was a child.</h3>
+              <p class="section-text">
+                Every veteran story is also a human story. Before uniforms,
+                photographs, memories and the passing of generations, there
+                were childhoods, families and small moments that became the
+                foundation of a life.
+              </p>
+              <p class="remembrance-entry-credit">
+                A childhood photograph · Preserved as family memory
+              </p>
+            </div>
+          </div>
+        </article>
 
-          <figure class="remembrance-card">
-            <img
-              src="childhood-memory.jpg?v=20260928"
-              alt="Childhood photograph preserved as part of the personal story"
-              loading="lazy"
-            >
-            <figcaption>The beginning of a story</figcaption>
-          </figure>
-
-          <figure class="remembrance-card">
-            <img
-              src="family-story.jpg?v=20260928"
-              alt="Family photograph preserved as part of the remembrance story"
-              loading="lazy"
-            >
-            <figcaption>The people who carry memory forward</figcaption>
-          </figure>
-
-        </div>
+        <article class="remembrance-entry reverse">
+          <div class="remembrance-entry-grid">
+            <figure class="remembrance-entry-photo">
+              <img
+                src="family-story.jpg?v=20260928"
+                alt="Portrait of Maria Urluescu"
+                loading="lazy"
+              >
+            </figure>
+            <div class="remembrance-entry-copy">
+              <span class="remembrance-entry-number">05 · Maria Urluescu</span>
+              <h3>My mother, Maria Urluescu — Nicolae's daughter.</h3>
+              <p class="section-text">
+                Maria Urluescu is Nicolae Urluescu's daughter and my mother.
+                Her place in this story is deeply personal: she is one of the
+                people through whom a family memory is carried from one
+                generation to the next.
+              </p>
+              <p class="remembrance-entry-credit">
+                Maria Urluescu · Daughter of Nicolae Urluescu · Mother
+              </p>
+            </div>
+          </div>
+        </article>
 
         <p class="remembrance-note">
           We remember not only the uniform, the service or the memorial —
