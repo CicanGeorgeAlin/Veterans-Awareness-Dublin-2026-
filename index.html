@@ -1016,6 +1016,17 @@
         grid-template-columns: 1fr;
       }
 
+      .personal-archive-card-inner,
+      .personal-archive-card.reverse .personal-archive-card-inner {
+        grid-template-columns: 1fr;
+        gap: 55px;
+      }
+
+      .personal-archive-card.reverse .personal-archive-media,
+      .personal-archive-card.reverse .personal-archive-copy {
+        order: initial;
+      }
+
       .light-card img {
         aspect-ratio: 4 / 3;
       }
@@ -1071,6 +1082,32 @@
       .coming {
         padding-top: 100px;
         padding-bottom: 105px;
+      }
+
+      .personal-archive {
+        padding-top: 100px;
+        padding-bottom: 115px;
+      }
+
+      .personal-archive-intro {
+        margin-bottom: 70px;
+      }
+
+      .personal-archive-card {
+        padding: 75px 0;
+      }
+
+      .personal-archive-card:first-child {
+        padding-top: 0;
+      }
+
+      .personal-archive-card-inner,
+      .personal-archive-card.reverse .personal-archive-card-inner {
+        gap: 38px;
+      }
+
+      .personal-archive-card h3 {
+        font-size: clamp(36px, 11vw, 62px);
       }
 
       .peace,
