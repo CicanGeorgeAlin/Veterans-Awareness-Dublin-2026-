@@ -548,33 +548,55 @@
     ========================= */
 
     .personal-archive {
-      padding: 150px 0 165px;
+      padding: 150px 0 175px;
       background: #000;
     }
 
     .personal-archive-intro {
-      max-width: 850px;
-      margin-bottom: 78px;
+      max-width: 980px;
+      margin-bottom: 105px;
     }
 
     .personal-archive-intro h2 {
-      max-width: 1000px;
+      max-width: 1100px;
     }
 
-    .personal-archive-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 28px;
+    .personal-archive-intro .section-text {
+      max-width: 760px;
     }
 
     .personal-archive-card {
       margin: 0;
-      padding: 0 0 36px;
-      border-top: 1px solid rgba(255,255,255,.14);
+      padding: 115px 0;
+      border-top: 1px solid rgba(255,255,255,.13);
+    }
+
+    .personal-archive-card:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .personal-archive-card-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr);
+      gap: 85px;
+      align-items: center;
+    }
+
+    .personal-archive-card.reverse .personal-archive-card-inner {
+      grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr);
+    }
+
+    .personal-archive-card.reverse .personal-archive-media {
+      order: 2;
+    }
+
+    .personal-archive-card.reverse .personal-archive-copy {
+      order: 1;
     }
 
     .personal-archive-media {
-      margin: 28px 0 30px;
+      margin: 0;
       overflow: hidden;
       background: #111;
     }
@@ -587,20 +609,26 @@
       object-fit: contain;
       object-position: center;
       filter: none;
+      transition: transform .7s ease;
     }
 
     .personal-archive-card.photo .personal-archive-media img {
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
+      aspect-ratio: auto;
+      object-fit: contain;
     }
 
     .personal-archive-card.document .personal-archive-media img,
     .personal-archive-card.artwork .personal-archive-media img {
+      aspect-ratio: auto;
       object-fit: contain;
     }
 
+    .personal-archive-media:hover img {
+      transform: scale(1.01);
+    }
+
     .personal-archive-number {
-      margin: 30px 0 18px;
+      margin: 0 0 24px;
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 3px;
@@ -610,22 +638,23 @@
 
     .personal-archive-card h3 {
       margin: 0;
-      font-size: clamp(30px, 4vw, 52px);
+      max-width: 760px;
+      font-size: clamp(38px, 5.5vw, 78px);
       font-weight: 500;
-      letter-spacing: -1px;
-      line-height: 1.04;
+      letter-spacing: -1.5px;
+      line-height: .98;
     }
 
     .personal-archive-card p {
-      max-width: 620px;
-      margin: 22px 0 0;
-      font-size: 16px;
-      line-height: 1.7;
+      max-width: 650px;
+      margin: 30px 0 0;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.65;
       color: var(--soft-white);
     }
 
     .personal-archive-caption {
-      margin-top: 22px !important;
+      margin-top: 28px !important;
       font-size: 10px !important;
       font-weight: 600;
       letter-spacing: 1.8px;
@@ -1431,16 +1460,15 @@
           <p class="eyebrow">Personal archive</p>
           <h2>Service, family, memory.</h2>
           <p class="section-text">
-            Four personal archive images placed here as part of the story of
-            Veteran Awareness Dublin 2026: two photographs from my life as a
-            Navy diver, the marriage certificate of Nicolae Urluescu, and a
-            commemorative line-art portrait created in his memory.
+            The personal photographs and family documents behind Veteran Awareness
+            Dublin 2026, presented with the same large, immersive landing-page
+            rhythm as the rest of the website.
           </p>
         </div>
 
-        <div class="personal-archive-grid">
+        <article class="personal-archive-card">
+          <div class="personal-archive-card-inner">
 
-          <article class="personal-archive-card photo">
             <div class="personal-archive-media">
               <img
                 src="diver1.jpg"
@@ -1449,20 +1477,27 @@
                 decoding="async"
               >
             </div>
-            <div class="personal-archive-number">Archive 01 · Diver</div>
-            <h3>My life as a Navy diver.</h3>
-            <p>
-              This photograph is of me, CICAN GEORGE ALIN, in diving
-              equipment. I am a Navy diver from Romania, and this part of my
-              personal story connects service, discipline and memory with the
-              purpose of this project.
-            </p>
-            <p class="personal-archive-caption">
-              Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
-            </p>
-          </article>
 
-          <article class="personal-archive-card photo">
+            <div class="personal-archive-copy">
+              <div class="personal-archive-number">Archive 01 · Navy Diver</div>
+              <h3>My life as a Navy diver.</h3>
+              <p>
+                This photograph is of me, CICAN GEORGE ALIN, in diving equipment.
+                I am a Navy diver from Romania. This is part of the personal story
+                behind the project — service, discipline, memory and the people
+                we choose to remember.
+              </p>
+              <p class="personal-archive-caption">
+                Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
+              </p>
+            </div>
+
+          </div>
+        </article>
+
+        <article class="personal-archive-card reverse">
+          <div class="personal-archive-card-inner">
+
             <div class="personal-archive-media">
               <img
                 src="diver2.jpg"
@@ -1471,19 +1506,26 @@
                 decoding="async"
               >
             </div>
-            <div class="personal-archive-number">Archive 02 · Diver</div>
-            <h3>Another moment beneath the surface.</h3>
-            <p>
-              A second personal photograph from my diving story. It preserves
-              another moment in the water and gives the archive a direct,
-              human connection to my identity as a Navy diver.
-            </p>
-            <p class="personal-archive-caption">
-              Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
-            </p>
-          </article>
 
-          <article class="personal-archive-card document">
+            <div class="personal-archive-copy">
+              <div class="personal-archive-number">Archive 02 · Beneath the surface</div>
+              <h3>Another moment beneath the surface.</h3>
+              <p>
+                A second personal photograph from my diving story. Kept large and
+                visible, it gives this landing page a direct human connection to
+                the person creating it and to the meaning of service.
+              </p>
+              <p class="personal-archive-caption">
+                Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
+              </p>
+            </div>
+
+          </div>
+        </article>
+
+        <article class="personal-archive-card">
+          <div class="personal-archive-card-inner">
+
             <div class="personal-archive-media">
               <img
                 src="casatorie.png"
@@ -1492,20 +1534,26 @@
                 decoding="async"
               >
             </div>
-            <div class="personal-archive-number">Archive 03 · Family document</div>
-            <h3>Nicolae Urluescu — marriage certificate.</h3>
-            <p>
-              An original family document recording the marriage of Nicolae
-              Urluescu in 1957. The certificate is preserved here as part of
-              the family history behind the remembrance project, with the
-              document kept readable rather than artificially reconstructed.
-            </p>
-            <p class="personal-archive-caption">
-              Historical family document · 1957 · Nicolae Urluescu
-            </p>
-          </article>
 
-          <article class="personal-archive-card artwork">
+            <div class="personal-archive-copy">
+              <div class="personal-archive-number">Archive 03 · Family document</div>
+              <h3>Nicolae Urluescu — 1957.</h3>
+              <p>
+                The marriage certificate of Nicolae Urluescu, dated 1957.
+                The original document is presented as a large archival image so
+                the family history remains visible and readable.
+              </p>
+              <p class="personal-archive-caption">
+                Historical family document · 1957 · Nicolae Urluescu
+              </p>
+            </div>
+
+          </div>
+        </article>
+
+        <article class="personal-archive-card reverse">
+          <div class="personal-archive-card-inner">
+
             <div class="personal-archive-media">
               <img
                 src="tataie.jpg"
@@ -1514,25 +1562,26 @@
                 decoding="async"
               >
             </div>
-            <div class="personal-archive-number">Archive 04 · Remembrance</div>
-            <h3>Nicolae Urluescu — remembered in line art.</h3>
-            <p>
-              A commemorative line-art portrait of Nicolae Urluescu, presented
-              alongside the family document and personal photographs. It turns
-              remembrance into a visual form that can be carried forward
-              through the project.
-            </p>
-            <p class="personal-archive-caption">
-              Commemorative artwork · Nicolae Urluescu · In memory
-            </p>
-          </article>
 
-        </div>
+            <div class="personal-archive-copy">
+              <div class="personal-archive-number">Archive 04 · Remembrance</div>
+              <h3>Nicolae Urluescu — remembered.</h3>
+              <p>
+                A commemorative line-art portrait of Nicolae Urluescu. It sits
+                here as a large visual memory alongside the original family
+                document and the personal photographs.
+              </p>
+              <p class="personal-archive-caption">
+                Commemorative artwork · Nicolae Urluescu · In memory
+              </p>
+            </div>
+
+          </div>
+        </article>
 
         <p class="remembrance-note">
-          The archive is personal by design: service, family documents and
-          remembrance are kept together so the story is not reduced to a
-          single photograph.
+          Service, family and remembrance remain together — not as a small
+          gallery, but as part of the main story of the landing page.
         </p>
 
       </div>
