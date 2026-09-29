@@ -542,6 +542,98 @@
       text-align: center;
     }
 
+
+    /* =========================
+       PERSONAL ARCHIVE
+    ========================= */
+
+    .personal-archive {
+      padding: 150px 0 165px;
+      background: #000;
+    }
+
+    .personal-archive-intro {
+      max-width: 850px;
+      margin-bottom: 78px;
+    }
+
+    .personal-archive-intro h2 {
+      max-width: 1000px;
+    }
+
+    .personal-archive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .personal-archive-card {
+      margin: 0;
+      padding: 0 0 36px;
+      border-top: 1px solid rgba(255,255,255,.14);
+    }
+
+    .personal-archive-media {
+      margin: 28px 0 30px;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .personal-archive-media img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
+      filter: none;
+    }
+
+    .personal-archive-card.photo .personal-archive-media img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .personal-archive-card.document .personal-archive-media img,
+    .personal-archive-card.artwork .personal-archive-media img {
+      object-fit: contain;
+    }
+
+    .personal-archive-number {
+      margin: 30px 0 18px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: .45;
+    }
+
+    .personal-archive-card h3 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 52px);
+      font-weight: 500;
+      letter-spacing: -1px;
+      line-height: 1.04;
+    }
+
+    .personal-archive-card p {
+      max-width: 620px;
+      margin: 22px 0 0;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--soft-white);
+    }
+
+    .personal-archive-caption {
+      margin-top: 22px !important;
+      font-size: 10px !important;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      line-height: 1.5 !important;
+      text-transform: uppercase;
+      color: var(--muted) !important;
+    }
+
     /* =========================
        BOOK
     ========================= */
@@ -1334,16 +1426,115 @@
 
     <section class="personal-archive" id="personal-archive">
       <div class="container">
+
         <div class="personal-archive-intro">
           <p class="eyebrow">Personal archive</p>
-          <h2>Family, service, memory.</h2>
+          <h2>Service, family, memory.</h2>
           <p class="section-text">
-            A dedicated place for the original photographs and historical
-            documents supplied for this project. The images are to be shown
-            at their native proportions, without cropping, filters, or
-            artificial reconstruction.
+            Four personal archive images placed here as part of the story of
+            Veteran Awareness Dublin 2026: two photographs from my life as a
+            Navy diver, the marriage certificate of Nicolae Urluescu, and a
+            commemorative line-art portrait created in his memory.
           </p>
         </div>
+
+        <div class="personal-archive-grid">
+
+          <article class="personal-archive-card photo">
+            <div class="personal-archive-media">
+              <img
+                src="diver1.jpg"
+                alt="CICAN GEORGE ALIN in Navy diving equipment"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="personal-archive-number">Archive 01 · Diver</div>
+            <h3>My life as a Navy diver.</h3>
+            <p>
+              This photograph is of me, CICAN GEORGE ALIN, in diving
+              equipment. I am a Navy diver from Romania, and this part of my
+              personal story connects service, discipline and memory with the
+              purpose of this project.
+            </p>
+            <p class="personal-archive-caption">
+              Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
+            </p>
+          </article>
+
+          <article class="personal-archive-card photo">
+            <div class="personal-archive-media">
+              <img
+                src="diver2.jpg"
+                alt="CICAN GEORGE ALIN wearing Navy diving equipment in the water"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="personal-archive-number">Archive 02 · Diver</div>
+            <h3>Another moment beneath the surface.</h3>
+            <p>
+              A second personal photograph from my diving story. It preserves
+              another moment in the water and gives the archive a direct,
+              human connection to my identity as a Navy diver.
+            </p>
+            <p class="personal-archive-caption">
+              Personal photograph · CICAN GEORGE ALIN · Navy Diver · Romania
+            </p>
+          </article>
+
+          <article class="personal-archive-card document">
+            <div class="personal-archive-media">
+              <img
+                src="casatorie.png"
+                alt="Marriage certificate of Nicolae Urluescu, dated 1957"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="personal-archive-number">Archive 03 · Family document</div>
+            <h3>Nicolae Urluescu — marriage certificate.</h3>
+            <p>
+              An original family document recording the marriage of Nicolae
+              Urluescu in 1957. The certificate is preserved here as part of
+              the family history behind the remembrance project, with the
+              document kept readable rather than artificially reconstructed.
+            </p>
+            <p class="personal-archive-caption">
+              Historical family document · 1957 · Nicolae Urluescu
+            </p>
+          </article>
+
+          <article class="personal-archive-card artwork">
+            <div class="personal-archive-media">
+              <img
+                src="tataie.jpg"
+                alt="Line-art memorial portrait of Nicolae Urluescu"
+                loading="lazy"
+                decoding="async"
+              >
+            </div>
+            <div class="personal-archive-number">Archive 04 · Remembrance</div>
+            <h3>Nicolae Urluescu — remembered in line art.</h3>
+            <p>
+              A commemorative line-art portrait of Nicolae Urluescu, presented
+              alongside the family document and personal photographs. It turns
+              remembrance into a visual form that can be carried forward
+              through the project.
+            </p>
+            <p class="personal-archive-caption">
+              Commemorative artwork · Nicolae Urluescu · In memory
+            </p>
+          </article>
+
+        </div>
+
+        <p class="remembrance-note">
+          The archive is personal by design: service, family documents and
+          remembrance are kept together so the story is not reduced to a
+          single photograph.
+        </p>
+
       </div>
     </section>
 
