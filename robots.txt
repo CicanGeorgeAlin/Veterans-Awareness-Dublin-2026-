@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cicangeorgealin.github.io/Veterans-Awareness-Dublin-2026-/sitemap.xml
